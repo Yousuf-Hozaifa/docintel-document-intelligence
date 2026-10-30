@@ -1,6 +1,6 @@
 # PROGRESS
 
-_Last updated: Day 2 (performance/scalability session). Everything marked "verified" was actually executed; see `docs/test-results/`._
+_Last updated: Day 2 (performance session + deferred feature session). Everything marked "verified" was actually executed; see `docs/test-results/`._
 
 ## Current milestone: Day 1 vertical slice — DONE
 Upload → read/OCR → extract → validate → persist → inspect in UI.
@@ -63,8 +63,25 @@ Synthetic clean invoices; one invoice per page. 64 tests pass (`docs/test-result
 - **Quality signal:** on the 1,000 OCR'd pages 253 invoices were flagged for review (digital: 0). Diagnosed on a 50-page sample: header totals were
   correct; flags came from OCR cell errors in line items (quantity "7" read as "a" -> row dropped; "79.55" read as "7955"), which validation caught.
 
-### Still open from Day 2 plan (NOT done)
-Manual corrections API+audit, failed-job list + reprocess, symmetric duplicate flagging, PDF↔PDF / PDF↔Excel cross-verification, API-key auth.
-### New items found
-- Extractor: keep rows with an unreadable quantity as `quantity=null` + note instead of dropping them; consider cell-level OCR retry.
-- Re-run text-heavy at 100 pages and 1,000 dense pages once the ladder is confirmed on Windows.
+### Day 2 features — DONE (verified)
+- Corrections API (`PATCH /api/invoices/{id}`): field + line-item edit/add/delete, audit trail, automatic re-validation, "mark reviewed" with
+  carry-over across re-validation. Failed-job list, per-document reprocess (409 when a job is active), retry-all-failed. Optional API-key auth.
+- Duplicate detection is now symmetric (both files flagged); PDF↔PDF and PDF↔Excel cross-verification (`VAL-XDOC-001/002`); Excel register parsing.
+- OCR-dropped quantity no longer drops the line (`quantity=null`, `VAL-LINE-003` with an amount/unit-price hint).
+- UI: inline corrections, add/delete line items, mark reviewed, reprocess, retry-all-failed, API-key prompt.
+- Verified: **83 tests pass** (`docs/test-results/day2-pytest.txt`); 3 deliberate code mutations each made tests fail (cross-checks off: 8 failures; resolved
+  carry-over off: 1; tolerance ignored: 3); real-browser run of the correction / review / retry / API-key flows (0 JS errors);
+  cross-verification stress (`docs/benchmarks/CROSSDOC_STRESS.md`).
+- **Performance cost:** 1,000-page digital PDF went from 4.0 s to 5.9 s with the new per-invoice checks (single runs). Scanned-PDF benchmarks were
+  NOT re-run after this change; OCR dominates their time, so I expect little effect, but that is unmeasured.
+
+### Known limitations of the new features
+- Cross-verification compares header values only (not line items). Matching is by invoice number + non-contradicting supplier; a PDF whose supplier
+  was mis-read (e.g. positional guess) simply fails to match a register with a different supplier string.
+- Register detection is header-alias based (English column names); unusual layouts fall back to single-invoice parsing.
+- Reprocessing discards manual corrections on that document. API key is one shared secret (no users/roles).
+- The UI shows the first 25 invoices of a document (a 1,000-invoice document is fully stored/searchable but not paginated in the inspector yet).
+
+## Remaining work
+**Next**: semantic search (benchmark a small local embedding model first; keyword search stays the default), UI pagination for large documents,
+labeled evaluation dataset + harness (Day 4 scope), Windows benchmark results from you, architecture diagram/ERD, demo script, AI disclosure.

@@ -60,3 +60,17 @@ thead th { color: var(--muted); font-weight: 600; font-size: .8rem; }
 .ev { color: var(--muted); font-size: .8rem; overflow-wrap: anywhere; }
 .empty { color: var(--muted); } .err { color: var(--bad); }
 .history { font-size: .8rem; color: var(--muted); } .history time { color: var(--ink); }
+
+button.secondary { background: var(--surface); color: var(--ink); }
+button.wide { width: 100%; margin-top: .75rem; }
+button.link { all: unset; cursor: pointer; color: var(--busy); text-decoration: underline; margin-left: .6rem; font-size: .8rem; }
+button.link:focus-visible { outline: 3px solid #5b8def; }
+.invhead { display: flex; justify-content: space-between; align-items: center; }
+.actions { display: flex; gap: .6rem; align-items: center; }
+.issues li.done { opacity: .55; text-decoration: line-through; } .issues li.done button { text-decoration: underline; }
+td input { width: 100%; padding: .3rem .4rem; border: 1px solid var(--line); border-radius: 4px; font: inherit; font-variant-numeric: tabular-nums; }
+.items .deleted input { text-decoration: line-through; opacity: .5; }
+.editbar { display: flex; gap: .6rem; margin-top: .75rem; flex-wrap: wrap; align-items: center; }
+.editbar .note { flex: 1; min-width: 12rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
+.keyform { display: flex; gap: .75rem; align-items: center; margin: 1rem 1.5rem 0; }
+.keyform input { padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 4px; }

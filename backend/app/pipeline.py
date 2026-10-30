@@ -6,9 +6,10 @@ import time
 from .config import get_settings
 from .db import add_event, connect, now
 from .errors import CorruptFile, DocumentError, NoContent
-from .extract import FIELDS, extract_invoice, segment_pages
+from .extract import FIELDS, extract_invoice, extract_register, segment_pages
 from .readers import detect_type, open_pages
-from .validate import needs_review, validate_invoice
+from .review import cross_issues, norm, refresh_document_review, revalidate_related, write_issues
+from .validate import validate_invoice
 
 
 def norm(s: str | None) -> str:
@@ -19,10 +20,15 @@ def dup_key(supplier, number) -> str | None:
     return f"{norm(supplier)}|{norm(number)}" if number else None
 
 
-def _clear_previous(db, doc_id: int) -> None:
+def _clear_previous(db, doc_id: int) -> set[str]:
+    """Remove earlier results (reprocessing). Returns number keys of removed invoices so that other
+    documents' duplicate / cross-check flags that pointed at them can be refreshed."""
+    keys = {r["num_key"] for r in db.execute("SELECT DISTINCT num_key FROM invoices WHERE document_id=?", (doc_id,)) if r["num_key"]}
     db.execute("DELETE FROM page_fts WHERE document_id=?", (doc_id,))
     db.execute("DELETE FROM pages WHERE document_id=?", (doc_id,))
     db.execute("DELETE FROM invoices WHERE document_id=?", (doc_id,))  # cascades items/issues/corrections
+    revalidate_related(db, keys)
+    return keys
 
 
 def process_document(doc_id: int, job_id: int | None = None) -> str:
@@ -41,7 +47,7 @@ def process_document(doc_id: int, job_id: int | None = None) -> str:
     kind = detect_type(path, doc["filename"])
     total, pages = open_pages(path, kind)
     with connect() as db:
-        _clear_previous(db, doc_id)
+        old_keys = _clear_previous(db, doc_id)
         db.execute("UPDATE documents SET status='processing', file_type=?, page_count=?, pages_failed=0,"
                    " error_code=NULL, error_message=NULL, updated_at=? WHERE id=?", (kind, total, now(), doc_id))
         if job_id:
@@ -49,6 +55,7 @@ def process_document(doc_id: int, job_id: int | None = None) -> str:
         add_event(db, doc_id, "read_started", f"type={kind} pages={total}")
 
     seg_input: list[tuple[int, str, float]] = []
+    results = []
     failed = 0
     for pg in pages:  # lazy: one page at a time
         with connect() as db:
@@ -63,55 +70,59 @@ def process_document(doc_id: int, job_id: int | None = None) -> str:
                 add_event(db, doc_id, "page_failed", f"page={pg.number} {pg.error}")
             if job_id:
                 db.execute("UPDATE jobs SET progress_done=progress_done+1 WHERE id=?", (job_id,))
+        if pg.rows is not None:
+            reg = extract_register(pg.rows)
+            pg.rows = None  # free the cell grid
+            if reg is not None:
+                for r in reg:
+                    r["page_start"] = r["page_end"] = pg.number
+                results.extend(reg)
+                continue
         if pg.text.strip():
             q = (pg.ocr_confidence / 100.0) if pg.ocr_confidence is not None else 1.0
             seg_input.append((pg.number, pg.text, max(min(q, 1.0), 0.05)))
 
     if failed == total:
         raise CorruptFile("Every page failed to process")
-    if not seg_input:
+    if not seg_input and not results:
         raise NoContent("No text could be extracted (blank or unreadable document)")
 
-    results = []
-    for seg in segment_pages(seg_input):
+    for seg in segment_pages(seg_input) if seg_input else []:
         ex = extract_invoice(seg)
         ex["page_start"], ex["page_end"] = seg[0][0], seg[-1][0]
         results.append(ex)
+    results.sort(key=lambda r: r["page_start"])  # stable: page order, then position within sheet
 
-    any_review = False
+    new_keys: set[str] = set()
     with connect() as db:
+        inv_ids = []
         for seq, ex in enumerate(results, 1):
             F = ex["fields"]
             v = {k: F[k]["value"] for k in FIELDS}
-            issues = validate_invoice(F, ex["line_items"])
-            key = dup_key(v["supplier"], v["invoice_number"])
+            key = norm(v["invoice_number"]) or None
             if key:
-                other = db.execute("SELECT i.id, i.document_id FROM invoices i WHERE i.dup_key=? AND i.document_id!=?"
-                                   " ORDER BY i.id LIMIT 1", (key, doc_id)).fetchone()
-                if other:
-                    from .validate import Issue
-                    issues.append(Issue("VAL-DUP-001", "error", "invoice_number",
-                                        f"Same supplier and invoice number already exist in document {other['document_id']}."))
-            review = needs_review(issues, F)
-            any_review = any_review or review
+                new_keys.add(key)
             cur = db.execute(
                 "INSERT INTO invoices(document_id,seq,page_start,page_end,fields_json,invoice_number,invoice_date,"
-                "supplier,customer,subtotal,tax,total,currency,dup_key,needs_review,extractor) "
-                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
+                "supplier,customer,subtotal,tax,total,currency,dup_key,num_key,needs_review,extractor) "
+                "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)",
                 (doc_id, seq, ex["page_start"], ex["page_end"], json.dumps(F), v["invoice_number"], v["invoice_date"],
-                 v["supplier"], v["customer"], v["subtotal"], v["tax"], v["total"], v["currency"], key,
-                 int(review), ex["extractor"]))
+                 v["supplier"], v["customer"], v["subtotal"], v["tax"], v["total"], v["currency"],
+                 None, key, 0, ex["extractor"]))
             inv_id = cur.lastrowid
+            inv_ids.append(inv_id)
             for i, it in enumerate(ex["line_items"], 1):
                 db.execute("INSERT INTO line_items(invoice_id,idx,description,quantity,unit_price,amount,evidence)"
                            " VALUES (?,?,?,?,?,?,?)",
                            (inv_id, i, it["description"], it["quantity"], it["unit_price"], it["amount"], it["evidence"]))
-            for iss in issues:
-                db.execute("INSERT INTO validation_issues(invoice_id,rule_id,severity,field,message) VALUES (?,?,?,?,?)",
-                           (inv_id, iss.rule_id, iss.severity, iss.field, iss.message))
+            issues = (validate_invoice(F, ex["line_items"], expect_line_items=not ex["extractor"].endswith("-register"))
+                      + cross_issues(db, inv_id, kind, v))
+            write_issues(db, inv_id, issues)
+        revalidate_related(db, new_keys | old_keys, exclude_document=doc_id)  # other files now see (or lose) this one
         status = "partial" if failed else "completed"
-        db.execute("UPDATE documents SET status=?, review_required=?, pages_failed=?, updated_at=? WHERE id=?",
-                   (status, int(any_review), failed, now(), doc_id))
+        db.execute("UPDATE documents SET status=?, pages_failed=?, updated_at=? WHERE id=?",
+                   (status, failed, now(), doc_id))
+        refresh_document_review(db, doc_id)
         add_event(db, doc_id, "completed",
                   f"status={status} invoices={len(results)} seconds={time.perf_counter() - t0:.2f}")
     return status

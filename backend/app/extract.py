@@ -32,6 +32,7 @@ CUR_LABEL_RE = re.compile(r"\bcurrency\s*[:\-]?\s*([A-Za-z]{3})\b", re.I)
 CUR_CODE_RE = re.compile(r"\b(" + "|".join(sorted(ISO_4217)) + r")\b")
 N = rf"(?:[{SYMBOLS}]\s?)?-?\d[\d,]*(?:\.\d+)?"
 ITEM_RE = re.compile(rf"^(?P<d>.*?\S)\s+(?P<q>-?\d+(?:\.\d+)?)\s+(?P<u>{N})\s+(?P<a>{N})\s*$")
+ITEM_LOOSE_RE = re.compile(rf"^(?P<d>.*?\S)\s+(?P<q>[A-Za-z|!]{{1,2}})\s+(?P<u>{N})\s+(?P<a>{N})\s*$")
 ITEM_HEADER_RE = re.compile(r"\b(description|item|product|service)\b.*\b(qty|quantity|price|amount|rate)\b", re.I)
 SYMBOL_CUR = {"€": "EUR", "£": "GBP", "৳": "BDT", "₹": "INR"}
 
@@ -237,4 +238,69 @@ def extract_invoice(pages: list[tuple[int, str, float]]) -> dict:
             items.append({"description": m["d"].strip(), "quantity": str(parse_money(m["q"])),
                           "unit_price": str(parse_money(m["u"])), "amount": str(parse_money(m["a"])),
                           "evidence": ln, "page": pn})
+            continue
+        m = ITEM_LOOSE_RE.match(ln)  # OCR often turns a digit into a letter: keep the row, leave quantity unset
+        if m:
+            u, a = parse_money(m["u"]), parse_money(m["a"])
+            hint = f"; amount/unit_price = {(a / u).normalize():f}" if u and a is not None and u != 0 else ""
+            items.append({"description": m["d"].strip(), "quantity": None, "unit_price": str(u), "amount": str(a),
+                          "evidence": f"{ln}  [quantity unreadable: '{m['q']}'{hint}]", "page": pn})
     return {"fields": F, "line_items": items, "extractor": EXTRACTOR}
+
+
+# ------------------------------------------------------------------ spreadsheet "registers"
+_ALIASES = {
+    "invoice_number": {"invoicenumber", "invoiceno", "invoicenum", "invno", "invoice", "invoiceid", "invnumber"},
+    "invoice_date": {"invoicedate", "date", "issuedate", "dateofissue", "invdate"},
+    "supplier": {"supplier", "suppliername", "vendor", "vendorname", "seller"},
+    "customer": {"customer", "customername", "client", "billto", "buyer"},
+    "subtotal": {"subtotal", "netamount", "net", "amountbeforetax"},
+    "tax": {"tax", "vat", "gst", "taxamount"},
+    "total": {"total", "grandtotal", "totalamount", "amount", "invoicetotal", "gross", "grossamount"},
+    "currency": {"currency", "ccy", "curr"},
+}
+_ALIAS_LOOKUP = {a: f for f, al in _ALIASES.items() for a in al}
+
+
+def extract_register(rows: list[list[str]]) -> list[dict] | None:
+    """If a sheet is a table with one invoice per row (has invoice-number and total columns),
+    return one extraction per row; otherwise None (the sheet is a single invoice)."""
+    header_at, colmap = None, {}
+    for i, row in enumerate(rows[:15]):
+        m: dict[str, int] = {}
+        for ci, cell in enumerate(row):
+            f = _ALIAS_LOOKUP.get(re.sub(r"[^a-z0-9]", "", cell.lower()))
+            if f and f not in m:
+                m[f] = ci
+        if "invoice_number" in m and "total" in m and len(m) >= 3:
+            header_at, colmap = i, m
+            break
+    if header_at is None:
+        return None
+    out = []
+    for ri in range(header_at + 1, len(rows)):
+        row = rows[ri]
+        get = lambda f: (row[colmap[f]].strip() if f in colmap and colmap[f] < len(row) else "")
+        number = get("invoice_number")
+        if not number or number.lower().startswith(("total", "grand total", "sum")):
+            continue
+        ev = f"row {ri + 1}: " + " | ".join(c for c in row if c)
+        F = {}
+        for f in FIELDS:
+            raw = get(f)
+            if not raw:
+                F[f] = _field(None, 0, None, None)
+            elif f == "invoice_date":
+                iso, status = parse_date(raw)
+                F[f] = (_field(iso, 0.9, ev, None, raw=raw) if iso else
+                        _field(None, 0, ev, None, status=status, raw=raw,
+                               note="Day/month order is ambiguous; not guessed" if status == "ambiguous" else "Date text could not be parsed"))
+            elif f in ("subtotal", "tax", "total"):
+                d = parse_money(raw)
+                F[f] = _field(str(d) if d is not None else raw, 0.9, ev, None)
+            elif f == "currency":
+                F[f] = _field(raw.upper(), 0.9, ev, None)
+            else:
+                F[f] = _field(raw, 0.9, ev, None)
+        out.append({"fields": F, "line_items": [], "extractor": EXTRACTOR + "-register"})
+    return out

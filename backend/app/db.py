@@ -66,6 +66,7 @@ CREATE TABLE IF NOT EXISTS invoices (
   invoice_number TEXT, invoice_date TEXT, supplier TEXT, customer TEXT,
   subtotal TEXT, tax TEXT, total TEXT, currency TEXT,
   dup_key TEXT,
+  num_key TEXT,
   needs_review INTEGER NOT NULL DEFAULT 0,
   extractor TEXT NOT NULL
 );
@@ -142,6 +143,13 @@ def init_db() -> None:
     conn = _open()
     try:
         conn.executescript(SCHEMA)
+        cols = {r["name"] for r in conn.execute("PRAGMA table_info(invoices)")}
+        if "num_key" not in cols:  # migrate a Day-1 database in place
+            conn.execute("ALTER TABLE invoices ADD COLUMN num_key TEXT")
+            for r in conn.execute("SELECT id, invoice_number FROM invoices").fetchall():
+                conn.execute("UPDATE invoices SET num_key=? WHERE id=?",
+                             ("".join(ch for ch in (r["invoice_number"] or "").lower() if ch.isalnum()) or None, r["id"]))
+        conn.execute("CREATE INDEX IF NOT EXISTS ix_invoices_numkey ON invoices(num_key)")
     finally:
         conn.close()
 

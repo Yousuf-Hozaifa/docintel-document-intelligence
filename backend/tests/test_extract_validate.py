@@ -198,3 +198,18 @@ def test_missing_required_fields_have_severity():
 def test_tolerance_is_configurable(monkeypatch):
     monkeypatch.setenv("DOCINTEL_TOLERANCE_MINOR_UNITS", "5")
     assert "VAL-SUB-001" not in rules(mk(total="110.05"))
+
+
+def test_ocr_unreadable_quantity_row_is_kept_not_dropped():
+    text = BASE.replace("Widget A  2  10.00  20.00", "Widget A  a  10.00  20.00")
+    r = ex(text)
+    assert len(r["line_items"]) == 2 and r["line_items"][0]["quantity"] is None
+    assert "amount/unit_price = 2" in r["line_items"][0]["evidence"]
+    iss = validate_invoice(r["fields"], r["line_items"], today=date(2025, 1, 1))
+    assert [i.rule_id for i in iss] == ["VAL-LINE-003"] and "= 2" in iss[0].message
+
+
+def test_register_not_confused_with_single_invoice_layouts():
+    from app.extract import extract_register
+    assert extract_register([["Invoice Number", "INV-1"], ["Subtotal", "10"], ["Total", "11"]]) is None
+    assert extract_register([["Description", "Qty", "Unit Price", "Amount"], ["a", "1", "1", "1"]]) is None

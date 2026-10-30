@@ -35,6 +35,7 @@ class Page:
     label: str | None = None    # sheet name
     ocr_confidence: float | None = None
     error: str | None = None
+    rows: list | None = None    # spreadsheet cells (strings), used for register detection; not persisted
 
 
 def _safe_err(e: Exception) -> str:
@@ -243,6 +244,10 @@ def _cell(v) -> str:
     return str(v).strip()
 
 
+def _clean_rows(rows) -> list[list[str]]:
+    return [[_cell(c) for c in r] for r in rows]
+
+
 def _rows_to_text(rows) -> str:
     out = []
     for r in rows:
@@ -278,7 +283,7 @@ def _read_xlsx(path: Path) -> tuple[int, Iterator[Page]]:
                         if n >= s.max_sheet_rows:
                             break
                         rows.append(r)
-                    yield Page(i + 1, _rows_to_text(rows), "sheet", label=name)
+                    yield Page(i + 1, _rows_to_text(rows), "sheet", label=name, rows=_clean_rows(rows))
                 except Exception as e:
                     yield Page(i + 1, "", "failed", label=name, error=_safe_err(e))
         finally:
@@ -302,8 +307,8 @@ def _read_xls(path: Path) -> tuple[int, Iterator[Page]]:
             for i in range(wb.nsheets):
                 try:
                     ws = wb.sheet_by_index(i)
-                    rows = (ws.row_values(r) for r in range(min(ws.nrows, s.max_sheet_rows)))
-                    yield Page(i + 1, _rows_to_text(rows), "sheet", label=ws.name)
+                    rows = [ws.row_values(r) for r in range(min(ws.nrows, s.max_sheet_rows))]
+                    yield Page(i + 1, _rows_to_text(rows), "sheet", label=ws.name, rows=_clean_rows(rows))
                     wb.unload_sheet(i)
                 except Exception as e:
                     yield Page(i + 1, "", "failed", error=_safe_err(e))
@@ -339,7 +344,7 @@ def _read_csv(path: Path) -> tuple[int, Iterator[Page]]:
         rows.append(r)
 
     def gen() -> Iterator[Page]:
-        yield Page(1, _rows_to_text(rows), "csv", label=path.name)
+        yield Page(1, _rows_to_text(rows), "csv", label=path.name, rows=_clean_rows(rows))
 
     return 1, gen()
 

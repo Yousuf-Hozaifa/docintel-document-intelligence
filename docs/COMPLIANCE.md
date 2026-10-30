@@ -15,19 +15,19 @@ Status legend: ✅ implemented and verified · 🟡 partial · ⬜ not started. 
 | T2 | Optional LLM extraction | ⬜ | deliberately deferred (CPU/no-API constraint) |
 | T3 | Missing/invalid fields, numbers, dates, currencies | ✅ | `test_extract_validate.py` |
 | T3 | Subtotal/tax/line/total checks with rounding tolerance | ✅ | Decimal, per-currency precision, configurable tolerance |
-| T3 | Duplicate invoices | 🟡 | later file flagged; symmetric flagging pending |
-| T3 | PDF↔PDF, PDF↔Excel cross-verification | ⬜ | Day 2 |
+| T3 | Duplicate invoices | ✅ | symmetric, 2,000 flagged in stress run; `test_review.py` |
+| T3 | PDF↔PDF, PDF↔Excel cross-verification | ✅ | header-level comparison incl. 5,000-row register; line items not compared |
 | T3 | Manual-review flag | ✅ | `review_required` |
-| T3 | Manual correction support | ⬜ | Day 2 (schema ready) |
+| T3 | Manual correction support | ✅ | audited, re-validated, mark-reviewed |
 | T4 | Multi-file upload, status, results, search | ✅ | `tests/test_api.py` |
-| T4 | Manual corrections, failed-job listing, reprocess | ⬜ | Day 2 |
+| T4 | Manual corrections, failed-job listing, reprocess | ✅ | `test_review.py`; API-key auth added |
 | T4 | Background processing, retry, duplicate-processing protection | ✅ | DB-backed queue, atomic claim, backoff retry, SHA-256 dedupe |
 | T5 | Persist metadata, text, results, line items, issues, history | ✅ | SQLite schema (`app/db.py`) |
 | T5 | Keyword search + filters | ✅ | FTS5 + filters |
 | T5 | Semantic search | ⬜ | to be benchmarked first (Day 3) |
 | T6 | Upload, progress, lists, inspect, issues, search | ✅ | verified in Chromium |
-| T6 | Inline corrections | ⬜ | Day 3 |
-| T7 | Automated tests | 🟡 | 61 pass; OCR/extraction/validation/API/failure covered; more to add |
+| T6 | Inline corrections | ✅ | verified in Chromium (edit, add/delete line, mark reviewed, reprocess) |
+| T7 | Automated tests | 🟡 | 83 pass, mutation-checked; OCR/extraction/validation/API/failure covered |
 | T7 | Labeled dataset + measured metrics | ⬜ | Day 4 |
 
 | # | Deliverable | Status |

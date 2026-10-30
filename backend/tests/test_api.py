@@ -65,14 +65,15 @@ def test_identical_upload_is_not_processed_twice(client, tmp_path, spec):
     assert len(client.get("/api/documents").json()["documents"]) == 1
 
 
-def test_duplicate_invoice_in_different_file_is_flagged(client, tmp_path, spec):
+def test_same_invoice_as_pdf_and_xlsx_is_cross_verified_not_a_duplicate(client, tmp_path, spec):
     upload(client, S.write_pdf(spec, tmp_path / "one.pdf"))
-    upload(client, S.write_xlsx([spec], tmp_path / "two.xlsx"))  # same supplier + number, different bytes
+    upload(client, S.write_xlsx([spec], tmp_path / "two.xlsx"))
     worker.run_all()
-    docs = client.get("/api/documents").json()["documents"]
-    second = client.get(f"/api/documents/{docs[0]['id']}").json()
-    assert "VAL-DUP-001" in [i["rule_id"] for i in second["invoices"][0]["issues"]]
-    assert second["review_required"] is True
+    for d in client.get("/api/documents").json()["documents"]:
+        full = client.get(f"/api/documents/{d['id']}").json()
+        rules = [i["rule_id"] for i in full["invoices"][0]["issues"]]
+        assert "VAL-XDOC-002" in rules and "VAL-DUP-001" not in rules
+        assert full["review_required"] is False
 
 
 def test_arithmetic_error_marks_document_for_review(client, tmp_path):

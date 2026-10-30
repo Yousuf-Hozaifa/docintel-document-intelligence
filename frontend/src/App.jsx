@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { api, safeSnippet } from "./api.js";
+import { api, apiKey, ApiError, safeSnippet } from "./api.js";
 
 const FIELD_LABELS = {
   invoice_number: "Invoice number", invoice_date: "Invoice date", supplier: "Supplier", customer: "Customer",
@@ -91,73 +91,168 @@ function DocList({ docs, selected, onSelect }) {
   );
 }
 
-function Inspector({ id }) {
+const FIELD_KEYS = Object.keys(FIELD_LABELS);
+const ITEM_ATTRS = ["description", "quantity", "unit_price", "amount"];
+
+function IssueList({ issues, onResolve, busy }) {
+  if (!issues.length) return null;
+  return (
+    <ul className="issues">
+      {issues.map((i) => (
+        <li key={i.id} className={`${i.severity} ${i.resolved ? "done" : ""}`}>
+          <code>{i.rule_id}</code> {i.message}
+          {i.severity !== "info" && (
+            <button className="link" disabled={busy} onClick={() => onResolve(i.id, !i.resolved)}>
+              {i.resolved ? "Reopen" : "Mark reviewed"}
+            </button>
+          )}
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+function InvoiceCard({ inv, onChanged }) {
+  const [editing, setEditing] = useState(false);
+  const [draft, setDraft] = useState(null);
+  const [note, setNote] = useState("");
+  const [busy, setBusy] = useState(false);
+  const [err, setErr] = useState(null);
+
+  const start = () => {
+    setDraft({
+      fields: Object.fromEntries(FIELD_KEYS.map((k) => [k, inv.fields[k].value ?? ""])),
+      items: inv.line_items.map((li) => ({ idx: li.idx, description: li.description ?? "", quantity: li.quantity ?? "", unit_price: li.unit_price ?? "", amount: li.amount ?? "", delete: false })),
+      added: [],
+    });
+    setNote(""); setErr(null); setEditing(true);
+  };
+
+  const save = async () => {
+    const fields = {};
+    for (const k of FIELD_KEYS) if ((inv.fields[k].value ?? "") !== draft.fields[k].trim()) fields[k] = draft.fields[k].trim() || null;
+    const line_items = [];
+    for (const it of draft.items) {
+      const orig = inv.line_items.find((x) => x.idx === it.idx);
+      if (it.delete) { line_items.push({ idx: it.idx, delete: true }); continue; }
+      const ch = {};
+      for (const a of ITEM_ATTRS) if ((orig[a] ?? "") !== it[a].trim()) ch[a] = it[a].trim() || null;
+      if (Object.keys(ch).length) line_items.push({ idx: it.idx, ...ch });
+    }
+    for (const n of draft.added) if (ITEM_ATTRS.some((a) => n[a].trim())) line_items.push(Object.fromEntries(ITEM_ATTRS.filter((a) => n[a].trim()).map((a) => [a, n[a].trim()])));
+    if (!Object.keys(fields).length && !line_items.length) { setEditing(false); return; }
+    setBusy(true); setErr(null);
+    try { await api.patchInvoice(inv.id, { fields, line_items, note: note.trim() || null }); setEditing(false); await onChanged(); }
+    catch (e) { setErr(e.message); } finally { setBusy(false); }
+  };
+
+  const resolve = async (issueId, resolved) => {
+    setBusy(true); setErr(null);
+    try { await api.resolveIssue(issueId, resolved); await onChanged(); } catch (e) { setErr(e.message); } finally { setBusy(false); }
+  };
+
+  const setF = (k, v) => setDraft((d) => ({ ...d, fields: { ...d.fields, [k]: v } }));
+  const setItem = (i, a, v) => setDraft((d) => ({ ...d, items: d.items.map((x, j) => (j === i ? { ...x, [a]: v } : x)) }));
+  const setAdded = (i, a, v) => setDraft((d) => ({ ...d, added: d.added.map((x, j) => (j === i ? { ...x, [a]: v } : x)) }));
+
+  return (
+    <article className="invoice">
+      <div className="invhead">
+        <h3>Invoice {inv.seq}{inv.page_start !== inv.page_end ? ` (pages ${inv.page_start}–${inv.page_end})` : ""}
+          {inv.correction_count > 0 && <span className="chip busy" title="Number of audited manual changes"> {inv.correction_count} correction(s)</span>}</h3>
+        {!editing && <button onClick={start}>Edit</button>}
+      </div>
+      {err && <p className="err" role="alert">{err}</p>}
+      <IssueList issues={inv.issues} onResolve={resolve} busy={busy} />
+      <table className="fields">
+        <thead><tr><th>Field</th><th>Value</th><th title="Heuristic rule confidence, not a calibrated probability">Confidence</th><th>Source text</th></tr></thead>
+        <tbody>
+          {FIELD_KEYS.map((k) => {
+            const f = inv.fields[k];
+            return (
+              <tr key={k} className={f.value == null && !editing ? "missing" : ""}>
+                <th scope="row"><label htmlFor={`f-${inv.id}-${k}`}>{FIELD_LABELS[k]}</label></th>
+                <td className={editing ? "" : "num"}>
+                  {editing ? <input id={`f-${inv.id}-${k}`} value={draft.fields[k]} onChange={(e) => setF(k, e.target.value)} />
+                    : (f.value ?? <em>not found</em>)}
+                </td>
+                <td className="num">{f.value != null ? `${Math.round(f.confidence * 100)}%` : "—"}</td>
+                <td className="ev">{f.source === "manual" ? <em>corrected manually{f.original_value != null ? ` (was ${f.original_value})` : ""}</em> : <>{f.evidence ?? ""}{f.note ? <em> — {f.note}</em> : null}</>}</td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      <h4>Line items</h4>
+      {(editing ? draft.items.length + draft.added.length : inv.line_items.length) ? (
+        <table className="items">
+          <thead><tr><th>Description</th><th>Qty</th><th>Unit price</th><th>Amount</th>{editing && <th />}</tr></thead>
+          <tbody>
+            {!editing && inv.line_items.map((li) => (
+              <tr key={li.idx} title={li.evidence}><td>{li.description}</td><td className="num">{li.quantity ?? <em>unreadable</em>}</td><td className="num">{li.unit_price}</td><td className="num">{li.amount}</td></tr>
+            ))}
+            {editing && draft.items.map((it, i) => (
+              <tr key={it.idx} className={it.delete ? "deleted" : ""}>
+                {ITEM_ATTRS.map((a) => <td key={a}><input aria-label={`${a} of line ${it.idx}`} value={it[a]} disabled={it.delete} onChange={(e) => setItem(i, a, e.target.value)} /></td>)}
+                <td><button className="link" onClick={() => setItem(i, "delete", !it.delete)}>{it.delete ? "Undo" : "Delete"}</button></td>
+              </tr>
+            ))}
+            {editing && draft.added.map((it, i) => (
+              <tr key={`n${i}`}>
+                {ITEM_ATTRS.map((a) => <td key={a}><input aria-label={`new ${a} ${i + 1}`} value={it[a]} onChange={(e) => setAdded(i, a, e.target.value)} /></td>)}
+                <td><button className="link" onClick={() => setDraft((d) => ({ ...d, added: d.added.filter((_, j) => j !== i) }))}>Remove</button></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      ) : <p className="empty">No line items.</p>}
+      {editing && (
+        <div className="editbar">
+          <button className="secondary" onClick={() => setDraft((d) => ({ ...d, added: [...d.added, { description: "", quantity: "", unit_price: "", amount: "" }] }))}>Add line item</button>
+          <input className="note" placeholder="Reason for correction (optional)" value={note} onChange={(e) => setNote(e.target.value)} aria-label="Correction note" />
+          <button onClick={save} disabled={busy}>{busy ? "Saving…" : "Save corrections"}</button>
+          <button className="secondary" onClick={() => setEditing(false)} disabled={busy}>Cancel</button>
+        </div>
+      )}
+    </article>
+  );
+}
+
+function Inspector({ id, onChanged }) {
   const [doc, setDoc] = useState(null);
   const [err, setErr] = useState(null);
-  useEffect(() => {
-    let live = true, timer;
-    const load = async () => {
-      try {
-        const d = await api.getDocument(id);
-        if (!live) return;
-        setDoc(d); setErr(null);
-        if (ACTIVE.has(d.status)) timer = setTimeout(load, 1500);
-      } catch (e) { if (live) setErr(e.message); }
-    };
-    setDoc(null); load();
-    return () => { live = false; clearTimeout(timer); };
+  const timer = useRef(null);
+  const load = useCallback(async () => {
+    clearTimeout(timer.current);
+    try {
+      const d = await api.getDocument(id);
+      setDoc(d); setErr(null);
+      if (ACTIVE.has(d.status)) timer.current = setTimeout(load, 1500);
+    } catch (e) { setErr(e.message); }
   }, [id]);
+  useEffect(() => { setDoc(null); load(); return () => clearTimeout(timer.current); }, [load]);
 
-  if (err) return <p className="err">Could not load document: {err}</p>;
+  const changed = async () => { await load(); onChanged(); };
+  const reprocess = async () => {
+    if (!window.confirm("Reprocess this document? Results and manual corrections on it will be replaced.")) return;
+    try { await api.reprocess(id); await changed(); } catch (e) { setErr(e.message); }
+  };
+
+  if (err && !doc) return <p className="err">Could not load document: {err}</p>;
   if (!doc) return <p className="empty">Loading…</p>;
   return (
     <div className="inspector">
       <header>
         <h2>{doc.filename}</h2>
-        <StatusChip doc={doc} />
+        <span className="actions"><StatusChip doc={doc} />
+          {!ACTIVE.has(doc.status) && <button className="secondary" onClick={reprocess}>Reprocess</button>}</span>
       </header>
+      {err && <p className="err" role="alert">{err}</p>}
       {doc.status === "failed" && <p className="banner bad">Processing failed ({doc.error_code}): {doc.error_message}</p>}
       {doc.status === "partial" && <p className="banner warn">{doc.pages_failed} page(s) could not be processed. Results cover the remaining pages.</p>}
       {ACTIVE.has(doc.status) && <p className="banner busy">Processing… {doc.job?.progress_done ?? 0}/{doc.job?.progress_total ?? "?"} pages</p>}
-      {doc.invoices.map((inv) => (
-        <article key={inv.id} className="invoice">
-          <h3>Invoice {inv.seq}{inv.page_start !== inv.page_end ? ` (pages ${inv.page_start}–${inv.page_end})` : ""}</h3>
-          {inv.issues.length > 0 && (
-            <ul className="issues">
-              {inv.issues.map((i) => (
-                <li key={i.id} className={i.severity}>
-                  <code>{i.rule_id}</code> {i.message}
-                </li>
-              ))}
-            </ul>
-          )}
-          <table className="fields">
-            <thead><tr><th>Field</th><th>Value</th><th title="Heuristic rule confidence, not a calibrated probability">Confidence</th><th>Source text</th></tr></thead>
-            <tbody>
-              {Object.entries(FIELD_LABELS).map(([k, label]) => {
-                const f = inv.fields[k];
-                return (
-                  <tr key={k} className={f.value == null ? "missing" : ""}>
-                    <th scope="row">{label}</th>
-                    <td className="num">{f.value ?? <em>not found</em>}</td>
-                    <td className="num">{f.value != null ? `${Math.round(f.confidence * 100)}%` : "—"}</td>
-                    <td className="ev">{f.evidence ?? ""}{f.note ? <em> — {f.note}</em> : null}</td>
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
-          <h4>Line items</h4>
-          {inv.line_items.length ? (
-            <table className="items">
-              <thead><tr><th>Description</th><th>Qty</th><th>Unit price</th><th>Amount</th></tr></thead>
-              <tbody>{inv.line_items.map((li) => (
-                <tr key={li.idx}><td>{li.description}</td><td className="num">{li.quantity}</td><td className="num">{li.unit_price}</td><td className="num">{li.amount}</td></tr>
-              ))}</tbody>
-            </table>
-          ) : <p className="empty">No line items were extracted.</p>}
-        </article>
-      ))}
+      {doc.invoices.length > 25 && <p className="banner busy">Showing the first 25 of {doc.invoices.length} invoices in this document.</p>}
+      {doc.invoices.slice(0, 25).map((inv) => <InvoiceCard key={`${inv.id}-${inv.correction_count}-${inv.issues.length}-${inv.needs_review}`} inv={inv} onChanged={changed} />)}
       <details>
         <summary>Processing history</summary>
         <ol className="history">{doc.history.map((h, i) => <li key={i}><time>{h.ts}</time> {h.event} {h.detail && <small>{h.detail}</small>}</li>)}</ol>
@@ -204,10 +299,17 @@ export default function App() {
   const [selected, setSelected] = useState(null);
   const [error, setError] = useState(null);
 
+  const [needKey, setNeedKey] = useState(false);
+  const [keyInput, setKeyInput] = useState("");
+
   const refresh = useCallback(async () => {
-    try { setDocs((await api.listDocuments()).documents); setError(null); }
-    catch (e) { setError(`Cannot reach the API (${e.message}). Is the backend running on port 8000?`); }
+    try { setDocs((await api.listDocuments()).documents); setError(null); setNeedKey(false); }
+    catch (e) {
+      if (e instanceof ApiError && e.status === 401) { setNeedKey(true); setError(null); }
+      else setError(`Cannot reach the API (${e.message}). Is the backend running on port 8000?`);
+    }
   }, []);
+  const retryFailed = async () => { try { await api.retryFailed(); await refresh(); } catch (e) { setError(e.message); } };
 
   useEffect(() => { refresh(); }, [refresh]);
   useEffect(() => {
@@ -220,9 +322,17 @@ export default function App() {
     <div className="app">
       <header className="top"><h1>Document Intelligence</h1><Search onOpen={setSelected} /></header>
       {error && <p className="banner bad">{error}</p>}
+      {needKey && (
+        <form className="banner warn keyform" onSubmit={(e) => { e.preventDefault(); apiKey.set(keyInput.trim()); refresh(); }}>
+          <label>The API requires a key: <input type="password" value={keyInput} onChange={(e) => setKeyInput(e.target.value)} aria-label="API key" /></label>
+          <button type="submit">Use key</button>
+        </form>
+      )}
       <main>
-        <aside><Uploader onUploaded={refresh} /><DocList docs={docs} selected={selected} onSelect={setSelected} /></aside>
-        <section className="detail">{selected ? <Inspector id={selected} /> : <p className="empty">Select a document to inspect its extracted fields.</p>}</section>
+        <aside><Uploader onUploaded={refresh} />
+          {docs.some((d) => d.status === "failed") && <button className="secondary wide" onClick={retryFailed}>Retry all failed ({docs.filter((d) => d.status === "failed").length})</button>}
+          <DocList docs={docs} selected={selected} onSelect={setSelected} /></aside>
+        <section className="detail">{selected ? <Inspector id={selected} onChanged={refresh} /> : <p className="empty">Select a document to inspect its extracted fields.</p>}</section>
       </main>
     </div>
   );

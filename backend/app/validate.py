@@ -19,11 +19,13 @@ RULES = {
     "VAL-NUM-002": "Amount is negative or zero (possible credit note)",
     "VAL-LINE-001": "Line item quantity x unit price does not equal amount",
     "VAL-LINE-002": "Sum of line items does not equal subtotal",
+    "VAL-LINE-003": "Line item quantity unreadable (OCR); confirm manually",
     "VAL-SUB-001": "Subtotal + tax does not equal total",
     "VAL-SUB-002": "Tax missing and subtotal differs from total",
     "VAL-TAX-001": "Tax is negative or larger than the subtotal",
     "VAL-DUP-001": "Possible duplicate invoice (same supplier and invoice number)",
-    "VAL-XDOC-001": "Cross-document mismatch between files for the same invoice",
+    "VAL-XDOC-001": "Cross-document mismatch: the same invoice in another file has different values",
+    "VAL-XDOC-002": "Cross-document verification passed (document vs spreadsheet values match)",
 }
 REQUIRED = {"invoice_number": "error", "invoice_date": "error", "supplier": "error",
             "total": "error", "customer": "warning", "currency": "warning"}
@@ -52,7 +54,7 @@ def tolerance(currency: str | None, units: float = 1) -> Decimal:
     return Decimal(10) ** -minor_places(currency) * Decimal(str(units))
 
 
-def validate_invoice(fields: dict, items: list[dict], today: date | None = None) -> list[Issue]:
+def validate_invoice(fields: dict, items: list[dict], today: date | None = None, expect_line_items: bool = True) -> list[Issue]:
     """fields: name -> {value, status, note, raw}. items: list of line-item dicts."""
     today = today or date.today()
     s = get_settings()
@@ -62,7 +64,7 @@ def validate_invoice(fields: dict, items: list[dict], today: date | None = None)
     for name, sev in REQUIRED.items():
         if val.get(name) in (None, "") and not (name == "invoice_date" and fields.get(name, {}).get("status") in ("invalid", "ambiguous")):
             issues.append(Issue("VAL-REQ-001", sev, name, f"Required field '{name}' is missing; manual entry needed."))
-    if not items:
+    if not items and expect_line_items:
         issues.append(Issue("VAL-REQ-002", "warning", "line_items", "No line items could be extracted."))
 
     # date
@@ -106,6 +108,10 @@ def validate_invoice(fields: dict, items: list[dict], today: date | None = None)
     amts = []
     for i, it in enumerate(items, 1):
         q, u, a = _dec(it.get("quantity")), _dec(it.get("unit_price")), _dec(it.get("amount"))
+        if q is None and it.get("quantity") in (None, "", "None") and (u is not None or a is not None):
+            hint = f" (amount / unit price = {(a / u).normalize():f})" if u and a is not None and u != 0 else ""
+            issues.append(Issue("VAL-LINE-003", "warning", f"line_items[{i}].quantity",
+                                f"Line {i}: quantity could not be read{hint}; confirm manually."))
         for key, v in (("quantity", q), ("unit_price", u), ("amount", a)):
             if it.get(key) not in (None, "", "None") and v is None:
                 issues.append(Issue("VAL-NUM-001", "error", f"line_items[{i}].{key}", f"Line {i}: '{it.get(key)}' is not a valid number."))
@@ -137,5 +143,5 @@ def validate_invoice(fields: dict, items: list[dict], today: date | None = None)
     return issues
 
 
-def needs_review(issues: list[Issue], fields: dict) -> bool:
+def needs_review(issues: list[Issue], fields: dict | None = None) -> bool:
     return any(i.severity in ("error", "warning") for i in issues)
