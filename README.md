@@ -35,3 +35,10 @@ Data (SQLite + uploads) is stored in `backend/data/` (override with `DOCINTEL_DA
 `POST /api/documents` (multipart `files`) · `GET /api/documents` · `GET /api/documents/{id}` ·
 `GET /api/search?q=&supplier=&currency=&review=` · `GET /api/rules` · `GET /api/health`.
 Interactive docs: http://localhost:8000/docs
+
+## Large-document benchmarks
+`python eval/bench.py run --kind scanned --pages 100` measures time and peak memory (process tree, incl. Tesseract).
+See `docs/benchmarks/WINDOWS_RUNBOOK.md` and the generated `docs/benchmarks/RESULTS.md`.
+Tuning knobs: `DOCINTEL_OCR_THREADS` (pages OCR'd concurrently, default 1), `DOCINTEL_TESS_OMP_THREADS`
+(Tesseract threads per process, default 1; 0 = Tesseract default), `DOCINTEL_PDF_STORE_SHRINK` (default 1),
+`DOCINTEL_OCR_DPI` (default 200).

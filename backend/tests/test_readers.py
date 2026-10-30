@@ -137,3 +137,26 @@ def test_blank_image_gives_empty_text_not_crash(tmp_path):
     p = tmp_path / "blank.png"; Image.new("RGB", (800, 600), "white").save(p)
     _, _, pages = read_all(p)
     assert pages[0].text.strip() == ""
+
+
+@pytest.mark.parametrize("threads", [1, 3])
+def test_parallel_ocr_preserves_page_order_and_content(tmp_path, monkeypatch, threads):
+    import random
+    monkeypatch.setenv("DOCINTEL_OCR_THREADS", str(threads))
+    specs = [S.random_spec(random.Random(i), i, 2) for i in range(1, 8)]
+    p = S.write_scanned_pdf(specs, tmp_path / "many.pdf")
+    _, total, pages = read_all(p)
+    assert total == 7 and [pg.number for pg in pages] == list(range(1, 8))
+    assert all(pg.method == "ocr" and s.number in pg.text for pg, s in zip(pages, specs))
+
+
+def test_mixed_digital_and_scanned_pages_keep_order(tmp_path, monkeypatch):
+    import random
+    monkeypatch.setenv("DOCINTEL_OCR_THREADS", "2")
+    a, b = S.random_spec(random.Random(1), 1, 2), S.random_spec(random.Random(2), 2, 2)
+    d, sc = S.write_pdf(a, tmp_path / "d.pdf"), S.write_scanned_pdf([b], tmp_path / "s.pdf")
+    import pymupdf
+    out = pymupdf.open(); out.insert_pdf(pymupdf.open(d)); out.insert_pdf(pymupdf.open(sc)); out.insert_pdf(pymupdf.open(d))
+    out.save(tmp_path / "mix.pdf")
+    _, _, pages = read_all(tmp_path / "mix.pdf")
+    assert [pg.method for pg in pages] == ["text", "ocr", "text"] and [pg.number for pg in pages] == [1, 2, 3]

@@ -9,7 +9,7 @@ Status legend: ✅ implemented and verified · 🟡 partial · ⬜ not started. 
 | T1 | Multi-page PDFs, multi-sheet workbooks, multi-frame TIFF | ✅ | reader tests |
 | T1 | Corrupted / unsupported / encrypted / empty files | ✅ | 8 failure tests; permanent errors not retried |
 | T1 | Poor-quality scans | 🟡 | blur/low-res/rotation generators exist; measured in Day 4 eval |
-| T1 | ~1,000-page PDFs | 🟡 | lazy page-by-page design; **not yet measured** |
+| T1 | ~1,000-page PDFs | 🟡 | measured in sandbox (1 core/4 GB): digital 4.0 s/174 MB; scanned 474.8 s, Python peak 206 MB. Not yet run on target 8 GB Windows machine; dense-text 1,000 pages not measured |
 | T2 | Extract 8 fields + line items → JSON | ✅ | rule-based; evidence + heuristic confidence per field |
 | T2 | Missing/ambiguous not invented | ✅ | tests: null values, ambiguous date, `¥`, `$` |
 | T2 | Optional LLM extraction | ⬜ | deliberately deferred (CPU/no-API constraint) |

@@ -1,6 +1,6 @@
 # PROGRESS
 
-_Last updated: end of Day 1. Everything marked "verified" was actually executed; see `docs/test-results/`._
+_Last updated: Day 2 (performance/scalability session). Everything marked "verified" was actually executed; see `docs/test-results/`._
 
 ## Current milestone: Day 1 vertical slice — DONE
 Upload → read/OCR → extract → validate → persist → inspect in UI.
@@ -39,3 +39,32 @@ scale tests (time + peak memory), failure-injection tests.
 - One worker thread by default; OCR pages are sequential (bounded memory, not yet parallel).
 - Multi-invoice splitting keys on a changed invoice number; invoices without numbers are not split.
 - No authentication yet.
+
+
+## Day 2 — large-document performance (measured; raw data `docs/benchmarks/results.jsonl`, table `RESULTS.md`)
+Environment: Linux sandbox, **1 core, 4 GB RAM**, Xeon 2.1 GHz, Tesseract 5.3.4, PyMuPDF 2.0. NOT the target Windows/8 GB machine.
+Synthetic clean invoices; one invoice per page. 64 tests pass (`docs/test-results/day2-pytest.txt`).
+
+| Run | Pages | Wall | Pages/min | Peak RAM (process tree) |
+|---|---|---|---|---|
+| digital | 1,000 | 4.0 s | ~15,000 | 174 MB |
+| scanned, defaults (cache flush, Tesseract default threads) | 250 | 213 s | 70.3 | 249 MB |
+| scanned, defaults + Tesseract thread cap (current defaults) | 1,000 | 474.8 s | 126.4 | 411 MB (Python 206 MB) |
+
+- Memory is bounded in page count (Python process 204–206 MB from 100 to 1,000 scanned pages). MuPDF's decoded-image cache was
+  the main consumer (502 → 249 MB at 100 pages when flushed; ~4% throughput cost).
+- `OMP_THREAD_LIMIT=1` gave ~1.7x on this single core (69 → ~119 pages/min; identical OCR confidence). Mechanism unverified; effect on
+  multi-core CPUs **unmeasured** — run `docs/benchmarks/WINDOWS_RUNBOOK.md`.
+- Page-parallel OCR: +80-100 MB per extra in-flight page, no speedup on 1 core (not measurable here). Run-to-run spread ~±8%.
+- Text-heavy pages (~52 lines): 6.0 pages/min (default Tesseract) / 16.3 (capped), tested only up to 25 pages. 1,000 dense pages: **not measured**.
+- API stayed responsive during a 50-page scan: 0 errors in ~180 polling rounds; health p95 20 ms, max 182 ms (measured before the thread-cap default).
+- The 1,000-page peak (411 MB) is a transient: Python stayed ~206 MB, so ~205 MB was in a single Tesseract process for under one sample interval
+  (inferred; the per-process breakdown call missed it). A first 1,000-page attempt was killed at page 253 when the sandbox ended my turn (not a failure of the app).
+- **Quality signal:** on the 1,000 OCR'd pages 253 invoices were flagged for review (digital: 0). Diagnosed on a 50-page sample: header totals were
+  correct; flags came from OCR cell errors in line items (quantity "7" read as "a" -> row dropped; "79.55" read as "7955"), which validation caught.
+
+### Still open from Day 2 plan (NOT done)
+Manual corrections API+audit, failed-job list + reprocess, symmetric duplicate flagging, PDF↔PDF / PDF↔Excel cross-verification, API-key auth.
+### New items found
+- Extractor: keep rows with an unreadable quantity as `quantity=null` + note instead of dropping them; consider cell-level OCR retry.
+- Re-run text-heavy at 100 pages and 1,000 dense pages once the ladder is confirmed on Windows.

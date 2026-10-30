@@ -114,12 +114,12 @@ def write_tiff(specs: list[Spec], path: Path) -> Path:
     return path
 
 
-def write_scanned_pdf(specs: list[Spec], path: Path, degrade: str | None = None) -> Path:
+def write_scanned_pdf(specs: list[Spec], path: Path, degrade: str | None = None, dpi: int = 150) -> Path:
     """Image-only PDF (no text layer): forces the OCR path."""
     doc = pymupdf.open()
     for s in specs:
         buf = io.BytesIO()
-        render_image(s, degrade=degrade).save(buf, format="JPEG", quality=80)
+        render_image(s, dpi=dpi, degrade=degrade).save(buf, format="JPEG", quality=75)
         p = doc.new_page()
         p.insert_image(p.rect, stream=buf.getvalue())
     doc.save(path); doc.close()
@@ -174,4 +174,32 @@ def write_csv(s: Spec, path: Path, delimiter: str = ",") -> Path:
         w = csv.writer(f, delimiter=delimiter)
         for r in sheet_rows(s):
             w.writerow(["" if v is None else v for v in r])
+    return path
+
+
+_WORDS = ("account balance statement payment received remittance reference purchase order delivery goods services "
+          "quarterly review adjustment credit note terms net thirty days warehouse shipment carrier customs duty "
+          "contract amendment schedule appendix approved reconciled outstanding supplier ledger entry posted").split()
+
+
+def text_page_lines(rng: random.Random, n_lines: int = 52, words_per_line: int = 14) -> list[str]:
+    return [" ".join(rng.choice(_WORDS) for _ in range(words_per_line)) for _ in range(n_lines)]
+
+
+def write_text_pdf(n_pages: int, path: Path, scanned: bool, dpi: int = 200, seed: int = 0) -> Path:
+    """Text-heavy pages (~52 lines of 10pt prose): a stress case denser than a typical invoice."""
+    rng = random.Random(seed)
+    doc = pymupdf.open()
+    for n in range(n_pages):
+        lines = [f"Invoice No: TXT-{n + 1:05d}"] + text_page_lines(rng)
+        page = doc.new_page()
+        for i, ln in enumerate(lines):
+            page.insert_text((40, 40 + i * 14), ln, fontsize=9)
+        if scanned:
+            pix = page.get_pixmap(dpi=dpi)
+            img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+            buf = io.BytesIO(); img.save(buf, format="JPEG", quality=75)
+            doc.delete_page(len(doc) - 1)
+            p2 = doc.new_page(); p2.insert_image(p2.rect, stream=buf.getvalue())
+    doc.save(path, garbage=1, deflate=True); doc.close()
     return path

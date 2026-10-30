@@ -1,0 +1,6 @@
+# Pytest run (end of Day 2 benchmark session)
+Date: 2026-10-30T09:40:04Z
+Env: Python 3.12.3, 1 core, Linux sandbox (NOT Windows)
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+64 passed, 1 warning in 13.05s

@@ -4,6 +4,8 @@ import csv
 import io
 import os
 import zipfile
+from collections import deque
+from concurrent.futures import Future, ThreadPoolExecutor
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Iterator
@@ -76,6 +78,8 @@ def detect_type(path: Path, filename: str) -> str:
 def ocr_image(img: Image.Image) -> tuple[str, float | None]:
     """OCR one PIL image. Returns (text with line/column structure, mean word confidence)."""
     s = get_settings()
+    if s.tess_omp_threads:
+        os.environ["OMP_THREAD_LIMIT"] = str(s.tess_omp_threads)  # pytesseract passes os.environ to tesseract
     g = ImageOps.autocontrast(ImageOps.grayscale(img))
     if max(g.size) < 1400:  # upscale small / low-resolution scans
         g = g.resize((g.width * 2, g.height * 2), Image.LANCZOS)
@@ -149,26 +153,56 @@ def _read_pdf(path: Path) -> tuple[int, Iterator[Page]]:
         doc.close()
         raise CorruptFile("PDF has no pages")
 
+    def ocr_task(num: int, img: Image.Image) -> Page:
+        try:
+            text, conf = ocr_image(img)
+            return Page(num, text, "ocr", ocr_confidence=conf)
+        except Exception as e:
+            return Page(num, "", "failed", error=_safe_err(e))
+        finally:
+            img.close()
+
+    def prepare(i: int):
+        """Main thread only (PyMuPDF is not thread-safe). Returns a Page, or (num, image) needing OCR."""
+        try:
+            page = doc.load_page(i)
+            text = _pdf_text(page)
+            if len(text.strip()) >= s.min_text_chars:
+                return Page(i + 1, text, "text")
+            pix = page.get_pixmap(dpi=s.ocr_dpi, colorspace=pymupdf.csRGB)
+            img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
+            del pix
+            if s.pdf_store_shrink:
+                pymupdf.TOOLS.store_shrink(100)
+            return (i + 1, img)
+        except Exception as e:
+            return Page(i + 1, "", "failed", error=_safe_err(e))
+
     def gen() -> Iterator[Page]:
+        """Pages are yielded in order. At most `ocr_threads` rendered images exist at once,
+        so memory is bounded by ocr_threads x (one rendered page), independent of page count."""
+        window = s.ocr_threads
+        pool = ThreadPoolExecutor(max_workers=window) if window > 1 else None
+        pending: deque = deque()   # Page | Future[Page], in page order
         try:
             for i in range(doc.page_count):
-                try:
-                    page = doc.load_page(i)
-                    text = _pdf_text(page)
-                    if len(text.strip()) >= s.min_text_chars:
-                        yield Page(i + 1, text, "text")
-                    else:  # scanned / image-only page: render and OCR
-                        pix = page.get_pixmap(dpi=s.ocr_dpi, colorspace=pymupdf.csRGB)
-                        img = Image.frombytes("RGB", (pix.width, pix.height), pix.samples)
-                        del pix
-                        text, conf = ocr_image(img)
-                        img.close()
-                        yield Page(i + 1, text, "ocr", ocr_confidence=conf)
-                except Exception as e:  # page-level failure must not kill the document
-                    yield Page(i + 1, "", "failed", error=_safe_err(e))
-                finally:
-                    page = None
+                item = prepare(i)
+                if isinstance(item, Page):
+                    pending.append(item)
+                elif pool:
+                    pending.append(pool.submit(ocr_task, *item))
+                else:
+                    pending.append(ocr_task(*item))
+                while len(pending) > 0 and (isinstance(pending[0], Page) or pending[0].done()
+                                            or sum(isinstance(p, Future) for p in pending) >= window):
+                    head = pending.popleft()
+                    yield head if isinstance(head, Page) else head.result()
+            while pending:
+                head = pending.popleft()
+                yield head if isinstance(head, Page) else head.result()
         finally:
+            if pool:
+                pool.shutdown(wait=True, cancel_futures=True)
             doc.close()
 
     return doc.page_count, gen()
