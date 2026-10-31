@@ -89,7 +89,10 @@ def build_records(manifest, results):
             if sc and (sc[1] or sc[2]):
                 errors.append({**base, "field": "line_items", "expected": f"{len(t['line_items'])} items", "got": f"tp={sc[0]} fn={sc[1]} fp={sc[2]}",
                                "evidence": "; ".join(f"{x['description']}|{x['quantity']}|{x['unit_price']}|{x['amount']}" for x in p["line_items"])[:300]})
+            oc = {f: p["fields"][f].get("ocr_confidence") for f in FIELDS if pf[f] is not None}
+            item_oc = [i.get("ocr_conf") for i in p["line_items"] if i.get("ocr_conf") is not None]
             recs.append({**base, "kind": "matched", "truth": t["fields"], "pred": pf, "conf": conf, "items": sc, "flagged": p["needs_review"],
+                         "oc_min": min([v for v in oc.values() if v is not None] + item_oc) if (any(v is not None for v in oc.values()) or item_oc) else None,
                          "has_error": bool(bad) or bool(sc and (sc[1] or sc[2])), "expected": exp, "predicted": rule_keys(p["issues"])})
         for ti in missed:
             t = truths[ti]
@@ -158,10 +161,25 @@ def calibration(recs):
     return rows
 
 
+def ocr_sweep(recs, thresholds=(0, 50, 60, 65, 70, 75, 80, 85, 90, 95)):
+    """For each floor T: among OCR'd invoices with an extraction error, how many carry a value with weakest-word confidence < T
+    (or were already flagged by other rules); among fully-correct OCR'd invoices of clean documents, how many would be falsely flagged."""
+    ocr = [r for r in recs if r["kind"] == "matched" and r.get("oc_min") is not None]
+    bad = [r for r in ocr if r["has_error"]]
+    clean = [r for r in ocr if not r["has_error"] and not r["expected"]]
+    rows = []
+    for t in thresholds:
+        caught = sum(bool(r["flagged"]) or r["oc_min"] < t for r in bad)
+        false = sum(bool(r["flagged"]) or r["oc_min"] < t for r in clean)
+        rows.append({"floor": t, "ocr_invoices_with_error": len(bad), "caught": caught, "catch_rate": ratio(caught, len(bad)),
+                     "clean_ocr_invoices": len(clean), "falsely_flagged": false, "false_review_rate": ratio(false, len(clean))})
+    return rows
+
+
 def pct(xs, q): xs = sorted(xs); return round(xs[min(len(xs) - 1, int(len(xs) * q))], 3) if xs else None
 
 
-def run(split):
+def run(split, tag=""):
     manifest = json.loads((ROOT / "eval" / "dataset" / split / "manifest.json").read_text())
     files_dir = ROOT / "eval" / "dataset" / split / "files"
     tmp = Path(tempfile.mkdtemp(prefix="docintel_eval_"))
@@ -226,23 +244,27 @@ def run(split):
            "wall_total_s": round(total_s, 1),
            "overall": aggregate(recs), "by_file_type": {k: aggregate([r for r in recs if r["file_type"] == k]) for k in fts},
            "by_category": {k: aggregate([r for r in recs if r["category"] == k]) for k in cats},
-           "calibration": calibration(recs),
+           "calibration": calibration(recs), "ocr_floor_in_effect": float(os.environ.get("DOCINTEL_OCR_FIELD_MIN_CONF", "60")), "ocr_sweep": ocr_sweep(recs),
            "processing": {"success_rate": ratio(allst["success"], allst["n"]), "failure_rate": ratio(sum(v["failed"] for v in status.values()), allst["n"]),
                           "valid_files": allst["n"], "by_file_type": {k: dict(v) for k, v in sorted(status.items())}},
            "timing": {k: {"files": len(v["s"]), "pages": v["pages"], "median_s": pct(v["s"], .5), "p95_s": pct(v["s"], .95), "max_s": round(max(v["s"]), 2) if v["s"] else None,
                           "pages_per_min": ratio(v["pages"] * 60, sum(v["s"])) if v["s"] else None} for k, v in sorted(timing.items())},
            "negatives": {"n": len(neg), "handled": sum(n["handled"] for n in neg), "code_ok": sum(n["code_ok"] and n["handled"] for n in neg), "rows": neg}}
     OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / f"results_{split}.json").write_text(json.dumps(out, indent=1))
-    with open(OUT / f"errors_{split}.jsonl", "w") as f:
+    (OUT / f"results_{split}{tag}.json").write_text(json.dumps(out, indent=1))
+    with open(OUT / f"errors_{split}{tag}.jsonl", "w") as f:
         for e in errors: f.write(json.dumps(e) + "\n")
     shutil.rmtree(tmp, ignore_errors=True)
     return out
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("--split", choices=["dev", "test"], required=True); a = ap.parse_args()
-    o = run(a.split)
+    ap = argparse.ArgumentParser(); ap.add_argument("--split", choices=["dev", "test", "test2"], required=True)
+    ap.add_argument("--ocr-floor", type=float, default=None, help="override DOCINTEL_OCR_FIELD_MIN_CONF (0 disables the rule)")
+    ap.add_argument("--tag", default="", help="suffix for the output files")
+    a = ap.parse_args()
+    if a.ocr_floor is not None: os.environ["DOCINTEL_OCR_FIELD_MIN_CONF"] = str(a.ocr_floor)
+    o = run(a.split, a.tag)
     f = o["overall"]["fields_micro"]
     print(f"{a.split}: {o['dataset']['files']} files / {o['dataset']['labeled_invoices']} invoices in {o['wall_total_s']} s")
     print(f"  success rate {o['processing']['success_rate']}  failure rate {o['processing']['failure_rate']}  negatives handled {o['negatives']['handled']}/{o['negatives']['n']}")

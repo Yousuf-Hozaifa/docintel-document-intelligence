@@ -27,8 +27,8 @@ Status legend: ✅ implemented and verified · 🟡 partial · ⬜ not started. 
 | T5 | Semantic search | ✅ | optional (off by default), hybrid ranking, measured in `docs/SEMANTIC.md`; quality modest and only validated on a tiny synthetic set; no transformer measured |
 | T6 | Upload, progress, lists, inspect, issues, search | ✅ | verified in Chromium |
 | T6 | Inline corrections | ✅ | verified in Chromium (edit, add/delete line, mark reviewed, reprocess) |
-| T7 | Automated tests | 🟡 | 98 pass, mutation-checked; OCR/extraction/validation/API/failure covered |
-| T7 | Labeled dataset + measured metrics | ⬜ | Day 4 |
+| T7 | Automated tests | ✅ | 112 pass, mutation-checked; OCR/extraction/validation/API/failure covered |
+| T7 | Labeled dataset + measured metrics | ✅ | synthetic only (upper bound); `docs/evaluation/EVALUATION.md`: per-type P/R/exact match, line items, success/failure, timing, calibration, negatives. No real invoices; not run on Windows |
 
 | # | Deliverable | Status |
 |---|---|---|
@@ -38,6 +38,6 @@ Status legend: ✅ implemented and verified · 🟡 partial · ⬜ not started. 
 | 4 | Working API + frontend | 🟡 slice works |
 | 5 | Four processing pipelines | ✅ |
 | 6 | Tests + results | 🟡 `docs/test-results/day1-pytest.txt` |
-| 7 | Evaluation report | ⬜ |
+| 7 | Evaluation report | ✅ generated from measured runs (synthetic data; sandbox environment) |
 | 8 | Recorded walkthrough | ⬜ (you record; I'll write the script) |
 | 9 | AI prompts + disclosure | ⬜ |

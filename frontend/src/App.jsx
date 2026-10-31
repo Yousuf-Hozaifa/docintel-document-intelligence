@@ -177,7 +177,7 @@ function InvoiceCard({ inv, onChanged }) {
                     : (f.value ?? <em>not found</em>)}
                 </td>
                 <td className="num">{f.value != null ? `${Math.round(f.confidence * 100)}%` : "—"}</td>
-                <td className="ev">{f.source === "manual" ? <em>corrected manually{f.original_value != null ? ` (was ${f.original_value})` : ""}</em> : <>{f.evidence ?? ""}{f.note ? <em> — {f.note}</em> : null}</>}</td>
+                <td className="ev">{f.source === "manual" ? <em>corrected manually{f.original_value != null ? ` (was ${f.original_value})` : ""}</em> : <>{f.evidence ?? ""}{f.note ? <em> — {f.note}</em> : null}{f.ocr_confidence != null ? <em className={f.ocr_confidence < 60 ? "lowocr" : ""}> · OCR word confidence {Math.round(f.ocr_confidence)}%</em> : null}</>}</td>
               </tr>
             );
           })}

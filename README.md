@@ -18,7 +18,7 @@ FastAPI · SQLite (WAL, FTS5) · PyMuPDF · Tesseract · openpyxl/xlrd/csv · Re
 cd backend
 python -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements-dev.txt
-python -m pytest tests -q                      # expect: 98 passed
+python -m pytest tests -q                      # expect: 112 passed
 python -m uvicorn app.main:app --port 8000     # API + background worker
 ```
 New terminal:
@@ -72,3 +72,9 @@ Tuning knobs: `DOCINTEL_OCR_THREADS` (pages OCR'd concurrently, default 1), `DOC
 ## Semantic search (optional)
 Off by default. Enable with `DOCINTEL_SEMANTIC=glove` after `python -m app.semantic download-glove` (run inside `backend/`, ~66 MB download).
 Hybrid ranking fuses meaning and keyword matches. Measured costs and retrieval quality, and why it is not a required dependency: `docs/SEMANTIC.md`.
+
+## Evaluation
+Labeled synthetic dataset (dev / test / test2), harness and generated report: `docs/evaluation/EVALUATION.md`
+(`python eval/make_dataset.py --split test; python eval/run_eval.py --split test; python eval/report_eval.py`).
+Results are an upper bound (synthetic, same author as the extractor); the report states its protocol and limits.
+OCR-quality flagging: `DOCINTEL_OCR_FIELD_MIN_CONF` (default 60, 0 disables) raises `VAL-OCR-001` when the weakest OCR word behind a value is below the floor.

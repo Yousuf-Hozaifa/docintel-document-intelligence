@@ -93,7 +93,7 @@ def apply_corrections(db, inv_id: int, patch: InvoicePatch) -> int:
             continue
         for a, new in given.items():
             if new != row[a]:
-                db.execute(f"UPDATE line_items SET {a}=?, evidence=? WHERE id=?", (new, "manual correction", row["id"]))
+                db.execute(f"UPDATE line_items SET {a}=?, evidence=?, ocr_conf=NULL WHERE id=?", (new, "manual correction", row["id"]))
                 _log(db, inv_id, f"line_items[{lp.idx}].{a}", row[a], new, patch.note)
                 changes += 1
 

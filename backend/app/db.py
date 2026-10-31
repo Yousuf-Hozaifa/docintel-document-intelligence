@@ -78,7 +78,8 @@ CREATE TABLE IF NOT EXISTS line_items (
   invoice_id INTEGER NOT NULL REFERENCES invoices(id) ON DELETE CASCADE,
   idx INTEGER NOT NULL,
   description TEXT, quantity TEXT, unit_price TEXT, amount TEXT,
-  evidence TEXT
+  evidence TEXT,
+  ocr_conf REAL
 );
 
 CREATE TABLE IF NOT EXISTS validation_issues (
@@ -162,6 +163,8 @@ def init_db() -> None:
             for r in conn.execute("SELECT id, invoice_number FROM invoices").fetchall():
                 conn.execute("UPDATE invoices SET num_key=? WHERE id=?",
                              ("".join(ch for ch in (r["invoice_number"] or "").lower() if ch.isalnum()) or None, r["id"]))
+        if "ocr_conf" not in {r["name"] for r in conn.execute("PRAGMA table_info(line_items)")}:
+            conn.execute("ALTER TABLE line_items ADD COLUMN ocr_conf REAL")
         conn.execute("CREATE INDEX IF NOT EXISTS ix_invoices_numkey ON invoices(num_key)")
     finally:
         conn.close()

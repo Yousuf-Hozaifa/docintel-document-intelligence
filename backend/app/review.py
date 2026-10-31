@@ -109,7 +109,7 @@ def refresh_document_review(db, doc_id: int) -> None:
 def load_invoice_inputs(db, inv_id: int):
     inv = db.execute("SELECT i.*, d.file_type FROM invoices i JOIN documents d ON d.id=i.document_id WHERE i.id=?", (inv_id,)).fetchone()
     items = [dict(r) for r in db.execute(
-        "SELECT idx, description, quantity, unit_price, amount FROM line_items WHERE invoice_id=? ORDER BY idx", (inv_id,))]
+        "SELECT idx, description, quantity, unit_price, amount, ocr_conf FROM line_items WHERE invoice_id=? ORDER BY idx", (inv_id,))]
     return inv, json.loads(inv["fields_json"]), items
 
 

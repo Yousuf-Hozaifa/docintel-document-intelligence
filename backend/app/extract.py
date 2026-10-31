@@ -121,7 +121,15 @@ def _next_value(lines, i):
 
 def extract_invoice(pages: list[tuple[int, str, float]]) -> dict:
     """pages: (page_no, text, quality_factor 0..1). Returns {fields, line_items, extractor}."""
-    lines = [(pn, ln.strip(), q) for pn, txt, q in pages for ln in txt.splitlines() if ln.strip()]
+    lines, WL, Q = [], {}, {}
+    for pn, txt, q, *rest in pages:           # optional 4th element: per-line OCR words [(word, conf)]
+        lw = rest[0] if rest else None
+        Q[pn] = q
+        for i, ln in enumerate(txt.splitlines()):
+            if ln.strip():
+                lines.append((pn, ln.strip(), q))
+                if lw is not None and i < len(lw):
+                    WL.setdefault((pn, ln.strip()), lw[i])
     F: dict[str, dict] = {}
 
     # invoice number
@@ -200,7 +208,7 @@ def extract_invoice(pages: list[tuple[int, str, float]]) -> dict:
         F["tax"] = _field(None, 0, None, None)
 
     # currency
-    full = "\n".join(t for _, t, _ in pages)
+    full = "\n".join(p[1] for p in pages)
     F["currency"] = _field(None, 0, None, None)
     m = CUR_LABEL_RE.search(full)
     if m:
@@ -245,7 +253,35 @@ def extract_invoice(pages: list[tuple[int, str, float]]) -> dict:
             hint = f"; amount/unit_price = {(a / u).normalize():f}" if u and a is not None and u != 0 else ""
             items.append({"description": m["d"].strip(), "quantity": None, "unit_price": str(u), "amount": str(a),
                           "evidence": f"{ln}  [quantity unreadable: '{m['q']}'{hint}]", "page": pn})
+    if WL:
+        _attach_ocr_confidence(F, items, WL, Q)
     return {"fields": F, "line_items": items, "extractor": EXTRACTOR}
+
+
+def _alnum(s) -> str:
+    return re.sub(r"[^a-z0-9]", "", str(s).lower())
+
+
+def _attach_ocr_confidence(F: dict, items: list, WL: dict, Q: dict) -> None:
+    """Weakest Tesseract word confidence behind each extracted value (OCR pages only). A misread character
+    usually shows up here even when the page-level average is high."""
+    for f in F.values():
+        if f["value"] is None or not f.get("page") or not f.get("evidence"):
+            continue
+        src = _alnum(f.get("raw") or f["value"])
+        confs = []
+        for piece in re.split(r" ; | / ", f["evidence"]):
+            for w, c in WL.get((f["page"], piece.strip()), []):
+                if len(_alnum(w)) >= 2 and _alnum(w) in src:
+                    confs.append(c)
+        if confs:
+            oc = min(confs)
+            f["ocr_confidence"] = round(oc, 1)
+            f["confidence"] = round(f["confidence"] / max(Q.get(f["page"], 1.0), 0.05) * oc / 100.0, 2)
+    for it in items:
+        row = WL.get((it["page"], it["evidence"].split("  [quantity")[0].strip()))
+        if row:
+            it["ocr_conf"] = round(min(c for _, c in row), 1)
 
 
 # ------------------------------------------------------------------ spreadsheet "registers"

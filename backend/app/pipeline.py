@@ -56,7 +56,7 @@ def process_document(doc_id: int, job_id: int | None = None) -> str:
             db.execute("UPDATE jobs SET progress_done=0, progress_total=? WHERE id=?", (total, job_id))
         add_event(db, doc_id, "read_started", f"type={kind} pages={total}")
 
-    seg_input: list[tuple[int, str, float]] = []
+    seg_input: list[tuple] = []
     results = []
     failed = 0
     for pg in pages:  # lazy: one page at a time
@@ -82,7 +82,7 @@ def process_document(doc_id: int, job_id: int | None = None) -> str:
                 continue
         if pg.text.strip():
             q = (pg.ocr_confidence / 100.0) if pg.ocr_confidence is not None else 1.0
-            seg_input.append((pg.number, pg.text, max(min(q, 1.0), 0.05)))
+            seg_input.append((pg.number, pg.text, max(min(q, 1.0), 0.05), pg.line_words))
 
     if failed == total:
         raise CorruptFile("Every page failed to process")
@@ -114,9 +114,9 @@ def process_document(doc_id: int, job_id: int | None = None) -> str:
             inv_id = cur.lastrowid
             inv_ids.append(inv_id)
             for i, it in enumerate(ex["line_items"], 1):
-                db.execute("INSERT INTO line_items(invoice_id,idx,description,quantity,unit_price,amount,evidence)"
-                           " VALUES (?,?,?,?,?,?,?)",
-                           (inv_id, i, it["description"], it["quantity"], it["unit_price"], it["amount"], it["evidence"]))
+                db.execute("INSERT INTO line_items(invoice_id,idx,description,quantity,unit_price,amount,evidence,ocr_conf)"
+                           " VALUES (?,?,?,?,?,?,?,?)",
+                           (inv_id, i, it["description"], it["quantity"], it["unit_price"], it["amount"], it["evidence"], it.get("ocr_conf")))
             issues = (validate_invoice(F, ex["line_items"], expect_line_items=not ex["extractor"].endswith("-register"))
                       + cross_issues(db, inv_id, kind, v))
             write_issues(db, inv_id, issues)

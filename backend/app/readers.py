@@ -35,6 +35,7 @@ class Page:
     label: str | None = None    # sheet name
     ocr_confidence: float | None = None
     error: str | None = None
+    line_words: list | None = None   # OCR only: per text line, [(word, tesseract confidence 0-100)]
     rows: list | None = None    # spreadsheet cells (strings), used for register detection; not persisted
 
 
@@ -76,8 +77,8 @@ def detect_type(path: Path, filename: str) -> str:
 
 
 # ---------------------------------------------------------------- OCR
-def ocr_image(img: Image.Image) -> tuple[str, float | None]:
-    """OCR one PIL image. Returns (text with line/column structure, mean word confidence)."""
+def ocr_image(img: Image.Image) -> tuple[str, float | None, list]:
+    """OCR one PIL image. Returns (text with line/column structure, mean word confidence, per-line [(word, conf)])."""
     s = get_settings()
     if s.tess_omp_threads:
         os.environ["OMP_THREAD_LIMIT"] = str(s.tess_omp_threads)  # pytesseract passes os.environ to tesseract
@@ -95,7 +96,7 @@ def ocr_image(img: Image.Image) -> tuple[str, float | None]:
         key = (data["block_num"][i], data["par_num"][i], data["line_num"][i])
         lines.setdefault(key, []).append((data["left"][i], data["width"][i],
                                           data["height"][i], word, conf))
-    out, confs = [], []
+    out, confs, line_words = [], [], []
     for words in lines.values():
         words.sort()
         parts, prev_right = [], None
@@ -107,8 +108,9 @@ def ocr_image(img: Image.Image) -> tuple[str, float | None]:
             prev_right = left + width
             confs.append(conf)
         out.append("".join(parts))
+        line_words.append([(w[3], w[4]) for w in words])
     mean = round(sum(confs) / len(confs), 1) if confs else None
-    return "\n".join(out), mean
+    return "\n".join(out), mean, line_words
 
 
 # ---------------------------------------------------------------- PDF
@@ -156,8 +158,8 @@ def _read_pdf(path: Path) -> tuple[int, Iterator[Page]]:
 
     def ocr_task(num: int, img: Image.Image) -> Page:
         try:
-            text, conf = ocr_image(img)
-            return Page(num, text, "ocr", ocr_confidence=conf)
+            text, conf, lw = ocr_image(img)
+            return Page(num, text, "ocr", ocr_confidence=conf, line_words=lw)
         except Exception as e:
             return Page(num, "", "failed", error=_safe_err(e))
         finally:
@@ -223,8 +225,8 @@ def _read_image(path: Path) -> tuple[int, Iterator[Page]]:
         try:
             for i, frame in enumerate(ImageSequence.Iterator(im)):
                 try:
-                    text, conf = ocr_image(frame.convert("RGB"))
-                    yield Page(i + 1, text, "ocr", ocr_confidence=conf)
+                    text, conf, lw = ocr_image(frame.convert("RGB"))
+                    yield Page(i + 1, text, "ocr", ocr_confidence=conf, line_words=lw)
                 except Exception as e:
                     yield Page(i + 1, "", "failed", error=_safe_err(e))
         finally:

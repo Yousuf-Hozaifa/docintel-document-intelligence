@@ -22,6 +22,7 @@ class Settings:
     glove_vocab: int              # words kept from the 400k GloVe vocabulary (most frequent first)
     sbert_model: str
     chunk_chars: int
+    ocr_field_min_conf: float     # flag fields/line items whose weakest OCR word is below this (0 disables)
     pdf_store_shrink: bool        # flush MuPDF's decoded-image cache after each OCR'd page
     tess_omp_threads: int | None  # OMP_THREAD_LIMIT for each tesseract process (None = tesseract default)
 
@@ -56,6 +57,7 @@ def get_settings() -> Settings:
         semantic_backend=e("DOCINTEL_SEMANTIC", "off").lower(),
         glove_vocab=int(e("DOCINTEL_GLOVE_VOCAB", "100000")),
         sbert_model=e("DOCINTEL_SBERT_MODEL", "sentence-transformers/all-MiniLM-L6-v2"),
+        ocr_field_min_conf=float(e("DOCINTEL_OCR_FIELD_MIN_CONF", "60")),
         chunk_chars=int(e("DOCINTEL_CHUNK_CHARS", "250")),
         pdf_store_shrink=e("DOCINTEL_PDF_STORE_SHRINK", "1") != "0",
         tess_omp_threads=(int(e("DOCINTEL_TESS_OMP_THREADS", "1")) or None),  # 0 = tesseract default

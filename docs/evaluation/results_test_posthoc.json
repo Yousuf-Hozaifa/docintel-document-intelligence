@@ -1,0 +1,4945 @@
+{
+ "split": "test",
+ "seed": 202,
+ "ts": "2026-10-31T07:51:08",
+ "git_commit": "1986728",
+ "env": {
+  "platform": "Linux-6.18.44-fc-v185-x86_64-with-glibc2.39",
+  "cpu": "Intel(R) Xeon(R) Processor @ 2.10GHz",
+  "cores": 1,
+  "ram_mb": 3995,
+  "python": "3.12.3",
+  "pymupdf": "2.0",
+  "tesseract": "tesseract 5.3.4",
+  "settings": {
+   "ocr_dpi": 200,
+   "workers": "synchronous (one job at a time)",
+   "semantic": "off"
+  }
+ },
+ "dataset": {
+  "files": 174,
+  "valid_files": 156,
+  "negative_files": 18,
+  "labeled_invoices": 199,
+  "by_file_type": {
+   "csv": 8,
+   "jpg": 8,
+   "pdf+register": 14,
+   "pdf-digital": 59,
+   "pdf-scanned": 14,
+   "png": 8,
+   "png-degraded": 18,
+   "tiff": 6,
+   "xls": 6,
+   "xlsx": 12,
+   "xlsx-register": 3
+  }
+ },
+ "wall_total_s": 27.7,
+ "overall": {
+  "invoices_truth": 199,
+  "invoices_found": 199,
+  "invoice_found_rate": 1.0,
+  "invoice_all_correct_rate": 0.9397,
+  "fields_micro": {
+   "precision": 0.9949,
+   "recall": 0.9949,
+   "exact_match": 0.995,
+   "wrong_value_rate": 0.0051,
+   "hallucinated": 0,
+   "n": 1592,
+   "truth_nonnull": 1573,
+   "pred_nonnull": 1573,
+   "correct": 1565,
+   "f1": 0.9949
+  },
+  "fields": {
+   "invoice_number": {
+    "precision": 0.9592,
+    "recall": 0.9592,
+    "exact_match": 0.9598,
+    "wrong_value_rate": 0.0408,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 196,
+    "pred_nonnull": 196,
+    "correct": 188
+   },
+   "invoice_date": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 192,
+    "pred_nonnull": 192,
+    "correct": 192
+   },
+   "supplier": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 199,
+    "pred_nonnull": 199,
+    "correct": 199
+   },
+   "customer": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 196,
+    "pred_nonnull": 196,
+    "correct": 196
+   },
+   "subtotal": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 199,
+    "pred_nonnull": 199,
+    "correct": 199
+   },
+   "tax": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 195,
+    "pred_nonnull": 195,
+    "correct": 195
+   },
+   "total": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 199,
+    "pred_nonnull": 199,
+    "correct": 199
+   },
+   "currency": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 199,
+    "truth_nonnull": 197,
+    "pred_nonnull": 197,
+    "correct": 197
+   }
+  },
+  "line_items": {
+   "tp": 620,
+   "fn": 6,
+   "fp": 6,
+   "precision": 0.9904,
+   "recall": 0.9904
+  },
+  "review_flags": {
+   "invoices_with_extraction_error": 12,
+   "flagged_of_error": 10,
+   "error_catch_rate": 0.8333,
+   "flawed_documents_correctly_extracted": 36,
+   "flagged_of_flawed": 36,
+   "flaw_flag_rate": 1.0,
+   "clean_correct_invoices": 151,
+   "flagged_of_clean": 8,
+   "false_review_rate": 0.053
+  },
+  "rules": {
+   "VAL-DATE-002": {
+    "tp": 4,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "VAL-DUP-001": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "VAL-LINE-001": {
+    "tp": 4,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.6667,
+    "recall": 1.0
+   },
+   "VAL-LINE-002": {
+    "tp": 0,
+    "fp": 1,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null
+   },
+   "VAL-LINE-003": {
+    "tp": 0,
+    "fp": 2,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null
+   },
+   "VAL-OCR-001": {
+    "tp": 0,
+    "fp": 17,
+    "fn": 0,
+    "precision": 0.0,
+    "recall": null
+   },
+   "VAL-REQ-001": {
+    "tp": 11,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "VAL-SUB-001": {
+    "tp": 9,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "VAL-XDOC-001": {
+    "tp": 6,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "VAL-XDOC-002": {
+    "tp": 8,
+    "fp": 0,
+    "fn": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   }
+  }
+ },
+ "by_file_type": {
+  "csv": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 28,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 8,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "jpg": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.875,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 27,
+    "fn": 1,
+    "fp": 1,
+    "precision": 0.9643,
+    "recall": 0.9643
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 1,
+    "flagged_of_error": 1,
+    "error_catch_rate": 1.0,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 7,
+    "flagged_of_clean": 2,
+    "false_review_rate": 0.2857
+   },
+   "rules": {
+    "VAL-LINE-001": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "pdf+register": {
+   "invoices_truth": 28,
+   "invoices_found": 28,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 224,
+    "truth_nonnull": 224,
+    "pred_nonnull": 224,
+    "correct": 224,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 28,
+     "truth_nonnull": 28,
+     "pred_nonnull": 28,
+     "correct": 28
+    }
+   },
+   "line_items": {
+    "tp": 31,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 6,
+    "flagged_of_flawed": 6,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 22,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {
+    "VAL-SUB-001": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "VAL-XDOC-001": {
+     "tp": 6,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "VAL-XDOC-002": {
+     "tp": 8,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "pdf-digital": {
+   "invoices_truth": 65,
+   "invoices_found": 65,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 520,
+    "truth_nonnull": 501,
+    "pred_nonnull": 501,
+    "correct": 501,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 62,
+     "pred_nonnull": 62,
+     "correct": 62
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 58,
+     "pred_nonnull": 58,
+     "correct": 58
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 65,
+     "pred_nonnull": 65,
+     "correct": 65
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 62,
+     "pred_nonnull": 62,
+     "correct": 62
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 65,
+     "pred_nonnull": 65,
+     "correct": 65
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 61,
+     "pred_nonnull": 61,
+     "correct": 61
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 65,
+     "pred_nonnull": 65,
+     "correct": 65
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 65,
+     "truth_nonnull": 63,
+     "pred_nonnull": 63,
+     "correct": 63
+    }
+   },
+   "line_items": {
+    "tp": 258,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 30,
+    "flagged_of_flawed": 30,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 35,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {
+    "VAL-DATE-002": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "VAL-DUP-001": {
+     "tp": 6,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "VAL-LINE-001": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "VAL-REQ-001": {
+     "tp": 11,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "VAL-SUB-001": {
+     "tp": 6,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "pdf-scanned": {
+   "invoices_truth": 14,
+   "invoices_found": 14,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.8571,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 112,
+    "truth_nonnull": 112,
+    "pred_nonnull": 112,
+    "correct": 112,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    }
+   },
+   "line_items": {
+    "tp": 51,
+    "fn": 3,
+    "fp": 3,
+    "precision": 0.9444,
+    "recall": 0.9444
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 2,
+    "flagged_of_error": 2,
+    "error_catch_rate": 1.0,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 12,
+    "flagged_of_clean": 2,
+    "false_review_rate": 0.1667
+   },
+   "rules": {
+    "VAL-LINE-003": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 4,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "png": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 31,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 8,
+    "flagged_of_clean": 2,
+    "false_review_rate": 0.25
+   },
+   "rules": {
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "png-degraded": {
+   "invoices_truth": 18,
+   "invoices_found": 18,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.5,
+   "fields_micro": {
+    "precision": 0.9444,
+    "recall": 0.9444,
+    "exact_match": 0.9444,
+    "wrong_value_rate": 0.0556,
+    "hallucinated": 0,
+    "n": 144,
+    "truth_nonnull": 144,
+    "pred_nonnull": 144,
+    "correct": 136,
+    "f1": 0.9444
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 0.5556,
+     "recall": 0.5556,
+     "exact_match": 0.5556,
+     "wrong_value_rate": 0.4444,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 10
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 18
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 18
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 18
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 18
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 18
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 18
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 18,
+     "truth_nonnull": 18,
+     "pred_nonnull": 18,
+     "correct": 18
+    }
+   },
+   "line_items": {
+    "tp": 61,
+    "fn": 2,
+    "fp": 2,
+    "precision": 0.9683,
+    "recall": 0.9683
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 9,
+    "flagged_of_error": 7,
+    "error_catch_rate": 0.7778,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 9,
+    "flagged_of_clean": 1,
+    "false_review_rate": 0.1111
+   },
+   "rules": {
+    "VAL-LINE-001": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-LINE-002": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 7,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "tiff": {
+   "invoices_truth": 12,
+   "invoices_found": 12,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 96,
+    "truth_nonnull": 96,
+    "pred_nonnull": 96,
+    "correct": 96,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    }
+   },
+   "line_items": {
+    "tp": 44,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 12,
+    "flagged_of_clean": 1,
+    "false_review_rate": 0.0833
+   },
+   "rules": {
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "xls": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 33,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 8,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "xlsx": {
+   "invoices_truth": 15,
+   "invoices_found": 15,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 120,
+    "truth_nonnull": 120,
+    "pred_nonnull": 120,
+    "correct": 120,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    }
+   },
+   "line_items": {
+    "tp": 56,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 15,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "xlsx-register": {
+   "invoices_truth": 15,
+   "invoices_found": 15,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 120,
+    "truth_nonnull": 120,
+    "pred_nonnull": 120,
+    "correct": 120,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    }
+   },
+   "line_items": {
+    "tp": 0,
+    "fn": 0,
+    "fp": 0,
+    "precision": null,
+    "recall": null
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 15,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  }
+ },
+ "by_category": {
+  "ambiguous_date": {
+   "invoices_truth": 4,
+   "invoices_found": 4,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 32,
+    "truth_nonnull": 28,
+    "pred_nonnull": 28,
+    "correct": 28,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "invoice_date": {
+     "precision": null,
+     "recall": null,
+     "exact_match": 1.0,
+     "wrong_value_rate": null,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 0,
+     "pred_nonnull": 0,
+     "correct": 0
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    }
+   },
+   "line_items": {
+    "tp": 19,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 4,
+    "flagged_of_flawed": 4,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 0,
+    "flagged_of_clean": 0,
+    "false_review_rate": null
+   },
+   "rules": {
+    "VAL-DATE-002": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "csv": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 28,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 8,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "degraded_blur": {
+   "invoices_truth": 6,
+   "invoices_found": 6,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.3333,
+   "fields_micro": {
+    "precision": 0.9167,
+    "recall": 0.9167,
+    "exact_match": 0.9167,
+    "wrong_value_rate": 0.0833,
+    "hallucinated": 0,
+    "n": 48,
+    "truth_nonnull": 48,
+    "pred_nonnull": 48,
+    "correct": 44,
+    "f1": 0.9167
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 0.3333,
+     "recall": 0.3333,
+     "exact_match": 0.3333,
+     "wrong_value_rate": 0.6667,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 2
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    }
+   },
+   "line_items": {
+    "tp": 20,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 4,
+    "flagged_of_error": 3,
+    "error_catch_rate": 0.75,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 2,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "degraded_lowres": {
+   "invoices_truth": 6,
+   "invoices_found": 6,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.6667,
+   "fields_micro": {
+    "precision": 0.9583,
+    "recall": 0.9583,
+    "exact_match": 0.9583,
+    "wrong_value_rate": 0.0417,
+    "hallucinated": 0,
+    "n": 48,
+    "truth_nonnull": 48,
+    "pred_nonnull": 48,
+    "correct": 46,
+    "f1": 0.9583
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 0.6667,
+     "recall": 0.6667,
+     "exact_match": 0.6667,
+     "wrong_value_rate": 0.3333,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 4
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    }
+   },
+   "line_items": {
+    "tp": 20,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 2,
+    "flagged_of_error": 1,
+    "error_catch_rate": 0.5,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 4,
+    "flagged_of_clean": 1,
+    "false_review_rate": 0.25
+   },
+   "rules": {
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "degraded_rotate": {
+   "invoices_truth": 6,
+   "invoices_found": 6,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.5,
+   "fields_micro": {
+    "precision": 0.9583,
+    "recall": 0.9583,
+    "exact_match": 0.9583,
+    "wrong_value_rate": 0.0417,
+    "hallucinated": 0,
+    "n": 48,
+    "truth_nonnull": 48,
+    "pred_nonnull": 48,
+    "correct": 46,
+    "f1": 0.9583
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 0.6667,
+     "recall": 0.6667,
+     "exact_match": 0.6667,
+     "wrong_value_rate": 0.3333,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 4
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    }
+   },
+   "line_items": {
+    "tp": 21,
+    "fn": 2,
+    "fp": 2,
+    "precision": 0.913,
+    "recall": 0.913
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 3,
+    "flagged_of_error": 3,
+    "error_catch_rate": 1.0,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 3,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {
+    "VAL-LINE-001": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-LINE-002": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "digital_pdf": {
+   "invoices_truth": 24,
+   "invoices_found": 24,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 192,
+    "truth_nonnull": 192,
+    "pred_nonnull": 192,
+    "correct": 192,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 24,
+     "truth_nonnull": 24,
+     "pred_nonnull": 24,
+     "correct": 24
+    }
+   },
+   "line_items": {
+    "tp": 103,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 24,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "duplicate_pdf": {
+   "invoices_truth": 6,
+   "invoices_found": 6,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 48,
+    "truth_nonnull": 48,
+    "pred_nonnull": 48,
+    "correct": 48,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    }
+   },
+   "line_items": {
+    "tp": 18,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 6,
+    "flagged_of_flawed": 6,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 0,
+    "flagged_of_clean": 0,
+    "false_review_rate": null
+   },
+   "rules": {
+    "VAL-DUP-001": {
+     "tp": 6,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "jpg": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.875,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 27,
+    "fn": 1,
+    "fp": 1,
+    "precision": 0.9643,
+    "recall": 0.9643
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 1,
+    "flagged_of_error": 1,
+    "error_catch_rate": 1.0,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 7,
+    "flagged_of_clean": 2,
+    "false_review_rate": 0.2857
+   },
+   "rules": {
+    "VAL-LINE-001": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 3,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "line_error": {
+   "invoices_truth": 4,
+   "invoices_found": 4,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 32,
+    "truth_nonnull": 32,
+    "pred_nonnull": 32,
+    "correct": 32,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 4,
+     "truth_nonnull": 4,
+     "pred_nonnull": 4,
+     "correct": 4
+    }
+   },
+   "line_items": {
+    "tp": 16,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 4,
+    "flagged_of_flawed": 4,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 0,
+    "flagged_of_clean": 0,
+    "false_review_rate": null
+   },
+   "rules": {
+    "VAL-LINE-001": {
+     "tp": 4,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "missing_fields": {
+   "invoices_truth": 12,
+   "invoices_found": 12,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 96,
+    "truth_nonnull": 81,
+    "pred_nonnull": 81,
+    "correct": 81,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 10,
+     "pred_nonnull": 10,
+     "correct": 10
+    }
+   },
+   "line_items": {
+    "tp": 50,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 10,
+    "flagged_of_flawed": 10,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 2,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {
+    "VAL-REQ-001": {
+     "tp": 11,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "multi_invoice_pdf": {
+   "invoices_truth": 9,
+   "invoices_found": 9,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 72,
+    "truth_nonnull": 72,
+    "pred_nonnull": 72,
+    "correct": 72,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 9,
+     "truth_nonnull": 9,
+     "pred_nonnull": 9,
+     "correct": 9
+    }
+   },
+   "line_items": {
+    "tp": 31,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 9,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "png": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 31,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 8,
+    "flagged_of_clean": 2,
+    "false_review_rate": 0.25
+   },
+   "rules": {
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "scanned_pdf": {
+   "invoices_truth": 14,
+   "invoices_found": 14,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 0.8571,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 112,
+    "truth_nonnull": 112,
+    "pred_nonnull": 112,
+    "correct": 112,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 14,
+     "truth_nonnull": 14,
+     "pred_nonnull": 14,
+     "correct": 14
+    }
+   },
+   "line_items": {
+    "tp": 51,
+    "fn": 3,
+    "fp": 3,
+    "precision": 0.9444,
+    "recall": 0.9444
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 2,
+    "flagged_of_error": 2,
+    "error_catch_rate": 1.0,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 12,
+    "flagged_of_clean": 2,
+    "false_review_rate": 0.1667
+   },
+   "rules": {
+    "VAL-LINE-003": {
+     "tp": 0,
+     "fp": 2,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    },
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 4,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "tampered_total": {
+   "invoices_truth": 6,
+   "invoices_found": 6,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 48,
+    "truth_nonnull": 48,
+    "pred_nonnull": 48,
+    "correct": 48,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 6,
+     "truth_nonnull": 6,
+     "pred_nonnull": 6,
+     "correct": 6
+    }
+   },
+   "line_items": {
+    "tp": 21,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 6,
+    "flagged_of_flawed": 6,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 0,
+    "flagged_of_clean": 0,
+    "false_review_rate": null
+   },
+   "rules": {
+    "VAL-SUB-001": {
+     "tp": 6,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "tiff": {
+   "invoices_truth": 12,
+   "invoices_found": 12,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 96,
+    "truth_nonnull": 96,
+    "pred_nonnull": 96,
+    "correct": 96,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    }
+   },
+   "line_items": {
+    "tp": 44,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 12,
+    "flagged_of_clean": 1,
+    "false_review_rate": 0.0833
+   },
+   "rules": {
+    "VAL-OCR-001": {
+     "tp": 0,
+     "fp": 1,
+     "fn": 0,
+     "precision": 0.0,
+     "recall": null
+    }
+   }
+  },
+  "xdoc_mismatch": {
+   "invoices_truth": 12,
+   "invoices_found": 12,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 96,
+    "truth_nonnull": 96,
+    "pred_nonnull": 96,
+    "correct": 96,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 12,
+     "truth_nonnull": 12,
+     "pred_nonnull": 12,
+     "correct": 12
+    }
+   },
+   "line_items": {
+    "tp": 11,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 6,
+    "flagged_of_flawed": 6,
+    "flaw_flag_rate": 1.0,
+    "clean_correct_invoices": 6,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {
+    "VAL-SUB-001": {
+     "tp": 3,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    },
+    "VAL-XDOC-001": {
+     "tp": 6,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "xdoc_verified": {
+   "invoices_truth": 16,
+   "invoices_found": 16,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 128,
+    "truth_nonnull": 128,
+    "pred_nonnull": 128,
+    "correct": 128,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 16,
+     "truth_nonnull": 16,
+     "pred_nonnull": 16,
+     "correct": 16
+    }
+   },
+   "line_items": {
+    "tp": 20,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 16,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {
+    "VAL-XDOC-002": {
+     "tp": 8,
+     "fp": 0,
+     "fn": 0,
+     "precision": 1.0,
+     "recall": 1.0
+    }
+   }
+  },
+  "xls": {
+   "invoices_truth": 8,
+   "invoices_found": 8,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 64,
+    "truth_nonnull": 64,
+    "pred_nonnull": 64,
+    "correct": 64,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 8,
+     "truth_nonnull": 8,
+     "pred_nonnull": 8,
+     "correct": 8
+    }
+   },
+   "line_items": {
+    "tp": 33,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 8,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "xlsx": {
+   "invoices_truth": 15,
+   "invoices_found": 15,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 120,
+    "truth_nonnull": 120,
+    "pred_nonnull": 120,
+    "correct": 120,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    }
+   },
+   "line_items": {
+    "tp": 56,
+    "fn": 0,
+    "fp": 0,
+    "precision": 1.0,
+    "recall": 1.0
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 15,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  },
+  "xlsx_register": {
+   "invoices_truth": 15,
+   "invoices_found": 15,
+   "invoice_found_rate": 1.0,
+   "invoice_all_correct_rate": 1.0,
+   "fields_micro": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "exact_match": 1.0,
+    "wrong_value_rate": 0.0,
+    "hallucinated": 0,
+    "n": 120,
+    "truth_nonnull": 120,
+    "pred_nonnull": 120,
+    "correct": 120,
+    "f1": 1.0
+   },
+   "fields": {
+    "invoice_number": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "invoice_date": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "supplier": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "customer": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "subtotal": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "tax": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "total": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    },
+    "currency": {
+     "precision": 1.0,
+     "recall": 1.0,
+     "exact_match": 1.0,
+     "wrong_value_rate": 0.0,
+     "hallucinated": 0,
+     "n": 15,
+     "truth_nonnull": 15,
+     "pred_nonnull": 15,
+     "correct": 15
+    }
+   },
+   "line_items": {
+    "tp": 0,
+    "fn": 0,
+    "fp": 0,
+    "precision": null,
+    "recall": null
+   },
+   "review_flags": {
+    "invoices_with_extraction_error": 0,
+    "flagged_of_error": 0,
+    "error_catch_rate": null,
+    "flawed_documents_correctly_extracted": 0,
+    "flagged_of_flawed": 0,
+    "flaw_flag_rate": null,
+    "clean_correct_invoices": 15,
+    "flagged_of_clean": 0,
+    "false_review_rate": 0.0
+   },
+   "rules": {}
+  }
+ },
+ "calibration": [
+  {
+   "bin": "0.00-0.50",
+   "n": 123,
+   "mean_confidence": 0.386,
+   "empirical_accuracy": 0.951
+  },
+  {
+   "bin": "0.50-0.70",
+   "n": 24,
+   "mean_confidence": 0.572,
+   "empirical_accuracy": 0.917
+  },
+  {
+   "bin": "0.70-0.85",
+   "n": 185,
+   "mean_confidence": 0.81,
+   "empirical_accuracy": 1.0
+  },
+  {
+   "bin": "0.85-0.95",
+   "n": 1132,
+   "mean_confidence": 0.89,
+   "empirical_accuracy": 1.0
+  },
+  {
+   "bin": "0.95-1.00",
+   "n": 109,
+   "mean_confidence": 0.95,
+   "empirical_accuracy": 1.0
+  }
+ ],
+ "ocr_floor_in_effect": 60.0,
+ "ocr_sweep": [
+  {
+   "floor": 0,
+   "ocr_invoices_with_error": 12,
+   "caught": 10,
+   "catch_rate": 0.8333,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 8,
+   "false_review_rate": 0.1667
+  },
+  {
+   "floor": 50,
+   "ocr_invoices_with_error": 12,
+   "caught": 10,
+   "catch_rate": 0.8333,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 8,
+   "false_review_rate": 0.1667
+  },
+  {
+   "floor": 60,
+   "ocr_invoices_with_error": 12,
+   "caught": 10,
+   "catch_rate": 0.8333,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 8,
+   "false_review_rate": 0.1667
+  },
+  {
+   "floor": 65,
+   "ocr_invoices_with_error": 12,
+   "caught": 10,
+   "catch_rate": 0.8333,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 8,
+   "false_review_rate": 0.1667
+  },
+  {
+   "floor": 70,
+   "ocr_invoices_with_error": 12,
+   "caught": 11,
+   "catch_rate": 0.9167,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 10,
+   "false_review_rate": 0.2083
+  },
+  {
+   "floor": 75,
+   "ocr_invoices_with_error": 12,
+   "caught": 12,
+   "catch_rate": 1.0,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 12,
+   "false_review_rate": 0.25
+  },
+  {
+   "floor": 80,
+   "ocr_invoices_with_error": 12,
+   "caught": 12,
+   "catch_rate": 1.0,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 13,
+   "false_review_rate": 0.2708
+  },
+  {
+   "floor": 85,
+   "ocr_invoices_with_error": 12,
+   "caught": 12,
+   "catch_rate": 1.0,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 17,
+   "false_review_rate": 0.3542
+  },
+  {
+   "floor": 90,
+   "ocr_invoices_with_error": 12,
+   "caught": 12,
+   "catch_rate": 1.0,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 23,
+   "false_review_rate": 0.4792
+  },
+  {
+   "floor": 95,
+   "ocr_invoices_with_error": 12,
+   "caught": 12,
+   "catch_rate": 1.0,
+   "clean_ocr_invoices": 48,
+   "falsely_flagged": 48,
+   "false_review_rate": 1.0
+  }
+ ],
+ "processing": {
+  "success_rate": 1.0,
+  "failure_rate": 0.0,
+  "valid_files": 156,
+  "by_file_type": {
+   "csv": {
+    "n": 8,
+    "completed": 8,
+    "success": 8,
+    "failed": 0
+   },
+   "jpg": {
+    "n": 8,
+    "completed": 8,
+    "success": 8,
+    "failed": 0
+   },
+   "pdf+register": {
+    "n": 14,
+    "completed": 14,
+    "success": 14,
+    "failed": 0
+   },
+   "pdf-digital": {
+    "n": 59,
+    "completed": 59,
+    "success": 59,
+    "failed": 0
+   },
+   "pdf-scanned": {
+    "n": 14,
+    "completed": 14,
+    "success": 14,
+    "failed": 0
+   },
+   "png": {
+    "n": 8,
+    "completed": 8,
+    "success": 8,
+    "failed": 0
+   },
+   "png-degraded": {
+    "n": 18,
+    "completed": 18,
+    "success": 18,
+    "failed": 0
+   },
+   "tiff": {
+    "n": 6,
+    "completed": 6,
+    "success": 6,
+    "failed": 0
+   },
+   "xls": {
+    "n": 6,
+    "completed": 6,
+    "success": 6,
+    "failed": 0
+   },
+   "xlsx": {
+    "n": 12,
+    "completed": 12,
+    "success": 12,
+    "failed": 0
+   },
+   "xlsx-register": {
+    "n": 3,
+    "completed": 3,
+    "success": 3,
+    "failed": 0
+   }
+  }
+ },
+ "timing": {
+  "csv": {
+   "files": 8,
+   "pages": 8,
+   "median_s": 0.01,
+   "p95_s": 0.011,
+   "max_s": 0.01,
+   "pages_per_min": 6048.9293
+  },
+  "jpg": {
+   "files": 8,
+   "pages": 8,
+   "median_s": 0.404,
+   "p95_s": 0.437,
+   "max_s": 0.44,
+   "pages_per_min": 151.0912
+  },
+  "pdf+register": {
+   "files": 14,
+   "pages": 14,
+   "median_s": 0.016,
+   "p95_s": 0.024,
+   "max_s": 0.02,
+   "pages_per_min": 3652.8543
+  },
+  "pdf-digital": {
+   "files": 59,
+   "pages": 65,
+   "median_s": 0.016,
+   "p95_s": 0.022,
+   "max_s": 0.02,
+   "pages_per_min": 3990.4935
+  },
+  "pdf-scanned": {
+   "files": 14,
+   "pages": 14,
+   "median_s": 0.458,
+   "p95_s": 0.633,
+   "max_s": 0.63,
+   "pages_per_min": 131.1725
+  },
+  "png": {
+   "files": 8,
+   "pages": 8,
+   "median_s": 0.486,
+   "p95_s": 0.499,
+   "max_s": 0.5,
+   "pages_per_min": 131.1131
+  },
+  "png-degraded": {
+   "files": 18,
+   "pages": 18,
+   "median_s": 0.345,
+   "p95_s": 0.449,
+   "max_s": 0.45,
+   "pages_per_min": 177.1385
+  },
+  "tiff": {
+   "files": 6,
+   "pages": 12,
+   "median_s": 0.774,
+   "p95_s": 0.857,
+   "max_s": 0.86,
+   "pages_per_min": 155.7684
+  },
+  "xls": {
+   "files": 6,
+   "pages": 8,
+   "median_s": 0.013,
+   "p95_s": 0.016,
+   "max_s": 0.02,
+   "pages_per_min": 6322.7118
+  },
+  "xlsx": {
+   "files": 12,
+   "pages": 15,
+   "median_s": 0.014,
+   "p95_s": 0.081,
+   "max_s": 0.08,
+   "pages_per_min": 3706.4271
+  },
+  "xlsx-register": {
+   "files": 3,
+   "pages": 3,
+   "median_s": 0.02,
+   "p95_s": 0.021,
+   "max_s": 0.02,
+   "pages_per_min": 3243.6775
+  }
+ },
+ "negatives": {
+  "n": 18,
+  "handled": 18,
+  "code_ok": 18,
+  "rows": [
+   {
+    "file": "neg_corrupt_pdf_000.pdf",
+    "category": "neg_corrupt_pdf",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_corrupt_pdf_001.pdf",
+    "category": "neg_corrupt_pdf",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_corrupt_pdf_002.pdf",
+    "category": "neg_corrupt_pdf",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_truncated_png_000.png",
+    "category": "neg_truncated_png",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_truncated_png_001.png",
+    "category": "neg_truncated_png",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_corrupt_xlsx_000.xlsx",
+    "category": "neg_corrupt_xlsx",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_corrupt_xlsx_001.xlsx",
+    "category": "neg_corrupt_xlsx",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_empty_000.pdf",
+    "category": "neg_empty",
+    "expected": "rejected",
+    "actual": "rejected",
+    "expected_code": null,
+    "actual_code": null,
+    "handled": true,
+    "code_ok": true,
+    "attempts": null
+   },
+   {
+    "file": "neg_empty_001.csv",
+    "category": "neg_empty",
+    "expected": "rejected",
+    "actual": "rejected",
+    "expected_code": null,
+    "actual_code": null,
+    "handled": true,
+    "code_ok": true,
+    "attempts": null
+   },
+   {
+    "file": "neg_encrypted_000.pdf",
+    "category": "neg_encrypted",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "encrypted_file",
+    "actual_code": "encrypted_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_encrypted_001.pdf",
+    "category": "neg_encrypted",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "encrypted_file",
+    "actual_code": "encrypted_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_unsupported_000.exe",
+    "category": "neg_unsupported",
+    "expected": "rejected",
+    "actual": "rejected",
+    "expected_code": null,
+    "actual_code": null,
+    "handled": true,
+    "code_ok": true,
+    "attempts": null
+   },
+   {
+    "file": "neg_unsupported_001.docx",
+    "category": "neg_unsupported",
+    "expected": "rejected",
+    "actual": "rejected",
+    "expected_code": null,
+    "actual_code": null,
+    "handled": true,
+    "code_ok": true,
+    "attempts": null
+   },
+   {
+    "file": "neg_binary_csv_000.csv",
+    "category": "neg_binary_csv",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "corrupt_file",
+    "actual_code": "corrupt_file",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_mismatch_000.pdf",
+    "category": "neg_mismatch",
+    "expected": "rejected",
+    "actual": "rejected",
+    "expected_code": null,
+    "actual_code": null,
+    "handled": true,
+    "code_ok": true,
+    "attempts": null
+   },
+   {
+    "file": "neg_mismatch_001.pdf",
+    "category": "neg_mismatch",
+    "expected": "rejected",
+    "actual": "rejected",
+    "expected_code": null,
+    "actual_code": null,
+    "handled": true,
+    "code_ok": true,
+    "attempts": null
+   },
+   {
+    "file": "neg_blank_image_000.png",
+    "category": "neg_blank_image",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "no_extractable_content",
+    "actual_code": "no_extractable_content",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   },
+   {
+    "file": "neg_blank_image_001.png",
+    "category": "neg_blank_image",
+    "expected": "failed",
+    "actual": "failed",
+    "expected_code": "no_extractable_content",
+    "actual_code": "no_extractable_content",
+    "handled": true,
+    "code_ok": true,
+    "attempts": 1
+   }
+  ]
+ }
+}

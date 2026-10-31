@@ -153,8 +153,8 @@ def build(split: str, seed: int, scale: float, number_base: int) -> list[dict]:
 
 
 if __name__ == "__main__":
-    ap = argparse.ArgumentParser(); ap.add_argument("--split", choices=["dev", "test"], required=True); a = ap.parse_args()
-    cfg = {"dev": (101, 0.4, 100000), "test": (202, 1.0, 500000)}[a.split]
+    ap = argparse.ArgumentParser(); ap.add_argument("--split", choices=["dev", "test", "test2"], required=True); a = ap.parse_args()
+    cfg = {"dev": (101, 0.4, 100000), "test": (202, 1.0, 500000), "test2": (303, 1.0, 800000)}[a.split]
     man = build(a.split, *cfg)
     from collections import Counter
     c = Counter(m["file_type"] for m in man)

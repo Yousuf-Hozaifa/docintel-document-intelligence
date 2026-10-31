@@ -19,6 +19,7 @@ RULES = {
     "VAL-NUM-002": "Amount is negative or zero (possible credit note)",
     "VAL-LINE-001": "Line item quantity x unit price does not equal amount",
     "VAL-LINE-002": "Sum of line items does not equal subtotal",
+    "VAL-OCR-001": "Low OCR confidence for an extracted value; verify against the source image",
     "VAL-LINE-003": "Line item quantity unreadable (OCR); confirm manually",
     "VAL-SUB-001": "Subtotal + tax does not equal total",
     "VAL-SUB-002": "Tax missing and subtotal differs from total",
@@ -66,6 +67,20 @@ def validate_invoice(fields: dict, items: list[dict], today: date | None = None,
             issues.append(Issue("VAL-REQ-001", sev, name, f"Required field '{name}' is missing; manual entry needed."))
     if not items and expect_line_items:
         issues.append(Issue("VAL-REQ-002", "warning", "line_items", "No line items could be extracted."))
+
+    # weakest OCR word behind a value (values a human already corrected carry no OCR confidence)
+    floor = s.ocr_field_min_conf
+    if floor > 0:
+        for name, f in fields.items():
+            oc = (f or {}).get("ocr_confidence")
+            if f and f.get("value") not in (None, "") and oc is not None and oc < floor:
+                issues.append(Issue("VAL-OCR-001", "warning", name,
+                                    f"OCR confidence for '{name}' is {oc:.0f}% (below {floor:.0f}%); verify the value against the source image."))
+        for i, it in enumerate(items, 1):
+            oc = it.get("ocr_conf")
+            if oc is not None and oc < floor:
+                issues.append(Issue("VAL-OCR-001", "warning", f"line_items[{i}]",
+                                    f"OCR confidence for line {i} is {oc:.0f}% (below {floor:.0f}%); verify the row against the source image."))
 
     # date
     d = fields.get("invoice_date", {})

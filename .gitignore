@@ -10,3 +10,4 @@ frontend/dist/
 *.sqlite3*
 eval/fixtures/
 eval/models/
+eval/dataset/
