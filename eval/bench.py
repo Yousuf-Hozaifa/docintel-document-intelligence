@@ -91,6 +91,8 @@ def child(a) -> None:
         inv = db.execute("SELECT COUNT(*) FROM invoices").fetchone()[0]
         review = db.execute("SELECT COUNT(*) FROM invoices WHERE needs_review=1").fetchone()[0]
         conf = db.execute("SELECT AVG(ocr_confidence) FROM pages WHERE method='ocr'").fetchone()[0]
+        chunks = db.execute("SELECT COUNT(*) FROM chunks").fetchone()[0]
+        embed_ev = db.execute("SELECT event, detail FROM events WHERE event IN ('embedded','embedding_failed') ORDER BY id DESC LIMIT 1").fetchone()
     peak = None
     try:
         import resource
@@ -99,7 +101,8 @@ def child(a) -> None:
         peak = getattr(psutil.Process().memory_info(), "peak_wset", 0) / MB
     print("RESULT " + json.dumps({"status": status, "error": err, "wall_s": wall, "cpu_s": t.user + t.system + t.children_user + t.children_system,
                                    "page_methods": methods, "invoices": inv, "invoices_flagged": review,
-                                   "mean_ocr_conf": conf, "python_peak_rss_mb": peak}))
+                                   "mean_ocr_conf": conf, "python_peak_rss_mb": peak,
+                                   "chunks": chunks, "embed_event": dict(embed_ev) if embed_ev else None}))
 
 
 def tree_rss(proc: psutil.Process) -> tuple[int, int, int]:
@@ -199,7 +202,8 @@ def run(a) -> dict:
         import numpy as np  # optional; falls back below
         slope = float(np.polyfit([x for x, _ in half], [y for _, y in half], 1)[0] * 100)
     rec = {"ts": time.strftime("%Y-%m-%dT%H:%M:%S"), "tag": a.tag, "kind": a.kind, "pages": a.pages, "dpi": a.dpi,
-           "file_mb": round(path.stat().st_size / MB, 1), "ocr_threads": a.ocr_threads, "tess_omp_threads": omp, "pdf_store_shrink": os.environ.get("DOCINTEL_PDF_STORE_SHRINK", "1"),
+           "file_mb": round(path.stat().st_size / MB, 1), "ocr_threads": a.ocr_threads, "tess_omp_threads": omp, "pdf_store_shrink": os.environ.get("DOCINTEL_PDF_STORE_SHRINK", "1"), "semantic": os.environ.get("DOCINTEL_SEMANTIC", "off"),
+           "chunks": res.get("chunks"), "embed_event": res.get("embed_event"),
            "outcome": outcome, "doc_status": res.get("status"), "error": res.get("error") or (err.strip().splitlines()[-1] if err.strip() and outcome != "completed" else None),
            "wall_s": round(res.get("wall_s", wall), 2), "pages_per_min": round(a.pages / res["wall_s"] * 60, 1) if res.get("wall_s") else None,
            "cpu_s": round(res.get("cpu_s", 0), 1), "peak_tree_rss_mb": round(peak / MB, 0), "peak_python_rss_mb": round(peak_own / MB, 0),
@@ -213,7 +217,7 @@ def run(a) -> dict:
     with open(OUT / "results.jsonl", "a") as f:
         f.write(json.dumps(rec) + "\n")
     brief = {k: rec[k] for k in ("kind", "pages", "ocr_threads", "tess_omp_threads", "outcome", "doc_status", "wall_s", "pages_per_min",
-                                  "cpu_s", "peak_tree_rss_mb", "peak_python_rss_mb", "mem_slope_mb_per_100_pages", "mean_ocr_conf", "invoices", "error")}
+                                  "cpu_s", "peak_tree_rss_mb", "peak_python_rss_mb", "mean_ocr_conf", "invoices", "semantic", "chunks", "embed_event", "error")}
     print(json.dumps(brief))
     return rec
 

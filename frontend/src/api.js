@@ -28,6 +28,7 @@ export const api = {
     for (const f of files) body.append("files", f);
     return request("/api/documents", { method: "POST", body });
   },
+  semanticSearch: (params) => request(`/api/search/semantic?${new URLSearchParams(params)}`),
   patchInvoice: (id, patch) => request(`/api/invoices/${id}`, json("PATCH", patch)),
   corrections: (id) => request(`/api/invoices/${id}/corrections`),
   resolveIssue: (id, resolved) => request(`/api/issues/${id}/resolve`, json("POST", { resolved })),

@@ -24,10 +24,10 @@ Status legend: ✅ implemented and verified · 🟡 partial · ⬜ not started. 
 | T4 | Background processing, retry, duplicate-processing protection | ✅ | DB-backed queue, atomic claim, backoff retry, SHA-256 dedupe |
 | T5 | Persist metadata, text, results, line items, issues, history | ✅ | SQLite schema (`app/db.py`) |
 | T5 | Keyword search + filters | ✅ | FTS5 + filters |
-| T5 | Semantic search | ⬜ | to be benchmarked first (Day 3) |
+| T5 | Semantic search | ✅ | optional (off by default), hybrid ranking, measured in `docs/SEMANTIC.md`; quality modest and only validated on a tiny synthetic set; no transformer measured |
 | T6 | Upload, progress, lists, inspect, issues, search | ✅ | verified in Chromium |
 | T6 | Inline corrections | ✅ | verified in Chromium (edit, add/delete line, mark reviewed, reprocess) |
-| T7 | Automated tests | 🟡 | 83 pass, mutation-checked; OCR/extraction/validation/API/failure covered |
+| T7 | Automated tests | 🟡 | 98 pass, mutation-checked; OCR/extraction/validation/API/failure covered |
 | T7 | Labeled dataset + measured metrics | ⬜ | Day 4 |
 
 | # | Deliverable | Status |

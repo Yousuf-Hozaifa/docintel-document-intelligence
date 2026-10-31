@@ -74,3 +74,6 @@ td input { width: 100%; padding: .3rem .4rem; border: 1px solid var(--line); bor
 .editbar .note { flex: 1; min-width: 12rem; padding: .45rem .6rem; border: 1px solid var(--line); border-radius: 6px; font: inherit; }
 .keyform { display: flex; gap: .75rem; align-items: center; margin: 1rem 1.5rem 0; }
 .keyform input { padding: .35rem .5rem; border: 1px solid var(--line); border-radius: 4px; }
+
+.search select { padding: .45rem .5rem; border: 1px solid var(--line); border-radius: 6px; font: inherit; background: var(--surface); }
+.hits .chip { font-size: .7rem; }

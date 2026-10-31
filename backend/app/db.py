@@ -98,6 +98,19 @@ CREATE TABLE IF NOT EXISTS corrections (
   created_at TEXT NOT NULL
 );
 
+CREATE TABLE IF NOT EXISTS chunks (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,
+  page_no INTEGER NOT NULL,
+  chunk_idx INTEGER NOT NULL,
+  text TEXT NOT NULL,
+  model TEXT NOT NULL,
+  dim INTEGER NOT NULL,
+  embedding BLOB NOT NULL
+);
+CREATE INDEX IF NOT EXISTS ix_chunks_doc ON chunks(document_id);
+CREATE INDEX IF NOT EXISTS ix_chunks_model ON chunks(model);
+
 CREATE TABLE IF NOT EXISTS events (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   document_id INTEGER NOT NULL REFERENCES documents(id) ON DELETE CASCADE,

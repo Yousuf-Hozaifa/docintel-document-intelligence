@@ -18,7 +18,7 @@ FastAPI · SQLite (WAL, FTS5) · PyMuPDF · Tesseract · openpyxl/xlrd/csv · Re
 cd backend
 python -m venv .venv; .\.venv\Scripts\Activate.ps1
 pip install -r requirements-dev.txt
-python -m pytest tests -q                      # expect: 83 passed
+python -m pytest tests -q                      # expect: 98 passed
 python -m uvicorn app.main:app --port 8000     # API + background worker
 ```
 New terminal:
@@ -43,6 +43,8 @@ Data (SQLite + uploads) is stored in `backend/data/` (override with `DOCINTEL_DA
 | GET | `/api/invoices/{id}/corrections` | audit trail |
 | POST | `/api/issues/{id}/resolve` | mark a warning/error reviewed (`{"resolved": false}` re-opens) |
 | GET | `/api/search?q=&supplier=&customer=&currency=&status=&review=&date_from=&date_to=` | keyword (FTS5) search + filters |
+| GET | `/api/search/semantic?q=&mode=hybrid\|semantic&supplier=&currency=&review=` | optional meaning-based search (503 unless enabled) |
+| GET / POST | `/api/semantic/status`, `/api/semantic/reindex` | semantic index status / backfill existing documents |
 | GET | `/api/rules` | validation rule catalogue |
 
 Correction example:
@@ -66,3 +68,7 @@ See `docs/benchmarks/WINDOWS_RUNBOOK.md` and the generated `docs/benchmarks/RESU
 Tuning knobs: `DOCINTEL_OCR_THREADS` (pages OCR'd concurrently, default 1), `DOCINTEL_TESS_OMP_THREADS`
 (Tesseract threads per process, default 1; 0 = Tesseract default), `DOCINTEL_PDF_STORE_SHRINK` (default 1),
 `DOCINTEL_OCR_DPI` (default 200).
+
+## Semantic search (optional)
+Off by default. Enable with `DOCINTEL_SEMANTIC=glove` after `python -m app.semantic download-glove` (run inside `backend/`, ~66 MB download).
+Hybrid ranking fuses meaning and keyword matches. Measured costs and retrieval quality, and why it is not a required dependency: `docs/SEMANTIC.md`.

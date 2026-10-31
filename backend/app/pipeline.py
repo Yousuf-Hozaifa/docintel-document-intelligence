@@ -8,6 +8,7 @@ from .db import add_event, connect, now
 from .errors import CorruptFile, DocumentError, NoContent
 from .extract import FIELDS, extract_invoice, extract_register, segment_pages
 from .readers import detect_type, open_pages
+from .semantic import embed_after_processing
 from .review import cross_issues, norm, refresh_document_review, revalidate_related, write_issues
 from .validate import validate_invoice
 
@@ -25,6 +26,7 @@ def _clear_previous(db, doc_id: int) -> set[str]:
     documents' duplicate / cross-check flags that pointed at them can be refreshed."""
     keys = {r["num_key"] for r in db.execute("SELECT DISTINCT num_key FROM invoices WHERE document_id=?", (doc_id,)) if r["num_key"]}
     db.execute("DELETE FROM page_fts WHERE document_id=?", (doc_id,))
+    db.execute("DELETE FROM chunks WHERE document_id=?", (doc_id,))
     db.execute("DELETE FROM pages WHERE document_id=?", (doc_id,))
     db.execute("DELETE FROM invoices WHERE document_id=?", (doc_id,))  # cascades items/issues/corrections
     revalidate_related(db, keys)
@@ -125,4 +127,5 @@ def process_document(doc_id: int, job_id: int | None = None) -> str:
         refresh_document_review(db, doc_id)
         add_event(db, doc_id, "completed",
                   f"status={status} invoices={len(results)} seconds={time.perf_counter() - t0:.2f}")
+    embed_after_processing(doc_id)   # optional semantic index; failures are logged, never raised
     return status

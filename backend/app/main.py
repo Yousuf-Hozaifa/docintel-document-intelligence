@@ -11,7 +11,7 @@ from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, Reques
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
-from . import worker
+from . import semantic, worker
 from .config import get_settings
 from .corrections import CorrectionError, InvoicePatch, apply_corrections, set_issue_resolved
 from .db import add_event, connect, init_db, now
@@ -315,3 +315,63 @@ def retry_failed():
             except HTTPException:
                 continue
     return {"queued": queued}
+
+
+# ------------------------------------------------------------------ semantic search (optional)
+@app.get("/api/semantic/status")
+def semantic_status():
+    return semantic.status()
+
+
+@app.post("/api/semantic/reindex", status_code=202)
+def semantic_reindex():
+    """Embed already-processed documents that have no semantic index yet (runs in the background)."""
+    try:
+        started = semantic.start_reindex()
+    except semantic.SemanticDisabled as e:
+        raise HTTPException(503, str(e))
+    if not started:
+        raise HTTPException(409, "A reindex is already running")
+    return semantic.status()["reindex"]
+
+
+@app.get("/api/search/semantic")
+def semantic_search(q: str = Query(..., min_length=1, max_length=500), supplier: str | None = None, customer: str | None = None,
+                    currency: str | None = None, status: str | None = None, review: bool | None = None,
+                    mode: str = Query("hybrid", pattern="^(semantic|hybrid)$"), limit: int = Query(10, le=50)):
+    """mode=semantic ranks documents by meaning (best-matching chunk; score = cosine similarity). mode=hybrid (default) fuses
+    that ranking with keyword matches (reciprocal-rank fusion; score = fused rank score). Filters apply after ranking.
+    Rely on the order, not on absolute score values."""
+    try:
+        hits = semantic.search(q, limit=100) if mode == "semantic" else semantic.hybrid_search(q, limit=100)
+    except semantic.SemanticDisabled as e:
+        raise HTTPException(503, str(e))
+    if not hits:
+        return {"results": [], "model": semantic.status().get("model")}
+    ids = [h["document_id"] for h in hits]
+    sql = ("SELECT d.id, d.filename, d.status, d.review_required FROM documents d WHERE d.id IN (%s)" % ",".join("?" * len(ids)))
+    args: list = list(ids)
+    if status:
+        sql += " AND d.status=?"; args.append(status)
+    if review is not None:
+        sql += " AND d.review_required=?"; args.append(int(review))
+    for col, val in (("supplier", supplier), ("customer", customer)):
+        if val:
+            sql += f" AND EXISTS (SELECT 1 FROM invoices i WHERE i.document_id=d.id AND i.{col} LIKE ?)"; args.append(f"%{val}%")
+    if currency:
+        sql += " AND EXISTS (SELECT 1 FROM invoices i WHERE i.document_id=d.id AND i.currency=?)"; args.append(currency.upper())
+    out = []
+    with connect() as db:
+        docs = {r["id"]: r for r in db.execute(sql, args)}
+        for h in hits:
+            d = docs.get(h["document_id"])
+            if not d:
+                continue
+            inv = db.execute("SELECT invoice_number, supplier, customer, invoice_date, total, currency FROM invoices "
+                             "WHERE document_id=? ORDER BY seq LIMIT 1", (d["id"],)).fetchone()
+            out.append({"document_id": d["id"], "filename": d["filename"], "status": d["status"],
+                        "review_required": bool(d["review_required"]), "score": h["score"], "mode": mode, "sources": h.get("sources", ["semantic"]),
+                        "snippets": [{"page_no": h["page_no"], "snippet": h["text"][:400]}], **(dict(inv) if inv else {})})
+            if len(out) >= limit:
+                break
+    return {"results": out, "model": semantic.status().get("model")}
