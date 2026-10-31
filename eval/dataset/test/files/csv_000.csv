@@ -1,0 +1,13 @@
+Blue Harbor Logistics
+Invoice Number,SI/500090/24
+Invoice Date,23-Apr-2024
+Bill To,Vandelay Imports
+Currency,GBP
+
+Description,Qty,Unit Price,Amount
+Laptop stand,4,4235.43,16941.72
+Cable bundle,4,3933.72,15734.88
+
+Subtotal,,,32676.6
+Tax (5%),,,1633.83
+Total,,,34310.43

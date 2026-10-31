@@ -318,6 +318,20 @@ def _read_xls(path: Path) -> tuple[int, Iterator[Page]]:
     return wb.nsheets, gen()
 
 
+def _guess_delimiter(text: str) -> str | None:
+    """Pick the delimiter that appears on the largest share of the first non-empty lines (ties: higher median count)."""
+    lines = [l for l in text.splitlines() if l.strip()][:40]
+    if not lines:
+        return None
+    best, best_key = None, (0.0, 0)
+    for d in ",;\t|":
+        counts = sorted(l.count(d) for l in lines if d in l)
+        share = len(counts) / len(lines)
+        if share >= 0.5 and (share, counts[len(counts) // 2]) > best_key:
+            best, best_key = d, (share, counts[len(counts) // 2])
+    return best
+
+
 def _read_csv(path: Path) -> tuple[int, Iterator[Page]]:
     s = get_settings()
     raw = path.read_bytes()[: 64 * 1024 * 1024]
@@ -333,10 +347,15 @@ def _read_csv(path: Path) -> tuple[int, Iterator[Page]]:
             continue
     if text is None or not text.strip():
         raise CorruptFile("CSV is empty or undecodable")
-    try:
-        dialect = csv.Sniffer().sniff(text[:8192], delimiters=",;\t|")
-    except csv.Error:
-        dialect = csv.excel
+    dialect = csv.excel
+    delim = _guess_delimiter(text)
+    if delim:
+        dialect = csv.excel_tab if delim == "\t" else type("D", (csv.excel,), {"delimiter": delim})
+    else:
+        try:
+            dialect = csv.Sniffer().sniff(text[:8192], delimiters=",;\t|")
+        except csv.Error:
+            pass
     rows = []
     for n, r in enumerate(csv.reader(io.StringIO(text), dialect)):
         if n >= s.max_sheet_rows:

@@ -1,0 +1,17 @@
+Vendor;Acme Supplies Ltd
+Invoice #;SI/500094/24
+Date;2024-07-22
+Customer;Umbrella Retail
+Currency;GBP
+
+Item;Qty;Price;Amount
+Support plan;4;3097.36;12389.44
+Server rack;4;479.87;1919.48
+Consulting hour;3;749.89;2249.67
+Laptop stand;8;1639.97;13119.76
+Printer toner;1;4454.17;4454.17
+Calibration service;9;4744.33;42698.97
+
+Subtotal;;;76831.49
+VAT;;;3841.57
+Grand Total;;;80673.06

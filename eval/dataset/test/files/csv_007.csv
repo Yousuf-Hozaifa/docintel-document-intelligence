@@ -1,0 +1,14 @@
+Vendor;Kestrel Cloud Services
+Invoice #;SI/500097/24
+Date;2024-07-01
+Customer;Hooli Networks
+Currency;USD
+
+Item;Qty;Price;Amount
+Consulting hour;7;681.89;4773.23
+Safety gloves;6;4462.36;26774.16
+Server rack;1;111.4;111.4
+
+Subtotal;;;31658.79
+VAT;;;6331.76
+Grand Total;;;37990.55

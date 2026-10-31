@@ -1,0 +1,4260 @@
+{
+ "split": "dev",
+ "seed": 101,
+ "files": [
+  {
+   "file": "digital_pdf_000.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100001/24",
+      "invoice_date": "2024-08-25",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Stark Manufacturing",
+      "subtotal": "57183.66",
+      "tax": "5718.37",
+      "total": "62902.03",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Cable bundle",
+       "quantity": "9",
+       "unit_price": "1129.71",
+       "amount": "10167.39"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "4",
+       "unit_price": "4815.51",
+       "amount": "19262.04"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "5",
+       "unit_price": "2550.22",
+       "amount": "12751.10"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "4",
+       "unit_price": "1730.1",
+       "amount": "6920.40"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "8",
+       "unit_price": "373.86",
+       "amount": "2990.88"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "5",
+       "unit_price": "1018.37",
+       "amount": "5091.85"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_001.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100002/24",
+      "invoice_date": "2024-02-13",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Globex Corporation",
+      "subtotal": "52181.85",
+      "tax": "5218.19",
+      "total": "57400.04",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Support plan",
+       "quantity": "5",
+       "unit_price": "1115.16",
+       "amount": "5575.80"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "2",
+       "unit_price": "3424.81",
+       "amount": "6849.62"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "3490.42",
+       "amount": "20942.52"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "5",
+       "unit_price": "2074.06",
+       "amount": "10370.30"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "7",
+       "unit_price": "1206.23",
+       "amount": "8443.61"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_002.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100003",
+      "invoice_date": "2024-11-24",
+      "supplier": "Orion Medical Supply",
+      "customer": "Umbrella Retail",
+      "subtotal": "23799.79",
+      "tax": "2379.98",
+      "total": "26179.77",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "5",
+       "unit_price": "2964.13",
+       "amount": "14820.65"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "3",
+       "unit_price": "186.31",
+       "amount": "558.93"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "7",
+       "unit_price": "953.13",
+       "amount": "6671.91"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "5",
+       "unit_price": "349.66",
+       "amount": "1748.30"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_003.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100004/24",
+      "invoice_date": "2024-11-05",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Stark Manufacturing",
+      "subtotal": "59488.54",
+      "tax": "11897.71",
+      "total": "71386.25",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "2",
+       "unit_price": "172.73",
+       "amount": "345.46"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "2805.69",
+       "amount": "16834.14"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "8",
+       "unit_price": "4401.55",
+       "amount": "35212.40"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "2",
+       "unit_price": "3548.27",
+       "amount": "7096.54"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_004.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100005",
+      "invoice_date": "2024-08-02",
+      "supplier": "Delta Precision Parts",
+      "customer": "Hooli Networks",
+      "subtotal": "38474.71",
+      "tax": "1923.74",
+      "total": "40398.45",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "1971.17",
+       "amount": "11827.02"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "2",
+       "unit_price": "317.36",
+       "amount": "634.72"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "9",
+       "unit_price": "2890.33",
+       "amount": "26012.97"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_005.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100006/24",
+      "invoice_date": "2024-10-15",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Hooli Networks",
+      "subtotal": "48680.13",
+      "tax": "2434.01",
+      "total": "51114.14",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "9",
+       "unit_price": "4200.66",
+       "amount": "37805.94"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "6",
+       "unit_price": "1286.08",
+       "amount": "7716.48"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "2",
+       "unit_price": "1476.12",
+       "amount": "2952.24"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "3",
+       "unit_price": "68.49",
+       "amount": "205.47"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_006.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100007",
+      "invoice_date": "2024-11-12",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Globex Corporation",
+      "subtotal": "20012.54",
+      "tax": "4002.51",
+      "total": "24015.05",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "1757.98",
+       "amount": "10547.88"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "1",
+       "unit_price": "4917.44",
+       "amount": "4917.44"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "3",
+       "unit_price": "1515.74",
+       "amount": "4547.22"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_007.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100008/24",
+      "invoice_date": "2024-11-22",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Stark Manufacturing",
+      "subtotal": "40746.46",
+      "tax": "2037.32",
+      "total": "42783.78",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "6",
+       "unit_price": "641.61",
+       "amount": "3849.66"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "129.68",
+       "amount": "778.08"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "8",
+       "unit_price": "4514.84",
+       "amount": "36118.72"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_008.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100009",
+      "invoice_date": "2024-12-15",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Wayne Enterprises",
+      "subtotal": "24329.45",
+      "tax": "4865.89",
+      "total": "29195.34",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "7",
+       "unit_price": "1072.21",
+       "amount": "7505.47"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "8",
+       "unit_price": "1561.57",
+       "amount": "12492.56"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "1",
+       "unit_price": "1295.15",
+       "amount": "1295.15"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "1",
+       "unit_price": "3036.27",
+       "amount": "3036.27"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "digital_pdf_009.pdf",
+   "category": "digital_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100010/24",
+      "invoice_date": "2024-06-17",
+      "supplier": "Northwind Traders",
+      "customer": "Umbrella Retail",
+      "subtotal": "51212.19",
+      "tax": "5121.22",
+      "total": "56333.41",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Laptop stand",
+       "quantity": "5",
+       "unit_price": "4042.24",
+       "amount": "20211.20"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "3",
+       "unit_price": "2560.35",
+       "amount": "7681.05"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "1",
+       "unit_price": "191.67",
+       "amount": "191.67"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "5",
+       "unit_price": "3174.09",
+       "amount": "15870.45"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "2",
+       "unit_price": "3628.91",
+       "amount": "7257.82"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "scanned_pdf_000.pdf",
+   "category": "scanned_pdf",
+   "file_type": "pdf-scanned",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100011",
+      "invoice_date": "2024-04-24",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Umbrella Retail",
+      "subtotal": "21037.72",
+      "tax": "4207.54",
+      "total": "25245.26",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "4",
+       "unit_price": "1876.72",
+       "amount": "7506.88"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "4",
+       "unit_price": "3382.71",
+       "amount": "13530.84"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "scanned_pdf_001.pdf",
+   "category": "scanned_pdf",
+   "file_type": "pdf-scanned",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100012",
+      "invoice_date": "2024-02-02",
+      "supplier": "Northwind Traders",
+      "customer": "Wayne Enterprises",
+      "subtotal": "135790.85",
+      "tax": "13579.09",
+      "total": "149369.94",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "9",
+       "unit_price": "4905.71",
+       "amount": "44151.39"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "1",
+       "unit_price": "1750.77",
+       "amount": "1750.77"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "9",
+       "unit_price": "4743.56",
+       "amount": "42692.04"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "3",
+       "unit_price": "3029.55",
+       "amount": "9088.65"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "8",
+       "unit_price": "4763.5",
+       "amount": "38108.00"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "scanned_pdf_002.pdf",
+   "category": "scanned_pdf",
+   "file_type": "pdf-scanned",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100013",
+      "invoice_date": "2024-12-27",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Umbrella Retail",
+      "subtotal": "8090.47",
+      "tax": "1618.09",
+      "total": "9708.56",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "1",
+       "unit_price": "509.87",
+       "amount": "509.87"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "5",
+       "unit_price": "1516.12",
+       "amount": "7580.60"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "scanned_pdf_003.pdf",
+   "category": "scanned_pdf",
+   "file_type": "pdf-scanned",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100014/24",
+      "invoice_date": "2024-07-05",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Soylent Foods",
+      "subtotal": "42849.84",
+      "tax": "4284.98",
+      "total": "47134.82",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Cable bundle",
+       "quantity": "7",
+       "unit_price": "4712.16",
+       "amount": "32985.12"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "4",
+       "unit_price": "2466.18",
+       "amount": "9864.72"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "scanned_pdf_004.pdf",
+   "category": "scanned_pdf",
+   "file_type": "pdf-scanned",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100015/24",
+      "invoice_date": "2024-10-27",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Soylent Foods",
+      "subtotal": "27779.60",
+      "tax": "5555.92",
+      "total": "33335.52",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "4",
+       "unit_price": "1639.27",
+       "amount": "6557.08"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "9",
+       "unit_price": "1389.28",
+       "amount": "12503.52"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "1",
+       "unit_price": "3969.01",
+       "amount": "3969.01"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "7",
+       "unit_price": "678.57",
+       "amount": "4749.99"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "scanned_pdf_005.pdf",
+   "category": "scanned_pdf",
+   "file_type": "pdf-scanned",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100016",
+      "invoice_date": "2024-01-28",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Hooli Networks",
+      "subtotal": "3811.87",
+      "tax": "190.59",
+      "total": "4002.46",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "2",
+       "unit_price": "930.07",
+       "amount": "1860.14"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "1",
+       "unit_price": "1951.73",
+       "amount": "1951.73"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "png_000.png",
+   "category": "png",
+   "file_type": "png",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100017",
+      "invoice_date": "2024-11-20",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Umbrella Retail",
+      "subtotal": "43852.91",
+      "tax": "2192.65",
+      "total": "46045.56",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "3",
+       "unit_price": "2211.53",
+       "amount": "6634.59"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "8",
+       "unit_price": "1418.74",
+       "amount": "11349.92"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "4311.4",
+       "amount": "25868.40"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "png_001.png",
+   "category": "png",
+   "file_type": "png",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100018/24",
+      "invoice_date": "2024-11-12",
+      "supplier": "Delta Precision Parts",
+      "customer": "Umbrella Retail",
+      "subtotal": "26257.64",
+      "tax": "2625.76",
+      "total": "28883.40",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Cable bundle",
+       "quantity": "1",
+       "unit_price": "2786.1",
+       "amount": "2786.10"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "2",
+       "unit_price": "3743.17",
+       "amount": "7486.34"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "1",
+       "unit_price": "3948.56",
+       "amount": "3948.56"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "8",
+       "unit_price": "1504.58",
+       "amount": "12036.64"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "png_002.png",
+   "category": "png",
+   "file_type": "png",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100019",
+      "invoice_date": "2024-05-27",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Umbrella Retail",
+      "subtotal": "13591.20",
+      "tax": "679.56",
+      "total": "14270.76",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "2",
+       "unit_price": "3262.8",
+       "amount": "6525.60"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "8",
+       "unit_price": "516.36",
+       "amount": "4130.88"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "9",
+       "unit_price": "326.08",
+       "amount": "2934.72"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "png_003.png",
+   "category": "png",
+   "file_type": "png",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100020/24",
+      "invoice_date": "2024-09-19",
+      "supplier": "Northwind Traders",
+      "customer": "Stark Manufacturing",
+      "subtotal": "58613.99",
+      "tax": "2930.70",
+      "total": "61544.69",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "3890.99",
+       "amount": "23345.94"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "2",
+       "unit_price": "71.59",
+       "amount": "143.18"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "3",
+       "unit_price": "1343.82",
+       "amount": "4031.46"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "3",
+       "unit_price": "2779.06",
+       "amount": "8337.18"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "3",
+       "unit_price": "2953.61",
+       "amount": "8860.83"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "5",
+       "unit_price": "2779.08",
+       "amount": "13895.40"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "jpg_000.jpg",
+   "category": "jpg",
+   "file_type": "jpg",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100021",
+      "invoice_date": "2024-02-19",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Globex Corporation",
+      "subtotal": "34235.68",
+      "tax": "1711.78",
+      "total": "35947.46",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Gadget B",
+       "quantity": "5",
+       "unit_price": "969.27",
+       "amount": "4846.35"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "3",
+       "unit_price": "978.38",
+       "amount": "2935.14"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "3",
+       "unit_price": "2621.53",
+       "amount": "7864.59"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "7",
+       "unit_price": "2526.63",
+       "amount": "17686.41"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "1",
+       "unit_price": "903.19",
+       "amount": "903.19"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "jpg_001.jpg",
+   "category": "jpg",
+   "file_type": "jpg",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100022/24",
+      "invoice_date": "2024-06-28",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Hooli Networks",
+      "subtotal": "27975.88",
+      "tax": "1398.79",
+      "total": "29374.67",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "7",
+       "unit_price": "1295.1",
+       "amount": "9065.70"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "4",
+       "unit_price": "1685.44",
+       "amount": "6741.76"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "3",
+       "unit_price": "4056.14",
+       "amount": "12168.42"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "jpg_002.jpg",
+   "category": "jpg",
+   "file_type": "jpg",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100023",
+      "invoice_date": "2024-08-19",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Initech Holdings",
+      "subtotal": "41758.75",
+      "tax": "2087.94",
+      "total": "43846.69",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "1",
+       "unit_price": "1985",
+       "amount": "1985.00"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "2",
+       "unit_price": "2772.02",
+       "amount": "5544.04"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "7",
+       "unit_price": "4324.18",
+       "amount": "30269.26"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "3",
+       "unit_price": "1320.15",
+       "amount": "3960.45"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "jpg_003.jpg",
+   "category": "jpg",
+   "file_type": "jpg",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100024/24",
+      "invoice_date": "2024-10-03",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Stark Manufacturing",
+      "subtotal": "10174.48",
+      "tax": "2034.90",
+      "total": "12209.38",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "3",
+       "unit_price": "2633.72",
+       "amount": "7901.16"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "7",
+       "unit_price": "324.76",
+       "amount": "2273.32"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "tiff_000.tiff",
+   "category": "tiff",
+   "file_type": "tiff",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100025",
+      "invoice_date": "2024-12-05",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Umbrella Retail",
+      "subtotal": "22946.75",
+      "tax": "1147.34",
+      "total": "24094.09",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "7",
+       "unit_price": "1918.49",
+       "amount": "13429.43"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "9",
+       "unit_price": "1057.48",
+       "amount": "9517.32"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100026",
+      "invoice_date": "2024-06-19",
+      "supplier": "Northwind Traders",
+      "customer": "Globex Corporation",
+      "subtotal": "38146.84",
+      "tax": "1907.34",
+      "total": "40054.18",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "8",
+       "unit_price": "1864.89",
+       "amount": "14919.12"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "1",
+       "unit_price": "3652.86",
+       "amount": "3652.86"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "2561.88",
+       "amount": "15371.28"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "1",
+       "unit_price": "4203.58",
+       "amount": "4203.58"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "tiff_001.tiff",
+   "category": "tiff",
+   "file_type": "tiff",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100027/24",
+      "invoice_date": "2024-06-23",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Umbrella Retail",
+      "subtotal": "61082.75",
+      "tax": "12216.55",
+      "total": "73299.30",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "9",
+       "unit_price": "1067.17",
+       "amount": "9604.53"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "3",
+       "unit_price": "2713.21",
+       "amount": "8139.63"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "9",
+       "unit_price": "1500.04",
+       "amount": "13500.36"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "5",
+       "unit_price": "4110.89",
+       "amount": "20554.45"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "2",
+       "unit_price": "4641.89",
+       "amount": "9283.78"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100028",
+      "invoice_date": "2024-11-10",
+      "supplier": "Delta Precision Parts",
+      "customer": "Wayne Enterprises",
+      "subtotal": "73076.97",
+      "tax": "3653.85",
+      "total": "76730.82",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "9",
+       "unit_price": "2720.49",
+       "amount": "24484.41"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "4",
+       "unit_price": "2282.5",
+       "amount": "9130.00"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "1",
+       "unit_price": "128.98",
+       "amount": "128.98"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "5",
+       "unit_price": "1949.74",
+       "amount": "9748.70"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "4",
+       "unit_price": "1238.27",
+       "amount": "4953.08"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "4105.3",
+       "amount": "24631.80"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "tiff_002.tiff",
+   "category": "tiff",
+   "file_type": "tiff",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100029/24",
+      "invoice_date": "2024-07-13",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Vandelay Imports",
+      "subtotal": "34068.74",
+      "tax": "1703.44",
+      "total": "35772.18",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "5",
+       "unit_price": "3321.01",
+       "amount": "16605.05"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "7",
+       "unit_price": "437.51",
+       "amount": "3062.57"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "8",
+       "unit_price": "1800.14",
+       "amount": "14401.12"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100030",
+      "invoice_date": "2024-09-19",
+      "supplier": "Sunrise Office Co",
+      "customer": "Vandelay Imports",
+      "subtotal": "12074.60",
+      "tax": "1207.46",
+      "total": "13282.06",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "4",
+       "unit_price": "813.72",
+       "amount": "3254.88"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "1",
+       "unit_price": "1186.4",
+       "amount": "1186.40"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "8",
+       "unit_price": "841.23",
+       "amount": "6729.84"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "2",
+       "unit_price": "451.74",
+       "amount": "903.48"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xlsx_000.xlsx",
+   "category": "xlsx",
+   "file_type": "xlsx",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100031/24",
+      "invoice_date": "2024-11-17",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Stark Manufacturing",
+      "subtotal": "12257.72",
+      "tax": "612.89",
+      "total": "12870.61",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Server rack",
+       "quantity": "5",
+       "unit_price": "219.68",
+       "amount": "1098.40"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "3",
+       "unit_price": "1837.31",
+       "amount": "5511.93"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "1",
+       "unit_price": "2130.59",
+       "amount": "2130.59"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "1",
+       "unit_price": "3516.8",
+       "amount": "3516.80"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xlsx_001.xlsx",
+   "category": "xlsx",
+   "file_type": "xlsx",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100032/24",
+      "invoice_date": "2024-03-18",
+      "supplier": "Orion Medical Supply",
+      "customer": "Umbrella Retail",
+      "subtotal": "108455.19",
+      "tax": "21691.04",
+      "total": "130146.23",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "9",
+       "unit_price": "3218.79",
+       "amount": "28969.11"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "6",
+       "unit_price": "4219.3",
+       "amount": "25315.80"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "9",
+       "unit_price": "4526.54",
+       "amount": "40738.86"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "2",
+       "unit_price": "4017.01",
+       "amount": "8034.02"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "2",
+       "unit_price": "2698.7",
+       "amount": "5397.40"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xlsx_002.xlsx",
+   "category": "xlsx",
+   "file_type": "xlsx",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100033",
+      "invoice_date": "2024-04-16",
+      "supplier": "Northwind Traders",
+      "customer": "Globex Corporation",
+      "subtotal": "73021.17",
+      "tax": "14604.23",
+      "total": "87625.40",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "8",
+       "unit_price": "964.61",
+       "amount": "7716.88"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "4",
+       "unit_price": "3690.6",
+       "amount": "14762.40"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "4",
+       "unit_price": "297.97",
+       "amount": "1191.88"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "9",
+       "unit_price": "4810.94",
+       "amount": "43298.46"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "1",
+       "unit_price": "684.3",
+       "amount": "684.30"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "5",
+       "unit_price": "1073.45",
+       "amount": "5367.25"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xlsx_003.xlsx",
+   "category": "xlsx",
+   "file_type": "xlsx",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100034",
+      "invoice_date": "2024-10-03",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Initech Holdings",
+      "subtotal": "63489.71",
+      "tax": "12697.94",
+      "total": "76187.65",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "2",
+       "unit_price": "1275.07",
+       "amount": "2550.14"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "6",
+       "unit_price": "1546.01",
+       "amount": "9276.06"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "3",
+       "unit_price": "272.3",
+       "amount": "816.90"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "8",
+       "unit_price": "4512.57",
+       "amount": "36100.56"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "3",
+       "unit_price": "4915.35",
+       "amount": "14746.05"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "SI/100035/24",
+      "invoice_date": "2024-08-19",
+      "supplier": "Sunrise Office Co",
+      "customer": "Hooli Networks",
+      "subtotal": "77020.89",
+      "tax": "15404.18",
+      "total": "92425.07",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Support plan",
+       "quantity": "9",
+       "unit_price": "583.11",
+       "amount": "5247.99"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "8",
+       "unit_price": "2294.53",
+       "amount": "18356.24"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "5",
+       "unit_price": "4020.74",
+       "amount": "20103.70"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "2",
+       "unit_price": "4079.75",
+       "amount": "8159.50"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "8",
+       "unit_price": "1730.8",
+       "amount": "13846.40"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "3",
+       "unit_price": "3769.02",
+       "amount": "11307.06"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xlsx_004.xlsx",
+   "category": "xlsx",
+   "file_type": "xlsx",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100036",
+      "invoice_date": "2024-05-12",
+      "supplier": "Delta Precision Parts",
+      "customer": "Vandelay Imports",
+      "subtotal": "60841.51",
+      "tax": "3042.08",
+      "total": "63883.59",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "1",
+       "unit_price": "962.24",
+       "amount": "962.24"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "8",
+       "unit_price": "2518.99",
+       "amount": "20151.92"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "2918.63",
+       "amount": "17511.78"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "9",
+       "unit_price": "1521.61",
+       "amount": "13694.49"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "2",
+       "unit_price": "4260.54",
+       "amount": "8521.08"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xls_000.xls",
+   "category": "xls",
+   "file_type": "xls",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100037/24",
+      "invoice_date": "2024-01-27",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Stark Manufacturing",
+      "subtotal": "94598.72",
+      "tax": "9459.87",
+      "total": "104058.59",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Calibration service",
+       "quantity": "2",
+       "unit_price": "2138.24",
+       "amount": "4276.48"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "9",
+       "unit_price": "3638.03",
+       "amount": "32742.27"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "9",
+       "unit_price": "2589.83",
+       "amount": "23308.47"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "3",
+       "unit_price": "3402.26",
+       "amount": "10206.78"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "6",
+       "unit_price": "1325.76",
+       "amount": "7954.56"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "4",
+       "unit_price": "4027.54",
+       "amount": "16110.16"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xls_001.xls",
+   "category": "xls",
+   "file_type": "xls",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100038",
+      "invoice_date": "2024-05-23",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Umbrella Retail",
+      "subtotal": "57043.95",
+      "tax": "5704.40",
+      "total": "62748.35",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "3",
+       "unit_price": "3489.1",
+       "amount": "10467.30"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "9",
+       "unit_price": "2074.94",
+       "amount": "18674.46"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "5",
+       "unit_price": "4946.01",
+       "amount": "24730.05"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "9",
+       "unit_price": "352.46",
+       "amount": "3172.14"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xls_002.xls",
+   "category": "xls",
+   "file_type": "xls",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100039",
+      "invoice_date": "2024-09-19",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Umbrella Retail",
+      "subtotal": "73498.84",
+      "tax": "7349.88",
+      "total": "80848.72",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "4",
+       "unit_price": "2575.68",
+       "amount": "10302.72"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "8",
+       "unit_price": "4886.09",
+       "amount": "39088.72"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "7",
+       "unit_price": "783.28",
+       "amount": "5482.96"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "4",
+       "unit_price": "4656.11",
+       "amount": "18624.44"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100040",
+      "invoice_date": "2024-06-28",
+      "supplier": "Orion Medical Supply",
+      "customer": "Umbrella Retail",
+      "subtotal": "45610.95",
+      "tax": "4561.10",
+      "total": "50172.05",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Server rack",
+       "quantity": "8",
+       "unit_price": "4245.6",
+       "amount": "33964.80"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "2",
+       "unit_price": "142.7",
+       "amount": "285.40"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "5",
+       "unit_price": "2272.15",
+       "amount": "11360.75"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "csv_000.csv",
+   "category": "csv",
+   "file_type": "csv",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100041",
+      "invoice_date": "2024-12-25",
+      "supplier": "Delta Precision Parts",
+      "customer": "Wayne Enterprises",
+      "subtotal": "52215.84",
+      "tax": "10443.17",
+      "total": "62659.01",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "9",
+       "unit_price": "2935.83",
+       "amount": "26422.47"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "9",
+       "unit_price": "2865.93",
+       "amount": "25793.37"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "csv_001.csv",
+   "category": "csv",
+   "file_type": "csv",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100042",
+      "invoice_date": "2024-08-09",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Soylent Foods",
+      "subtotal": "27329.38",
+      "tax": "2732.94",
+      "total": "30062.32",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "4",
+       "unit_price": "1968.73",
+       "amount": "7874.92"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "6",
+       "unit_price": "3242.41",
+       "amount": "19454.46"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "csv_002.csv",
+   "category": "csv",
+   "file_type": "csv",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100043",
+      "invoice_date": "2024-05-12",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Soylent Foods",
+      "subtotal": "51922.49",
+      "tax": "5192.25",
+      "total": "57114.74",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "9",
+       "unit_price": "2979.44",
+       "amount": "26814.96"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "7",
+       "unit_price": "3586.79",
+       "amount": "25107.53"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "csv_003.csv",
+   "category": "csv",
+   "file_type": "csv",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100044",
+      "invoice_date": "2024-04-11",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Globex Corporation",
+      "subtotal": "11927.86",
+      "tax": "2385.57",
+      "total": "14313.43",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Gadget B",
+       "quantity": "2",
+       "unit_price": "4784.38",
+       "amount": "9568.76"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "2",
+       "unit_price": "1179.55",
+       "amount": "2359.10"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xlsx_register_000.xlsx",
+   "category": "xlsx_register",
+   "file_type": "xlsx-register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100045/24",
+      "invoice_date": "2024-01-05",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Soylent Foods",
+      "subtotal": "49326.38",
+      "tax": "2466.32",
+      "total": "51792.70",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100046",
+      "invoice_date": "2024-07-21",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Initech Holdings",
+      "subtotal": "45752.40",
+      "tax": "4575.24",
+      "total": "50327.64",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "SI/100047/24",
+      "invoice_date": "2024-06-09",
+      "supplier": "Orion Medical Supply",
+      "customer": "Wayne Enterprises",
+      "subtotal": "52243.33",
+      "tax": "10448.67",
+      "total": "62692.00",
+      "currency": "GBP"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100048",
+      "invoice_date": "2024-06-13",
+      "supplier": "Delta Precision Parts",
+      "customer": "Globex Corporation",
+      "subtotal": "30662.32",
+      "tax": "3066.23",
+      "total": "33728.55",
+      "currency": "GBP"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100049",
+      "invoice_date": "2024-08-24",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Umbrella Retail",
+      "subtotal": "50661.94",
+      "tax": "2533.10",
+      "total": "53195.04",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xlsx_register_001.xlsx",
+   "category": "xlsx_register",
+   "file_type": "xlsx-register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100050",
+      "invoice_date": "2024-01-28",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Vandelay Imports",
+      "subtotal": "74517.32",
+      "tax": "14903.46",
+      "total": "89420.78",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "SI/100051/24",
+      "invoice_date": "2024-07-09",
+      "supplier": "Northwind Traders",
+      "customer": "Globex Corporation",
+      "subtotal": "41421.54",
+      "tax": "2071.08",
+      "total": "43492.62",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100052",
+      "invoice_date": "2024-03-03",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Globex Corporation",
+      "subtotal": "54114.84",
+      "tax": "10822.97",
+      "total": "64937.81",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "SI/100053/24",
+      "invoice_date": "2024-10-08",
+      "supplier": "Northwind Traders",
+      "customer": "Vandelay Imports",
+      "subtotal": "36360.07",
+      "tax": "3636.01",
+      "total": "39996.08",
+      "currency": "GBP"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100054",
+      "invoice_date": "2024-04-21",
+      "supplier": "Northwind Traders",
+      "customer": "Soylent Foods",
+      "subtotal": "24091.30",
+      "tax": "2409.13",
+      "total": "26500.43",
+      "currency": "GBP"
+     },
+     "line_items": null,
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_blur_000.png",
+   "category": "degraded_blur",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100055",
+      "invoice_date": "2024-06-27",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Initech Holdings",
+      "subtotal": "49429.76",
+      "tax": "4942.98",
+      "total": "54372.74",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "8",
+       "unit_price": "4064.34",
+       "amount": "32514.72"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "2",
+       "unit_price": "2280.3",
+       "amount": "4560.60"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "3",
+       "unit_price": "1262.21",
+       "amount": "3786.63"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "1",
+       "unit_price": "1656.01",
+       "amount": "1656.01"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "5",
+       "unit_price": "1382.36",
+       "amount": "6911.80"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_blur_001.png",
+   "category": "degraded_blur",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100056/24",
+      "invoice_date": "2024-01-10",
+      "supplier": "Delta Precision Parts",
+      "customer": "Soylent Foods",
+      "subtotal": "31245.76",
+      "tax": "6249.15",
+      "total": "37494.91",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Server rack",
+       "quantity": "7",
+       "unit_price": "3478.68",
+       "amount": "24350.76"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "4",
+       "unit_price": "1723.75",
+       "amount": "6895.00"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_blur_002.png",
+   "category": "degraded_blur",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100057",
+      "invoice_date": "2024-03-15",
+      "supplier": "Orion Medical Supply",
+      "customer": "Initech Holdings",
+      "subtotal": "33299.16",
+      "tax": "1664.96",
+      "total": "34964.12",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Server rack",
+       "quantity": "9",
+       "unit_price": "2068.84",
+       "amount": "18619.56"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "5",
+       "unit_price": "2935.92",
+       "amount": "14679.60"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_lowres_000.png",
+   "category": "degraded_lowres",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100058/24",
+      "invoice_date": "2024-03-17",
+      "supplier": "Northwind Traders",
+      "customer": "Vandelay Imports",
+      "subtotal": "32142.36",
+      "tax": "6428.47",
+      "total": "38570.83",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "6",
+       "unit_price": "1309.96",
+       "amount": "7859.76"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "6",
+       "unit_price": "4047.1",
+       "amount": "24282.60"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_lowres_001.png",
+   "category": "degraded_lowres",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100059/24",
+      "invoice_date": "2024-09-10",
+      "supplier": "Delta Precision Parts",
+      "customer": "Vandelay Imports",
+      "subtotal": "16748.10",
+      "tax": "3349.62",
+      "total": "20097.72",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "6",
+       "unit_price": "1265.32",
+       "amount": "7591.92"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "2",
+       "unit_price": "4578.09",
+       "amount": "9156.18"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_lowres_002.png",
+   "category": "degraded_lowres",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100060",
+      "invoice_date": "2024-03-27",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Wayne Enterprises",
+      "subtotal": "17795.02",
+      "tax": "3559.00",
+      "total": "21354.02",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "9",
+       "unit_price": "1771.02",
+       "amount": "15939.18"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "7",
+       "unit_price": "265.12",
+       "amount": "1855.84"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_rotate_000.png",
+   "category": "degraded_rotate",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100061/24",
+      "invoice_date": "2024-08-26",
+      "supplier": "Sunrise Office Co",
+      "customer": "Hooli Networks",
+      "subtotal": "132743.70",
+      "tax": "26548.74",
+      "total": "159292.44",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "4",
+       "unit_price": "2310.21",
+       "amount": "9240.84"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "5",
+       "unit_price": "2616.18",
+       "amount": "13080.90"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "9",
+       "unit_price": "4956.21",
+       "amount": "44605.89"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "7",
+       "unit_price": "2727.69",
+       "amount": "19093.83"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "6",
+       "unit_price": "3840.51",
+       "amount": "23043.06"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "6",
+       "unit_price": "3946.53",
+       "amount": "23679.18"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_rotate_001.png",
+   "category": "degraded_rotate",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100062/24",
+      "invoice_date": "2024-12-25",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Globex Corporation",
+      "subtotal": "34194.15",
+      "tax": "1709.71",
+      "total": "35903.86",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "9",
+       "unit_price": "2267.86",
+       "amount": "20410.74"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "2",
+       "unit_price": "1932.07",
+       "amount": "3864.14"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "2",
+       "unit_price": "407.93",
+       "amount": "815.86"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "7",
+       "unit_price": "879.16",
+       "amount": "6154.12"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "1",
+       "unit_price": "2949.29",
+       "amount": "2949.29"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "degraded_rotate_002.png",
+   "category": "degraded_rotate",
+   "file_type": "png-degraded",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100063/24",
+      "invoice_date": "2024-12-27",
+      "supplier": "Northwind Traders",
+      "customer": "Hooli Networks",
+      "subtotal": "14933.64",
+      "tax": "746.68",
+      "total": "15680.32",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Cable bundle",
+       "quantity": "4",
+       "unit_price": "385.03",
+       "amount": "1540.12"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "4",
+       "unit_price": "3348.38",
+       "amount": "13393.52"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "missing_fields_000.pdf",
+   "category": "missing_fields",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100064",
+      "invoice_date": "2024-12-06",
+      "supplier": "Acme Supplies Ltd",
+      "customer": null,
+      "subtotal": "64813.28",
+      "tax": "6481.33",
+      "total": "71294.61",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "8",
+       "unit_price": "1461.31",
+       "amount": "11690.48"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "6",
+       "unit_price": "3877.93",
+       "amount": "23267.58"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "3",
+       "unit_price": "4672.07",
+       "amount": "14016.21"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "3",
+       "unit_price": "3798.29",
+       "amount": "11394.87"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "2",
+       "unit_price": "2087.19",
+       "amount": "4174.38"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "1",
+       "unit_price": "269.76",
+       "amount": "269.76"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-REQ-001",
+       "customer"
+      ]
+     ]
+    }
+   ],
+   "notes": "omit=['customer']"
+  },
+  {
+   "file": "missing_fields_001.pdf",
+   "category": "missing_fields",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100065",
+      "invoice_date": "2024-06-03",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Hooli Networks",
+      "subtotal": "14854.41",
+      "tax": null,
+      "total": "14854.41",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Cable bundle",
+       "quantity": "7",
+       "unit_price": "1787.12",
+       "amount": "12509.84"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "1",
+       "unit_price": "2344.57",
+       "amount": "2344.57"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": "omit=['tax']"
+  },
+  {
+   "file": "missing_fields_002.pdf",
+   "category": "missing_fields",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100066/24",
+      "invoice_date": null,
+      "supplier": "Northwind Traders",
+      "customer": "Hooli Networks",
+      "subtotal": "50066.96",
+      "tax": "2503.35",
+      "total": "52570.31",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Laptop stand",
+       "quantity": "9",
+       "unit_price": "19.88",
+       "amount": "178.92"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "2",
+       "unit_price": "3672.42",
+       "amount": "7344.84"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "6",
+       "unit_price": "277.22",
+       "amount": "1663.32"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "7",
+       "unit_price": "4508.6",
+       "amount": "31560.20"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "5",
+       "unit_price": "759.84",
+       "amount": "3799.20"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "4",
+       "unit_price": "1380.12",
+       "amount": "5520.48"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-REQ-001",
+       "invoice_date"
+      ]
+     ]
+    }
+   ],
+   "notes": "omit=['date']"
+  },
+  {
+   "file": "missing_fields_003.pdf",
+   "category": "missing_fields",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": null,
+      "invoice_date": "2024-02-25",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Wayne Enterprises",
+      "subtotal": "26922.07",
+      "tax": "2692.21",
+      "total": "29614.28",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Calibration service",
+       "quantity": "2",
+       "unit_price": "2043.08",
+       "amount": "4086.16"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "1",
+       "unit_price": "1946.86",
+       "amount": "1946.86"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "2",
+       "unit_price": "3983.16",
+       "amount": "7966.32"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "1",
+       "unit_price": "2872.58",
+       "amount": "2872.58"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "3",
+       "unit_price": "3350.05",
+       "amount": "10050.15"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-REQ-001",
+       "invoice_number"
+      ]
+     ]
+    }
+   ],
+   "notes": "omit=['number']"
+  },
+  {
+   "file": "missing_fields_004.pdf",
+   "category": "missing_fields",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100068",
+      "invoice_date": "2024-04-09",
+      "supplier": "Sunrise Office Co",
+      "customer": "Hooli Networks",
+      "subtotal": "99242.86",
+      "tax": "9924.29",
+      "total": "109167.15",
+      "currency": null
+     },
+     "line_items": [
+      {
+       "description": "Cable bundle",
+       "quantity": "5",
+       "unit_price": "3935.33",
+       "amount": "19676.65"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "4",
+       "unit_price": "1044.25",
+       "amount": "4177.00"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "7",
+       "unit_price": "491.63",
+       "amount": "3441.41"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "9",
+       "unit_price": "4219.43",
+       "amount": "37974.87"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "9",
+       "unit_price": "3774.77",
+       "amount": "33972.93"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-REQ-001",
+       "currency"
+      ]
+     ]
+    }
+   ],
+   "notes": "omit=['currency']"
+  },
+  {
+   "file": "ambiguous_date_000.pdf",
+   "category": "ambiguous_date",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100069/24",
+      "invoice_date": null,
+      "supplier": "Delta Precision Parts",
+      "customer": "Soylent Foods",
+      "subtotal": "41202.52",
+      "tax": "4120.25",
+      "total": "45322.77",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Calibration service",
+       "quantity": "8",
+       "unit_price": "3664.5",
+       "amount": "29316.00"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "7",
+       "unit_price": "1415.62",
+       "amount": "9909.34"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "1",
+       "unit_price": "1977.18",
+       "amount": "1977.18"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-DATE-002",
+       "invoice_date"
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "ambiguous_date_001.pdf",
+   "category": "ambiguous_date",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100070",
+      "invoice_date": null,
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Stark Manufacturing",
+      "subtotal": "66691.81",
+      "tax": "6669.18",
+      "total": "73360.99",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "6",
+       "unit_price": "233.96",
+       "amount": "1403.76"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "8",
+       "unit_price": "2885.32",
+       "amount": "23082.56"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "3",
+       "unit_price": "4587.44",
+       "amount": "13762.32"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "7",
+       "unit_price": "4063.31",
+       "amount": "28443.17"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-DATE-002",
+       "invoice_date"
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "tampered_total_000.pdf",
+   "category": "tampered_total",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100071/24",
+      "invoice_date": "2024-04-11",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Initech Holdings",
+      "subtotal": "25181.58",
+      "tax": "5036.32",
+      "total": "29929.90",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "1721.55",
+       "amount": "10329.30"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "2",
+       "unit_price": "2085.04",
+       "amount": "4170.08"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "5",
+       "unit_price": "2136.44",
+       "amount": "10682.20"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-SUB-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "tampered_total_001.pdf",
+   "category": "tampered_total",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100072/24",
+      "invoice_date": "2024-02-21",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Hooli Networks",
+      "subtotal": "39292.70",
+      "tax": "7858.54",
+      "total": "46950.24",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "5",
+       "unit_price": "1195.06",
+       "amount": "5975.30"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "5",
+       "unit_price": "4169.4",
+       "amount": "20847.00"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "1",
+       "unit_price": "1589.8",
+       "amount": "1589.80"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "4",
+       "unit_price": "2720.15",
+       "amount": "10880.60"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-SUB-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "tampered_total_002.pdf",
+   "category": "tampered_total",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100073",
+      "invoice_date": "2024-02-14",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Initech Holdings",
+      "subtotal": "77521.53",
+      "tax": "3876.08",
+      "total": "81718.61",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Laptop stand",
+       "quantity": "2",
+       "unit_price": "4859.26",
+       "amount": "9718.52"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "4",
+       "unit_price": "3224.43",
+       "amount": "12897.72"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "3",
+       "unit_price": "4816.2",
+       "amount": "14448.60"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "1",
+       "unit_price": "4541.65",
+       "amount": "4541.65"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "8",
+       "unit_price": "2742.03",
+       "amount": "21936.24"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "9",
+       "unit_price": "1553.2",
+       "amount": "13978.80"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-SUB-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "line_error_000.pdf",
+   "category": "line_error",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100074/24",
+      "invoice_date": "2024-01-11",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Globex Corporation",
+      "subtotal": "42564.14",
+      "tax": "4256.41",
+      "total": "46820.55",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Printer toner",
+       "quantity": "2",
+       "unit_price": "4983.67",
+       "amount": "10081.34"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "9",
+       "unit_price": "3609.2",
+       "amount": "32482.80"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-LINE-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "line_error_001.pdf",
+   "category": "line_error",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100075/24",
+      "invoice_date": "2024-08-05",
+      "supplier": "Northwind Traders",
+      "customer": "Soylent Foods",
+      "subtotal": "18872.86",
+      "tax": "943.64",
+      "total": "19816.50",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "1530.95",
+       "amount": "9334.70"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "2",
+       "unit_price": "1987.06",
+       "amount": "3974.12"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "6",
+       "unit_price": "927.34",
+       "amount": "5564.04"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-LINE-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "multi_invoice_pdf_000.pdf",
+   "category": "multi_invoice_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100076",
+      "invoice_date": "2024-08-08",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Wayne Enterprises",
+      "subtotal": "51044.26",
+      "tax": "5104.43",
+      "total": "56148.69",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Gadget B",
+       "quantity": "9",
+       "unit_price": "1309.43",
+       "amount": "11784.87"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "2",
+       "unit_price": "914.16",
+       "amount": "1828.32"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "4",
+       "unit_price": "4722.03",
+       "amount": "18888.12"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "5",
+       "unit_price": "2018.54",
+       "amount": "10092.70"
+      },
+      {
+       "description": "Printer toner",
+       "quantity": "1",
+       "unit_price": "801.14",
+       "amount": "801.14"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "7",
+       "unit_price": "1092.73",
+       "amount": "7649.11"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100077",
+      "invoice_date": "2024-10-24",
+      "supplier": "Northwind Traders",
+      "customer": "Wayne Enterprises",
+      "subtotal": "63417.59",
+      "tax": "6341.76",
+      "total": "69759.35",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Support plan",
+       "quantity": "5",
+       "unit_price": "4598.01",
+       "amount": "22990.05"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "7",
+       "unit_price": "2350.58",
+       "amount": "16454.06"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "9",
+       "unit_price": "1124.8",
+       "amount": "10123.20"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "3",
+       "unit_price": "932.31",
+       "amount": "2796.93"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "3",
+       "unit_price": "3684.45",
+       "amount": "11053.35"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100078",
+      "invoice_date": "2024-05-06",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Vandelay Imports",
+      "subtotal": "48835.36",
+      "tax": "4883.54",
+      "total": "53718.90",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Consulting hour",
+       "quantity": "3",
+       "unit_price": "2388.86",
+       "amount": "7166.58"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "3891.97",
+       "amount": "23351.82"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "4",
+       "unit_price": "2138.75",
+       "amount": "8555.00"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "1",
+       "unit_price": "2125.16",
+       "amount": "2125.16"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "6",
+       "unit_price": "1272.8",
+       "amount": "7636.80"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "multi_invoice_pdf_001.pdf",
+   "category": "multi_invoice_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100079/24",
+      "invoice_date": "2024-11-22",
+      "supplier": "Blue Harbor Logistics",
+      "customer": "Hooli Networks",
+      "subtotal": "35462.38",
+      "tax": "3546.24",
+      "total": "39008.62",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Shipping crate",
+       "quantity": "4",
+       "unit_price": "3853.78",
+       "amount": "15415.12"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "6",
+       "unit_price": "2838.97",
+       "amount": "17033.82"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "1",
+       "unit_price": "3013.44",
+       "amount": "3013.44"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "SI/100080/24",
+      "invoice_date": "2024-11-07",
+      "supplier": "Sunrise Office Co",
+      "customer": "Soylent Foods",
+      "subtotal": "33616.93",
+      "tax": "1680.85",
+      "total": "35297.78",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Gadget B",
+       "quantity": "1",
+       "unit_price": "3046.67",
+       "amount": "3046.67"
+      },
+      {
+       "description": "Safety gloves",
+       "quantity": "6",
+       "unit_price": "1871.36",
+       "amount": "11228.16"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "8",
+       "unit_price": "998.85",
+       "amount": "7990.80"
+      },
+      {
+       "description": "Cable bundle",
+       "quantity": "5",
+       "unit_price": "2270.26",
+       "amount": "11351.30"
+      }
+     ],
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100081",
+      "invoice_date": "2024-04-07",
+      "supplier": "Sunrise Office Co",
+      "customer": "Globex Corporation",
+      "subtotal": "51566.01",
+      "tax": "2578.30",
+      "total": "54144.31",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Gadget B",
+       "quantity": "7",
+       "unit_price": "2310.54",
+       "amount": "16173.78"
+      },
+      {
+       "description": "Server rack",
+       "quantity": "3",
+       "unit_price": "750.29",
+       "amount": "2250.87"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "7",
+       "unit_price": "422.14",
+       "amount": "2954.98"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "7",
+       "unit_price": "4312.34",
+       "amount": "30186.38"
+      }
+     ],
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_verified_000_doc.pdf",
+   "category": "xdoc_verified",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100082",
+      "invoice_date": "2024-01-17",
+      "supplier": "Orion Medical Supply",
+      "customer": "Wayne Enterprises",
+      "subtotal": "36318.22",
+      "tax": "3631.82",
+      "total": "39950.04",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Safety gloves",
+       "quantity": "5",
+       "unit_price": "290.65",
+       "amount": "1453.25"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "7",
+       "unit_price": "422.34",
+       "amount": "2956.38"
+      },
+      {
+       "description": "Calibration service",
+       "quantity": "7",
+       "unit_price": "4558.37",
+       "amount": "31908.59"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-XDOC-002",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_verified_000_register.xlsx",
+   "category": "xdoc_verified",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100082",
+      "invoice_date": "2024-01-17",
+      "supplier": "Orion Medical Supply",
+      "customer": "Wayne Enterprises",
+      "subtotal": "36318.22",
+      "tax": "3631.82",
+      "total": "39950.04",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": [
+      [
+       "VAL-XDOC-002",
+       null
+      ]
+     ]
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100083",
+      "invoice_date": "2024-08-04",
+      "supplier": "Delta Precision Parts",
+      "customer": "Soylent Foods",
+      "subtotal": "20715.54",
+      "tax": "1035.78",
+      "total": "21751.32",
+      "currency": "GBP"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100084",
+      "invoice_date": "2024-11-03",
+      "supplier": "Sunrise Office Co",
+      "customer": "Umbrella Retail",
+      "subtotal": "83639.83",
+      "tax": "16727.97",
+      "total": "100367.80",
+      "currency": "GBP"
+     },
+     "line_items": null,
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_verified_001_doc.pdf",
+   "category": "xdoc_verified",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100085/24",
+      "invoice_date": "2024-11-25",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Vandelay Imports",
+      "subtotal": "69177.99",
+      "tax": "13835.60",
+      "total": "83013.59",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Server rack",
+       "quantity": "1",
+       "unit_price": "2327.22",
+       "amount": "2327.22"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "9",
+       "unit_price": "2576.86",
+       "amount": "23191.74"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "6",
+       "unit_price": "4786.8",
+       "amount": "28720.80"
+      },
+      {
+       "description": "Widget A",
+       "quantity": "3",
+       "unit_price": "4508.79",
+       "amount": "13526.37"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "2",
+       "unit_price": "705.93",
+       "amount": "1411.86"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-XDOC-002",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_verified_001_register.xlsx",
+   "category": "xdoc_verified",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100085/24",
+      "invoice_date": "2024-11-25",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Vandelay Imports",
+      "subtotal": "69177.99",
+      "tax": "13835.60",
+      "total": "83013.59",
+      "currency": "USD"
+     },
+     "line_items": null,
+     "expected_rules": [
+      [
+       "VAL-XDOC-002",
+       null
+      ]
+     ]
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100086",
+      "invoice_date": "2024-07-28",
+      "supplier": "Kestrel Cloud Services",
+      "customer": "Soylent Foods",
+      "subtotal": "51059.09",
+      "tax": "5105.91",
+      "total": "56165.00",
+      "currency": "USD"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "SI/100087/24",
+      "invoice_date": "2024-09-07",
+      "supplier": "Delta Precision Parts",
+      "customer": "Globex Corporation",
+      "subtotal": "35665.34",
+      "tax": "7133.07",
+      "total": "42798.41",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_mismatch_000_doc.pdf",
+   "category": "xdoc_mismatch",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100088/24",
+      "invoice_date": "2024-12-25",
+      "supplier": "Delta Precision Parts",
+      "customer": "Umbrella Retail",
+      "subtotal": "12269.90",
+      "tax": "2453.98",
+      "total": "14723.88",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Support plan",
+       "quantity": "7",
+       "unit_price": "1241.56",
+       "amount": "8690.92"
+      },
+      {
+       "description": "Laptop stand",
+       "quantity": "2",
+       "unit_price": "1789.49",
+       "amount": "3578.98"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-XDOC-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_mismatch_000_register.xlsx",
+   "category": "xdoc_mismatch",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "SI/100088/24",
+      "invoice_date": "2024-12-25",
+      "supplier": "Delta Precision Parts",
+      "customer": "Umbrella Retail",
+      "subtotal": "12269.90",
+      "tax": "2453.98",
+      "total": "15030.88",
+      "currency": "USD"
+     },
+     "line_items": null,
+     "expected_rules": [
+      [
+       "VAL-XDOC-001",
+       null
+      ],
+      [
+       "VAL-SUB-001",
+       null
+      ]
+     ]
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100089",
+      "invoice_date": "2024-08-07",
+      "supplier": "Orion Medical Supply",
+      "customer": "Hooli Networks",
+      "subtotal": "46100.45",
+      "tax": "2305.02",
+      "total": "48405.47",
+      "currency": "GBP"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100090",
+      "invoice_date": "2024-01-08",
+      "supplier": "Sunrise Office Co",
+      "customer": "Initech Holdings",
+      "subtotal": "58581.71",
+      "tax": "11716.34",
+      "total": "70298.05",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_mismatch_001_doc.pdf",
+   "category": "xdoc_mismatch",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100091",
+      "invoice_date": "2024-06-03",
+      "supplier": "Northwind Traders",
+      "customer": "Hooli Networks",
+      "subtotal": "23590.19",
+      "tax": "4718.04",
+      "total": "28308.23",
+      "currency": "USD"
+     },
+     "line_items": [
+      {
+       "description": "Calibration service",
+       "quantity": "7",
+       "unit_price": "2974.85",
+       "amount": "20823.95"
+      },
+      {
+       "description": "Support plan",
+       "quantity": "4",
+       "unit_price": "691.56",
+       "amount": "2766.24"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-XDOC-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "xdoc_mismatch_001_register.xlsx",
+   "category": "xdoc_mismatch",
+   "file_type": "pdf+register",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100091",
+      "invoice_date": "2024-06-03",
+      "supplier": "Northwind Traders",
+      "customer": "Hooli Networks",
+      "subtotal": "23590.19",
+      "tax": "4718.04",
+      "total": "28340.23",
+      "currency": "USD"
+     },
+     "line_items": null,
+     "expected_rules": [
+      [
+       "VAL-XDOC-001",
+       null
+      ],
+      [
+       "VAL-SUB-001",
+       null
+      ]
+     ]
+    },
+    {
+     "fields": {
+      "invoice_number": "2024-100092",
+      "invoice_date": "2024-07-21",
+      "supplier": "Acme Supplies Ltd",
+      "customer": "Globex Corporation",
+      "subtotal": "52944.20",
+      "tax": "5294.42",
+      "total": "58238.62",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    },
+    {
+     "fields": {
+      "invoice_number": "INV-100093",
+      "invoice_date": "2024-03-22",
+      "supplier": "Delta Precision Parts",
+      "customer": "Soylent Foods",
+      "subtotal": "45375.39",
+      "tax": "4537.54",
+      "total": "49912.93",
+      "currency": "EUR"
+     },
+     "line_items": null,
+     "expected_rules": []
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "duplicate_pdf_000_a.pdf",
+   "category": "duplicate_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100094",
+      "invoice_date": "2024-05-08",
+      "supplier": "Orion Medical Supply",
+      "customer": "Vandelay Imports",
+      "subtotal": "80794.01",
+      "tax": "8079.40",
+      "total": "88873.41",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "3",
+       "unit_price": "3811.09",
+       "amount": "11433.27"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "8",
+       "unit_price": "2742.61",
+       "amount": "21940.88"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "8",
+       "unit_price": "4853.88",
+       "amount": "38831.04"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "1431.47",
+       "amount": "8588.82"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-DUP-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "duplicate_pdf_000_b.pdf",
+   "category": "duplicate_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "2024-100094",
+      "invoice_date": "2024-05-08",
+      "supplier": "Orion Medical Supply",
+      "customer": "Vandelay Imports",
+      "subtotal": "80794.01",
+      "tax": "8079.40",
+      "total": "88873.41",
+      "currency": "GBP"
+     },
+     "line_items": [
+      {
+       "description": "Widget A",
+       "quantity": "3",
+       "unit_price": "3811.09",
+       "amount": "11433.27"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "8",
+       "unit_price": "2742.61",
+       "amount": "21940.88"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "8",
+       "unit_price": "4853.88",
+       "amount": "38831.04"
+      },
+      {
+       "description": "Gadget B",
+       "quantity": "6",
+       "unit_price": "1431.47",
+       "amount": "8588.82"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-DUP-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "duplicate_pdf_001_a.pdf",
+   "category": "duplicate_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100095",
+      "invoice_date": "2024-05-24",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Umbrella Retail",
+      "subtotal": "53591.42",
+      "tax": "5359.14",
+      "total": "58950.56",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Laptop stand",
+       "quantity": "6",
+       "unit_price": "4963.44",
+       "amount": "29780.64"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "1",
+       "unit_price": "4795.28",
+       "amount": "4795.28"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "3169.25",
+       "amount": "19015.50"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-DUP-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "duplicate_pdf_001_b.pdf",
+   "category": "duplicate_pdf",
+   "file_type": "pdf-digital",
+   "expect": "success",
+   "error_code": null,
+   "invoices": [
+    {
+     "fields": {
+      "invoice_number": "INV-100095",
+      "invoice_date": "2024-05-24",
+      "supplier": "Maple Leaf Stationers",
+      "customer": "Umbrella Retail",
+      "subtotal": "53591.42",
+      "tax": "5359.14",
+      "total": "58950.56",
+      "currency": "EUR"
+     },
+     "line_items": [
+      {
+       "description": "Laptop stand",
+       "quantity": "6",
+       "unit_price": "4963.44",
+       "amount": "29780.64"
+      },
+      {
+       "description": "Consulting hour",
+       "quantity": "1",
+       "unit_price": "4795.28",
+       "amount": "4795.28"
+      },
+      {
+       "description": "Shipping crate",
+       "quantity": "6",
+       "unit_price": "3169.25",
+       "amount": "19015.50"
+      }
+     ],
+     "expected_rules": [
+      [
+       "VAL-DUP-001",
+       null
+      ]
+     ]
+    }
+   ],
+   "notes": ""
+  },
+  {
+   "file": "neg_corrupt_pdf_000.pdf",
+   "category": "neg_corrupt_pdf",
+   "file_type": "neg_corrupt_pdf",
+   "expect": "failed",
+   "error_code": "corrupt_file",
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_corrupt_pdf_001.pdf",
+   "category": "neg_corrupt_pdf",
+   "file_type": "neg_corrupt_pdf",
+   "expect": "failed",
+   "error_code": "corrupt_file",
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_truncated_png_000.png",
+   "category": "neg_truncated_png",
+   "file_type": "neg_truncated_png",
+   "expect": "failed",
+   "error_code": "corrupt_file",
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_corrupt_xlsx_000.xlsx",
+   "category": "neg_corrupt_xlsx",
+   "file_type": "neg_corrupt_xlsx",
+   "expect": "failed",
+   "error_code": "corrupt_file",
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_empty_000.pdf",
+   "category": "neg_empty",
+   "file_type": "neg_empty",
+   "expect": "rejected",
+   "error_code": null,
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_encrypted_000.pdf",
+   "category": "neg_encrypted",
+   "file_type": "neg_encrypted",
+   "expect": "failed",
+   "error_code": "encrypted_file",
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_unsupported_000.exe",
+   "category": "neg_unsupported",
+   "file_type": "neg_unsupported",
+   "expect": "rejected",
+   "error_code": null,
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_binary_csv_000.csv",
+   "category": "neg_binary_csv",
+   "file_type": "neg_binary_csv",
+   "expect": "failed",
+   "error_code": "corrupt_file",
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_mismatch_000.pdf",
+   "category": "neg_mismatch",
+   "file_type": "neg_mismatch",
+   "expect": "rejected",
+   "error_code": null,
+   "invoices": [],
+   "notes": ""
+  },
+  {
+   "file": "neg_blank_image_000.png",
+   "category": "neg_blank_image",
+   "file_type": "neg_blank_image",
+   "expect": "failed",
+   "error_code": "no_extractable_content",
+   "invoices": [],
+   "notes": ""
+  }
+ ]
+}

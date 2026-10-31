@@ -1,0 +1,13 @@
+Acme Supplies Ltd
+Invoice Number,INV-100044
+Invoice Date,2024-04-11
+Bill To,Globex Corporation
+Currency,EUR
+
+Description,Qty,Unit Price,Amount
+Gadget B,2,4784.38,9568.76
+Widget A,2,1179.55,2359.1
+
+Subtotal,,,11927.86
+Tax (20%),,,2385.57
+Total,,,14313.43

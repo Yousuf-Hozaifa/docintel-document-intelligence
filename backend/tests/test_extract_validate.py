@@ -213,3 +213,15 @@ def test_register_not_confused_with_single_invoice_layouts():
     from app.extract import extract_register
     assert extract_register([["Invoice Number", "INV-1"], ["Subtotal", "10"], ["Total", "11"]]) is None
     assert extract_register([["Description", "Qty", "Unit Price", "Amount"], ["a", "1", "1", "1"]]) is None
+
+
+@pytest.mark.parametrize("junk", ['"4', ")", "a", "|", "l"])
+def test_ocr_noise_in_the_quantity_cell_keeps_the_row(junk):
+    r = ex(BASE.replace("Widget A  2  10.00  20.00", f"Widget A  {junk}  10.00  20.00"))
+    assert len(r["line_items"]) == 2 and r["line_items"][0]["quantity"] is None and r["line_items"][0]["amount"] == "20.00"
+    assert [i.rule_id for i in validate_invoice(r["fields"], r["line_items"], today=date(2025, 1, 1))] == ["VAL-LINE-003"]
+
+
+def test_loose_item_pattern_does_not_swallow_total_lines_or_numeric_rows():
+    r = ex(BASE)
+    assert [i["quantity"] for i in r["line_items"]] == ["2", "3"]

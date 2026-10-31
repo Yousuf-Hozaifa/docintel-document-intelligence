@@ -1,0 +1,13 @@
+Delta Precision Parts
+Invoice Number,2024-100041
+Invoice Date,25/12/2024
+Bill To,Wayne Enterprises
+Currency,EUR
+
+Description,Qty,Unit Price,Amount
+Printer toner,9,2935.83,26422.47
+Consulting hour,9,2865.93,25793.37
+
+Subtotal,,,52215.84
+Tax (20%),,,10443.17
+Total,,,62659.01

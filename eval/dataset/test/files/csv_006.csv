@@ -1,0 +1,14 @@
+Kestrel Cloud Services
+Invoice Number,2024-500096
+Invoice Date,2024-09-13
+Bill To,Vandelay Imports
+Currency,EUR
+
+Description,Qty,Unit Price,Amount
+Calibration service,5,3142.86,15714.3
+Support plan,5,2355.59,11777.95
+Printer toner,1,4117.76,4117.76
+
+Subtotal,,,31610.01
+Tax (10%),,,3161.0
+Total,,,34771.01

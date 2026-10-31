@@ -1,0 +1,14 @@
+Vendor;Orion Medical Supply
+Invoice #;INV-500091
+Date;2024-03-01
+Customer;Wayne Enterprises
+Currency;EUR
+
+Item;Qty;Price;Amount
+Widget A;5;2926.9;14634.5
+Safety gloves;2;2190.62;4381.24
+Calibration service;1;3193.71;3193.71
+
+Subtotal;;;22209.45
+VAT;;;4441.89
+Grand Total;;;26651.34

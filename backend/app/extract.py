@@ -19,10 +19,10 @@ INV_NO_RE = re.compile(
 DATE_LABEL_RE = re.compile(
     r"^\s*(?:invoice\s+date|date\s+of\s+issue|issue(?:d)?\s+date|date)\s*[:\-]?\s*(.*)$", re.I)
 SUPPLIER_RE = re.compile(
-    r"^\s*(?:(?:supplier|vendor|seller|issued\s+by)(?:\s+name)?|from)\s*(?:[:\-]\s*|$)(.*)$", re.I)
+    r"^\s*(?:(?:supplier|vendor|seller|issued\s+by)(?:\s+name)?|from)\s*(?:[:\-]\s*|\s{2,}|$)(.*)$", re.I)
 CUSTOMER_RE = re.compile(
     r"^\s*(?:(?:bill(?:ed)?|sold)\s+to\s*[:\-]?\s*|(?:customer(?:\s+name)?|client|buyer)"
-    r"(?!\s*(?:id\b|no\b|number|ref|#))\s*(?:[:\-]\s*|$))(.*)$", re.I)
+    r"(?!\s*(?:id\b|no\b|number|ref|#))\s*(?:[:\-]\s*|\s{2,}|$))(.*)$", re.I)
 SUBTOTAL_RE = re.compile(r"^\s*sub[\s\-]?total\b", re.I)
 TAX_RE = re.compile(r"^\s*(?:(?:sales|total|state|service)\s+)?(?:tax|vat|gst|hst)\b"
                     r"(?!\s*(?:id|no\b|no\.|number|reg))", re.I)
@@ -32,7 +32,7 @@ CUR_LABEL_RE = re.compile(r"\bcurrency\s*[:\-]?\s*([A-Za-z]{3})\b", re.I)
 CUR_CODE_RE = re.compile(r"\b(" + "|".join(sorted(ISO_4217)) + r")\b")
 N = rf"(?:[{SYMBOLS}]\s?)?-?\d[\d,]*(?:\.\d+)?"
 ITEM_RE = re.compile(rf"^(?P<d>.*?\S)\s+(?P<q>-?\d+(?:\.\d+)?)\s+(?P<u>{N})\s+(?P<a>{N})\s*$")
-ITEM_LOOSE_RE = re.compile(rf"^(?P<d>.*?\S)\s+(?P<q>[A-Za-z|!]{{1,2}})\s+(?P<u>{N})\s+(?P<a>{N})\s*$")
+ITEM_LOOSE_RE = re.compile(rf"^(?P<d>.*?\S)\s+(?P<q>\S{{1,3}})\s+(?P<u>{N})\s+(?P<a>{N})\s*$")
 ITEM_HEADER_RE = re.compile(r"\b(description|item|product|service)\b.*\b(qty|quantity|price|amount|rate)\b", re.I)
 SYMBOL_CUR = {"€": "EUR", "£": "GBP", "৳": "BDT", "₹": "INR"}
 

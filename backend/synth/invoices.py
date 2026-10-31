@@ -17,6 +17,9 @@ ITEMS = ["Widget A", "Gadget B", "Consulting hour", "Cable bundle", "Printer ton
          "Support plan", "Safety gloves", "Shipping crate", "Laptop stand", "Calibration service"]
 
 
+SYMBOLS = {"USD": "$", "GBP": "£"}   # the built-in PDF font cannot render the euro sign
+
+
 @dataclass
 class Spec:
     number: str
@@ -27,6 +30,14 @@ class Spec:
     items: list = field(default_factory=list)   # (description, qty:int, unit:Decimal)
     tax_rate: Decimal = Decimal("0.10")
     date_text: str | None = None                # how the date is printed (defaults to ISO)
+    # ---- evaluation variants (defaults reproduce the original layout exactly)
+    layout: str = "A"                           # A | B | C
+    omit: frozenset = frozenset()               # subset of {"customer","tax","date","number","currency"}
+    currency_style: str = "code"                # code | symbol (only $ and £ render) | none
+    thousands: bool = False                     # print 1,234.50 instead of 1234.50
+    date_ambiguous: bool = False                # printed like 03/04/2024: truth value is null
+    total_override: Decimal | None = None       # printed total differs from subtotal + tax (tampered)
+    line_override: dict = field(default_factory=dict)   # {index: printed amount} (line arithmetic error)
 
     @staticmethod
     def q(d: Decimal) -> Decimal:
@@ -34,19 +45,30 @@ class Spec:
 
     @property
     def amounts(self):
-        return [self.q(Decimal(q) * u) for _, q, u in self.items]
+        base = [self.q(Decimal(q) * u) for _, q, u in self.items]
+        return [self.line_override.get(i, a) for i, a in enumerate(base)]
 
     @property
     def subtotal(self): return sum(self.amounts, Decimal(0))
     @property
     def tax(self): return self.q(self.subtotal * self.tax_rate)
     @property
-    def total(self): return self.subtotal + self.tax
+    def total(self):
+        if self.total_override is not None:
+            return self.total_override
+        return self.subtotal if "tax" in self.omit else self.subtotal + self.tax
+
+    def fmt(self, v: Decimal, symbol: bool = False) -> str:
+        t = f"{v:,.2f}" if self.thousands else f"{v:.2f}"
+        return (SYMBOLS.get(self.currency, "") + t) if (symbol and self.currency_style == "symbol") else t
 
     def truth(self) -> dict:
-        return {"invoice_number": self.number, "invoice_date": self.date_iso, "supplier": self.supplier,
-                "customer": self.customer, "subtotal": str(self.subtotal), "tax": str(self.tax),
-                "total": str(self.total), "currency": self.currency,
+        cur = None if self.currency_style == "none" else self.currency
+        return {"invoice_number": None if "number" in self.omit else self.number,
+                "invoice_date": None if ("date" in self.omit or self.date_ambiguous) else self.date_iso,
+                "supplier": self.supplier, "customer": None if "customer" in self.omit else self.customer,
+                "subtotal": str(self.subtotal), "tax": None if "tax" in self.omit else str(self.tax),
+                "total": str(self.total), "currency": cur,
                 "line_items": [{"description": d, "quantity": str(q), "unit_price": str(u), "amount": str(a)}
                                for (d, q, u), a in zip(self.items, self.amounts)]}
 
@@ -62,22 +84,71 @@ def random_spec(rng: random.Random, n: int, n_items: int | None = None) -> Spec:
 
 # ------------------------------------------------------------------ renderers
 def _draw_invoice(page: "pymupdf.Page", s: Spec) -> None:
-    def t(x, y, txt, size=10, bold=False):
-        page.insert_text((x, y), txt, fontsize=size, fontname="hebo" if bold else "helv")
-    y = 60
-    t(50, y, s.supplier, 16, True); y += 24
-    t(50, y, "INVOICE", 12, True); y += 24
-    t(50, y, f"Invoice Number: {s.number}"); t(330, y, f"Invoice Date: {s.date_text or s.date_iso}"); y += 20
-    t(50, y, f"Bill To: {s.customer}"); y += 20
-    t(50, y, f"Currency: {s.currency}"); y += 30
-    for x, h in ((50, "Description"), (300, "Qty"), (360, "Unit Price"), (460, "Amount")):
-        t(x, y, h, 10, True)
-    y += 18
+    {"A": _draw_a, "B": _draw_b, "C": _draw_c}[s.layout](page, s)
+
+
+def _t(page, x, y, txt, size=10, bold=False):
+    page.insert_text((x, y), txt, fontsize=size, fontname="hebo" if bold else "helv")
+
+
+def _cur_line(s: Spec) -> str | None:
+    return None if (s.currency_style != "code" or "currency" in s.omit) else s.currency
+
+
+def _rows(page, s: Spec, y: int, xs) -> int:
     for (d, q, u), a in zip(s.items, s.amounts):
-        t(50, y, d); t(300, y, str(q)); t(360, y, f"{u:.2f}"); t(460, y, f"{a:.2f}"); y += 18
+        _t(page, xs[0], y, d); _t(page, xs[1], y, str(q))
+        _t(page, xs[2], y, s.fmt(u, True)); _t(page, xs[3], y, s.fmt(a, True)); y += 18
+    return y + 12
+
+
+def _draw_a(page, s: Spec) -> None:
+    y = 60
+    _t(page, 50, y, s.supplier, 16, True); y += 24
+    _t(page, 50, y, "INVOICE", 12, True); y += 24
+    if "number" not in s.omit: _t(page, 50, y, f"Invoice Number: {s.number}")
+    if "date" not in s.omit: _t(page, 330, y, f"Invoice Date: {s.date_text or s.date_iso}")
+    y += 20
+    if "customer" not in s.omit: _t(page, 50, y, f"Bill To: {s.customer}"); y += 20
+    if _cur_line(s): _t(page, 50, y, f"Currency: {_cur_line(s)}")
+    y += 30
+    for x, h in ((50, "Description"), (300, "Qty"), (360, "Unit Price"), (460, "Amount")): _t(page, x, y, h, 10, True)
+    y = _rows(page, s, y + 18, (50, 300, 360, 460))
+    _t(page, 360, y, "Subtotal:"); _t(page, 460, y, s.fmt(s.subtotal, True)); y += 18
+    if "tax" not in s.omit: _t(page, 360, y, f"Tax ({int(s.tax_rate * 100)}%):"); _t(page, 460, y, s.fmt(s.tax, True)); y += 18
+    _t(page, 360, y, "Total:", 10, True); _t(page, 460, y, s.fmt(s.total, True), 10, True)
+
+
+def _draw_b(page, s: Spec) -> None:          # supplier is only the first line (no label); "Inv #", "Sold To", "VAT", "Amount Due"
+    y = 60
+    _t(page, 50, y, s.supplier, 16, True); _t(page, 430, y, "INVOICE", 14, True); y += 26
+    if "number" not in s.omit: _t(page, 50, y, f"Inv #: {s.number}")
+    if "date" not in s.omit: _t(page, 330, y, f"Date: {s.date_text or s.date_iso}")
+    y += 20
+    if "customer" not in s.omit: _t(page, 50, y, f"Sold To: {s.customer}"); y += 20
+    y += 16
+    for x, h in ((50, "Item"), (300, "Qty"), (360, "Rate"), (460, "Total")): _t(page, x, y, h, 10, True)
+    y = _rows(page, s, y + 18, (50, 300, 360, 460))
+    _t(page, 360, y, "Subtotal"); _t(page, 460, y, s.fmt(s.subtotal, True)); y += 18
+    if "tax" not in s.omit: _t(page, 360, y, f"VAT ({int(s.tax_rate * 100)}%)"); _t(page, 460, y, s.fmt(s.tax, True)); y += 18
+    _t(page, 360, y, "Amount Due", 10, True); _t(page, 460, y, s.fmt(s.total, True), 10, True); y += 30
+    if _cur_line(s): _t(page, 50, y, f"All amounts in {_cur_line(s)}")
+
+
+def _draw_c(page, s: Spec) -> None:          # labels on their own lines, "Vendor:", "Date of Issue", "GST", "Total Amount"
+    y = 60
+    _t(page, 50, y, "TAX INVOICE", 14, True); y += 24
+    if "number" not in s.omit: _t(page, 50, y, f"Invoice No.: {s.number}"); y += 16
+    if "date" not in s.omit: _t(page, 50, y, f"Date of Issue: {s.date_text or s.date_iso}"); y += 16
+    _t(page, 50, y, f"Vendor: {s.supplier}"); y += 16
+    if "customer" not in s.omit: _t(page, 50, y, "Bill To:"); _t(page, 62, y + 14, s.customer); y += 30
     y += 12
-    for label, v in (("Subtotal:", s.subtotal), (f"Tax ({int(s.tax_rate * 100)}%):", s.tax), ("Total:", s.total)):
-        t(360, y, label, 10, label == "Total:"); t(460, y, f"{v:.2f}", 10, label == "Total:"); y += 18
+    for x, h in ((50, "Description"), (260, "Quantity"), (340, "Unit Price"), (450, "Line Total")): _t(page, x, y, h, 10, True)
+    y = _rows(page, s, y + 18, (50, 260, 340, 450))
+    _t(page, 340, y, "Sub Total"); _t(page, 450, y, s.fmt(s.subtotal, True)); y += 18
+    if "tax" not in s.omit: _t(page, 340, y, f"GST ({int(s.tax_rate * 100)}%)"); _t(page, 450, y, s.fmt(s.tax, True)); y += 18
+    _t(page, 340, y, "Total Amount", 10, True); _t(page, 450, y, s.fmt(s.total, True), 10, True); y += 30
+    if _cur_line(s): _t(page, 50, y, f"Currency: {_cur_line(s)}")
 
 
 def write_pdf(s: Spec, path: Path) -> Path:
@@ -102,14 +173,14 @@ def render_image(s: Spec, dpi: int = 150, degrade: str | None = None) -> Image.I
     return img
 
 
-def write_image(s: Spec, path: Path, degrade: str | None = None) -> Path:
-    img = render_image(s, degrade=degrade)
+def write_image(s: Spec, path: Path, degrade: str | None = None, dpi: int = 150) -> Path:
+    img = render_image(s, dpi=dpi, degrade=degrade)
     img.save(path, quality=85 if path.suffix.lower() in (".jpg", ".jpeg") else None)
     return path
 
 
-def write_tiff(specs: list[Spec], path: Path) -> Path:
-    imgs = [render_image(s) for s in specs]
+def write_tiff(specs: list[Spec], path: Path, dpi: int = 150) -> Path:
+    imgs = [render_image(s, dpi=dpi) for s in specs]
     imgs[0].save(path, save_all=True, append_images=imgs[1:], compression="tiff_lzw")
     return path
 
@@ -135,12 +206,20 @@ def write_digital_pdf(specs: list[Spec], path: Path) -> Path:
 
 
 def sheet_rows(s: Spec) -> list[list]:
-    rows = [[s.supplier], ["Invoice Number", s.number], ["Invoice Date", s.date_text or s.date_iso],
-            ["Bill To", s.customer], ["Currency", s.currency], [],
-            ["Description", "Qty", "Unit Price", "Amount"]]
+    alt = s.layout == "B"
+    L = {"num": "Invoice #" if alt else "Invoice Number", "date": "Date" if alt else "Invoice Date", "cust": "Customer" if alt else "Bill To",
+         "sup": "Vendor" if alt else None, "item": ("Item", "Qty", "Price", "Amount") if alt else ("Description", "Qty", "Unit Price", "Amount"),
+         "sub": "Net" if False else "Subtotal", "tax": "VAT" if alt else f"Tax ({int(s.tax_rate * 100)}%)", "tot": "Grand Total" if alt else "Total"}
+    rows = [[f"Vendor", s.supplier] if L["sup"] else [s.supplier]]
+    if "number" not in s.omit: rows.append([L["num"], s.number])
+    if "date" not in s.omit: rows.append([L["date"], s.date_text or s.date_iso])
+    if "customer" not in s.omit: rows.append([L["cust"], s.customer])
+    if s.currency_style != "none" and "currency" not in s.omit: rows.append(["Currency", s.currency])   # sheets have no symbols: always print the code
+    rows += [[], list(L["item"])]
     rows += [[d, q, float(u), float(a)] for (d, q, u), a in zip(s.items, s.amounts)]
-    rows += [[], ["Subtotal", None, None, float(s.subtotal)], [f"Tax ({int(s.tax_rate * 100)}%)", None, None, float(s.tax)],
-             ["Total", None, None, float(s.total)]]
+    rows += [[], [L["sub"], None, None, float(s.subtotal)]]
+    if "tax" not in s.omit: rows.append([L["tax"], None, None, float(s.tax)])
+    rows.append([L["tot"], None, None, float(s.total)])
     return rows
 
 
@@ -202,4 +281,18 @@ def write_text_pdf(n_pages: int, path: Path, scanned: bool, dpi: int = 200, seed
             doc.delete_page(len(doc) - 1)
             p2 = doc.new_page(); p2.insert_image(p2.rect, stream=buf.getvalue())
     doc.save(path, garbage=1, deflate=True); doc.close()
+    return path
+
+
+def write_register_xlsx(specs: list[Spec], path: Path, totals: dict | None = None, header: int = 0) -> Path:
+    """One invoice per row (a ledger / register). `totals` overrides the printed total for given invoice numbers."""
+    import openpyxl
+    heads = [["Invoice No", "Date", "Supplier", "Customer", "Subtotal", "Tax", "Total", "Currency"],
+             ["Invoice Number", "Invoice Date", "Vendor", "Customer Name", "Net Amount", "VAT", "Grand Total", "Currency"]][header]
+    wb = openpyxl.Workbook(); ws = wb.active; ws.title = "Register"
+    ws.append(["Invoice register"]); ws.append([]); ws.append(heads)
+    for s in specs:
+        tot = (totals or {}).get(s.number, s.total)
+        ws.append([s.number, s.date_iso, s.supplier, s.customer, float(s.subtotal), float(s.tax), float(tot), s.currency])
+    wb.save(path)
     return path
