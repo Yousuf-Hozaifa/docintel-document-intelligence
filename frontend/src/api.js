@@ -21,7 +21,8 @@ const json = (method, body) => ({ method, headers: { "Content-Type": "applicatio
 
 export const api = {
   listDocuments: () => request("/api/documents?limit=200"),
-  getDocument: (id) => request(`/api/documents/${id}`),
+  getDocument: (id, limit = 25) => request(`/api/documents/${id}?invoice_limit=${limit}`),
+  deleteDocument: (id) => request(`/api/documents/${id}`, { method: "DELETE" }),
   search: (params) => request(`/api/search?${new URLSearchParams(params)}`),
   upload: (files) => {
     const body = new FormData();
@@ -40,4 +41,16 @@ export const api = {
 export function safeSnippet(s = "") {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
     .replace(/&lt;mark&gt;/g, "<mark>").replace(/&lt;\/mark&gt;/g, "</mark>");
+}
+
+// Fetch the original upload (needs the API key header, so a plain link cannot be used) and open/download it.
+export async function openOriginal(id, filename) {
+  const headers = apiKey.get() ? { "X-API-Key": apiKey.get() } : {};
+  const res = await fetch(`/api/documents/${id}/file`, { headers });
+  if (!res.ok) throw new ApiError(res.status, res.status === 404 ? "The original file is not available" : res.statusText);
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  if (["application/pdf", "image/png", "image/jpeg"].includes(blob.type)) window.open(url, "_blank");
+  else { const a = document.createElement("a"); a.href = url; a.download = filename; a.click(); }
+  setTimeout(() => URL.revokeObjectURL(url), 60000);
 }

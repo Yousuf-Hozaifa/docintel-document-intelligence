@@ -1,0 +1,30 @@
+flowchart TB
+  subgraph Client["Browser"]
+    UI["React + Vite UI<br/>upload, progress, inspector,<br/>corrections, search"]
+  end
+  subgraph Server["One Python process (uvicorn)"]
+    API["FastAPI REST API<br/>optional X-API-Key"]
+    W["Worker threads<br/>(DB-backed queue, bounded)"]
+    subgraph Pipe["Processing pipeline"]
+      R["Readers<br/>PyMuPDF text · Tesseract OCR<br/>openpyxl / xlrd / csv"]
+      X["Rule-based extractor<br/>+ spreadsheet register parser"]
+      V["Validation rules<br/>Decimal, tolerance, stable IDs"]
+      C["Cross-document checks<br/>duplicates · PDF vs Excel"]
+      E["Optional embedder<br/>GloVe / sbert adapter"]
+    end
+  end
+  subgraph Store["Local storage (DATA_DIR)"]
+    F[("uploads/<br/>uuid-named files")]
+    DB[("SQLite WAL<br/>tables + FTS5")]
+  end
+  UI -- "HTTP/JSON" --> API
+  API -- "stream to disk,<br/>SHA-256, magic-byte check" --> F
+  API -- "enqueue / query / correct" --> DB
+  W -- "claim job (atomic)" --> DB
+  W --> R
+  R -- "pages, lazily" --> X
+  X --> V --> C
+  R -. "reads" .-> F
+  C -- "invoices, items,<br/>issues, history" --> DB
+  C -. "if enabled" .-> E
+  E -. "chunks + vectors" .-> DB

@@ -1,0 +1,11 @@
+stateDiagram-v2
+  [*] --> queued: upload / reprocess
+  queued --> running: worker claims (atomic)
+  running --> completed: pipeline finished
+  running --> queued: transient error, attempts left<br/>(run_after = now + backoff)
+  running --> failed: permanent error or attempts exhausted
+  running --> queued: server restart (stuck job recovered)
+  failed --> queued: POST /documents/{id}/reprocess<br/>or /jobs/retry-failed
+  completed --> queued: POST /documents/{id}/reprocess
+  completed --> [*]: DELETE /documents/{id}
+  failed --> [*]: DELETE /documents/{id}

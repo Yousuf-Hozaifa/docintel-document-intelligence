@@ -1,45 +1,39 @@
 # PROGRESS
 
-_Last updated: Day 2 (performance, features, semantic search) + Day 4 scope started early (evaluation). Everything marked "verified" was actually executed; see `docs/test-results/`._
+_Updated after the documentation/hardening session. Every number below was produced by a run recorded in this repository; "sandbox" = Linux, 1 CPU core, 4 GB RAM, **not** the Windows / 8 GB target._
 
-## Current milestone: Day 1 vertical slice — DONE
-Upload → read/OCR → extract → validate → persist → inspect in UI.
+## Status at a glance
+| area | state | evidence |
+|---|---|---|
+| Processing pipelines (PDF text/OCR, images/TIFF, XLSX, XLS, CSV, registers) | done | `backend/tests/test_readers.py`, eval, benchmarks |
+| Extraction + deterministic validation + cross-document checks | done (rule-based, synthetic-only evaluation) | `docs/evaluation/EVALUATION.md` |
+| REST API (upload, status, results, search, corrections, failed jobs, reprocess, delete, original file) | done | `docs/openapi.json`, `tests/` |
+| Frontend (upload, progress, lists, inspector, corrections, review, search, pagination) | done, verified in headless Chromium | `docs/screenshots/`, `scripts/capture_screenshots.py` |
+| Tests | **124 pass** in the sandbox; also pass in a fresh virtualenv with only the declared requirements | `docs/test-results/day2-pytest.txt` |
+| Large-document benchmarks | done in sandbox; **Windows runs pending (you)** | `docs/benchmarks/` |
+| Semantic search | done, optional, modest quality | `docs/SEMANTIC.md` |
+| Documentation (README, architecture, schema, security, OpenAPI, demo script, AI disclosure) | done | `README.md`, `docs/`, `AI_PROMPTS.md` |
+| Recorded walkthrough | script ready; **you must record it** | `docs/DEMO_SCRIPT.md` |
+| Final audit + submission email | not done | next step |
 
-### Verified
-- `pytest`: **61 passed** (sandbox: Linux, 1 CPU core, ~4 GB RAM; log in `docs/test-results/day1-pytest.txt`).
-- Live server (uvicorn + background worker thread) processed 4 uploaded files over HTTP: digital PDF, scanned PDF
-  (OCR conf 95.3), XLSX → identical total on all three; corrupt PDF → `failed / corrupt_file`, not retried.
-- Real browser (Playwright/Chromium, sandbox) drove the UI: multi-file upload, status chips, field inspector,
-  validation issue display, keyword search with highlighted snippets. 0 JS console errors.
-- Bugs found by tests/runs and fixed: UTF-16 mis-detection of cp1252 CSV; two-column header lines
-  (number + date on one line) missed the date; server upload path leaked in failure messages.
+## Key measured results (details and caveats in the linked reports)
+- Evaluation, synthetic data (an upper bound): header-field exact match 99.5% (`test`, first run on frozen code) and 99.4% (`test2`, fresh); line items 98-99%; 156/156 valid files processed per split; 18/18 broken files handled; 36/36 deliberately flawed documents flagged.
+- Weak spot: only 4/12 (`test`) and 12/16 -> 14/16 (`test2`, without/with the OCR-confidence rule) extraction errors were flagged for review; the rest were silent.
+- 1,000 scanned pages: 429.6 s (139.7 pages/min), Python peak 217 MB, 0 failures; 1,000 digital pages: ~3.7 s, 176 MB.
+- Semantic search (GloVe, hybrid): right document first for 5/9 paraphrase queries on a small synthetic set; ~10 ms/query at 100k chunks.
 
-### NOT verified
-- Anything on your **Windows / 8 GB** machine (no access). Commands in README must be run by you.
-- Docker (not used). Semantic search, LLM, 1,000-page runs, evaluation metrics: not started.
+## Changes made in the latest session (all tested)
+Document deletion; invoice pagination; configurable CORS; path-containment defence for file serving/deletion; original-file endpoint + "Open original" button; security tests (traversal, size limit, poisoned path, headers) mutation-checked; requirements fixed (numpy declared, unused pandas/reportlab removed); OpenAPI export; schema doc generated from the real DB; diagrams rendered and inspected; demo data + real screenshots; clean-environment verification.
 
-## Semantic search (done, optional) — details in `docs/SEMANTIC.md`
-- Pluggable embedder (`off` default | `glove` | `sbert`), chunk store in SQLite, brute-force cosine, incremental index append, hybrid (RRF) ranking, reindex endpoint, UI mode toggle.
-- Measured (GloVe-50, sandbox): +22 MB / 0.05 s load; 44.6k chunks/s; ~25 ms/query at 250k chunks; no measurable pipeline slowdown; hybrid P@1 0.56 vs keyword 0.11 on 9 paraphrase queries
-  (tiny, synthetic, optimistic). Decision: optional, not a required dependency.
-- **NOT measured:** any transformer model (model hosts unreachable from the sandbox); the `sbert` adapter is unrun. Windows untested.
-- Verified: 98 tests (fake embedder; real GloVe in one test), mutation check on the incremental index, Chromium check of both modes and the semantic-off message (0 JS errors).
-- Bugs/mistakes caught: benchmark harness first overstated load memory (imported PyMuPDF inside the timed window) and was fixed; I also corrected my earlier "45% slower" claim (see above).
+## Known gaps and limitations
+- All evaluation data are synthetic and share an author with the extractor; no real invoices; no LLM extraction.
+- Confidence is heuristic (not calibrated). Silent extraction errors remain, mostly misread characters in OCR'd images.
+- Nothing has been run on Windows by the assistant; Windows setup/commands are unverified.
+- Single shared API key (or none); no users/roles/TLS/encryption at rest; parsers not sandboxed (`docs/SECURITY.md`).
+- SQLite single-process design; PostgreSQL/pgvector and a real queue are the production next step.
+- UI cosmetic issues: text values right-aligned in the field table; numeric column headers not right-aligned.
+- Not tested: disk-full, heavy concurrent uploads, files above ~110 MB, multi-core speed-up.
 
-## Evaluation (done for the synthetic dataset) — details and limits in `docs/evaluation/EVALUATION.md`
-- Dataset generator with 3 layouts + variants (`eval/make_dataset.py`): dev 86 files/101 invoices; test and test2 174 files/199 invoices each (156 valid + 18 broken).
-- Harness (`eval/run_eval.py`): real API + worker; precision/recall/exact-match, line items, validation-rule detection, review-flag rates, calibration, timing, per-type success/failure, negative cases.
-- **Held-out `test`, first run on frozen code:** success 156/156, 18/18 negatives handled, header-field exact match 99.5%, line items P=R=99.0%, invoices fully correct 94.0%, error-catch 4/12.
-- **Fresh `test2`:** header 99.4%, line items 98.2%/98.1%, fully correct 92.0%; new OCR-confidence rule: error catch 12/16 -> 14/16, clean invoices falsely flagged 0/147 -> 4/147.
-- Mistakes found and fixed along the way (all disclosed in the report): dataset bug (sheets without currency), scoring-key mismatch, a false-review metric that counted correct duplicate flags, a CSV delimiter bug, label separators in spreadsheets,
-  OCR-noise quantities dropping rows (now kept + flagged). The OCR-confidence rule was designed after inspecting `test` errors, so it is evaluated on the fresh `test2`; its floor (60) was chosen on dev only.
-- **Not measured:** real invoices; Windows; LLM extraction (none wired in). 112 tests pass (`docs/test-results/day2-pytest.txt`).
-- Frontend tweak (OCR word confidence shown in the inspector) is built but was not re-run in a browser.
-- **Performance re-check after the OCR word-confidence change (single runs, sandbox):** scanned 50p 22.4 s (251 MB tree / 206 MB python); digital 1,000p 3.7 s (176 MB);
-  **scanned 1,000p 429.6 s, 139.7 pages/min, python peak 217 MB (was 206), tree peak 429 MB (same transient Tesseract spike as before), 0 failures** (earlier: 474.8 s, 126.4 pages/min). OCR word lists for all pages are held until extraction
-  (~+11 MB per 1,000 pages; grows linearly). 263/1,000 of those clean synthetic scans were flagged for review (earlier 253): there is no ground truth in this benchmark, so I cannot say how many are real OCR errors versus false flags;
-  on the labeled eval the false-review rate for clean invoices was 2.7%, but the 1,000-page file has denser 3–6-row tables with large amounts.
-
-## Remaining work
-**Next**: UI pagination for large documents, architecture diagram/ERD, demo script + seeded demo data, `AI_PROMPTS.md`, final clean-setup verification and compliance audit, submission email draft,
-Windows benchmark results from you (docs/benchmarks/WINDOWS_RUNBOOK.md).
+## Next actions
+**You:** (1) run `python -m pytest tests -q` on Windows and the ladder in `docs/benchmarks/WINDOWS_RUNBOOK.md`, send me the outputs; (2) rehearse and record the walkthrough (`docs/DEMO_SCRIPT.md`); (3) complete the candidate section of `AI_PROMPTS.md`; (4) push `docintel.bundle` to your own remote.
+**Assistant (on request):** final compliance audit against your Windows results, update docs with measured Windows numbers, draft the submission email for the Care Guide thread (Reply All, keeping `apply@careguidebd.com`).

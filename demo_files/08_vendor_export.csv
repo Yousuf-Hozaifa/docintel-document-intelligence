@@ -1,0 +1,13 @@
+Northwind Traders
+Invoice Number;INV-2024-1007
+Invoice Date;2024-08-28
+Bill To;Initech Holdings
+Currency;USD
+
+Description;Qty;Unit Price;Amount
+Consulting hour;40;125.0;5000.0
+Calibration service;3;310.0;930.0
+
+Subtotal;;;5930.0
+Tax (10%);;;593.0
+Total;;;6523.0

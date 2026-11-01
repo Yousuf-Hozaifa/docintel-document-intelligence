@@ -1,0 +1,23 @@
+flowchart TD
+  A["POST /api/documents<br/>(many files)"] --> B{"extension allowed?<br/>size within limit?<br/>magic bytes match?"}
+  B -- no --> B1["rejected<br/>(file deleted, reason returned)"]
+  B -- yes --> D{"same SHA-256<br/>already processed?"}
+  D -- yes --> D1["duplicate<br/>(no new job)"]
+  D -- no --> E["store as uuid name,<br/>insert document + queued job"]
+  E --> F["worker claims job<br/>(BEGIN IMMEDIATE)"]
+  F --> G["read page by page<br/>text layer, else OCR;<br/>sheets, CSV rows"]
+  G --> H["store page text + FTS row,<br/>update progress"]
+  H --> G
+  G --> I{"spreadsheet with invoice-number<br/>and total columns?"}
+  I -- yes --> J["register: one invoice per row"]
+  I -- no --> K["split pages into invoices<br/>by invoice number, extract fields + items"]
+  J --> L["validate: required, dates, currency,<br/>arithmetic with tolerance, OCR confidence"]
+  K --> L
+  L --> M["cross-document: duplicates,<br/>document vs register"]
+  M --> N["persist invoices, items, issues;<br/>set review flag"]
+  N --> O["optional: chunk and embed"]
+  O --> P["document completed / partial"]
+  F -. "permanent error<br/>(corrupt, encrypted, empty)" .-> Q["failed, no retry"]
+  F -. "transient error" .-> R["retry with backoff<br/>(max attempts)"]
+  R --> F
+  R -. "exhausted" .-> Q

@@ -9,6 +9,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import Depends, FastAPI, File, Header, HTTPException, Query, Request, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 from pydantic import BaseModel
 
 from . import semantic, worker
@@ -39,8 +40,15 @@ def require_key(request: Request, x_api_key: str | None = Header(default=None)):
 
 app = FastAPI(title="Care Guide Document Intelligence API", version="0.2.0", lifespan=lifespan,
               dependencies=[Depends(require_key)])
-app.add_middleware(CORSMiddleware, allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
-                   allow_methods=["*"], allow_headers=["*"])  # dev origins only
+app.add_middleware(CORSMiddleware, allow_methods=["GET", "POST", "PATCH", "DELETE"], allow_headers=["Content-Type", "X-API-Key"],
+                   allow_origins=[o.strip() for o in os.environ.get("DOCINTEL_CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(",") if o.strip()])
+
+
+def _stored_path(stored_name: str):
+    """Path of a stored upload, or None if it would resolve outside the uploads directory (defence in depth)."""
+    base = get_settings().upload_dir.resolve()
+    p = (base / stored_name).resolve()
+    return p if p.is_relative_to(base) and p != base else None
 
 
 def _safe_name(name: str) -> str:
@@ -155,7 +163,8 @@ def _invoice_detail(db, i) -> dict:
 
 
 @app.get("/api/documents/{doc_id}")
-def get_document(doc_id: int):
+def get_document(doc_id: int, invoice_limit: int = Query(50, ge=1, le=500), invoice_offset: int = Query(0, ge=0)):
+    """Document detail. Invoices are paginated (a document can hold thousands): see `invoice_total`."""
     with connect() as db:
         r = db.execute("SELECT * FROM documents WHERE id=?", (doc_id,)).fetchone()
         if not r:
@@ -166,7 +175,9 @@ def get_document(doc_id: int):
         d["pages"] = [dict(p) for p in db.execute(
             "SELECT page_no,label,method,ocr_confidence,error,substr(text,1,2000) AS text_preview "
             "FROM pages WHERE document_id=? ORDER BY page_no LIMIT 200", (doc_id,))]
-        invs = [_invoice_detail(db, i) for i in db.execute("SELECT * FROM invoices WHERE document_id=? ORDER BY seq", (doc_id,)).fetchall()]
+        d["invoice_total"] = db.execute("SELECT COUNT(*) FROM invoices WHERE document_id=?", (doc_id,)).fetchone()[0]
+        invs = [_invoice_detail(db, i) for i in db.execute("SELECT * FROM invoices WHERE document_id=? ORDER BY seq LIMIT ? OFFSET ?",
+                                                           (doc_id, invoice_limit, invoice_offset)).fetchall()]
         d["invoices"] = invs
         d["history"] = [dict(e) for e in db.execute(
             "SELECT ts,event,detail FROM events WHERE document_id=? ORDER BY id", (doc_id,))]
@@ -375,3 +386,50 @@ def semantic_search(q: str = Query(..., min_length=1, max_length=500), supplier:
             if len(out) >= limit:
                 break
     return {"results": out, "model": semantic.status().get("model")}
+
+
+# ------------------------------------------------------------------ deletion (privacy)
+@app.delete("/api/documents/{doc_id}")
+def delete_document(doc_id: int):
+    """Permanently delete a document: stored file, extracted text, invoices, line items, issues, corrections, embeddings, history.
+    Other documents' duplicate / cross-check flags that referred to it are refreshed. 409 while a job is queued or running."""
+    from .review import revalidate_related
+    s = get_settings()
+    with connect() as db:
+        doc = db.execute("SELECT stored_name FROM documents WHERE id=?", (doc_id,)).fetchone()
+        if not doc:
+            raise HTTPException(404, "Document not found")
+        if db.execute("SELECT 1 FROM jobs WHERE document_id=? AND status IN ('queued','running')", (doc_id,)).fetchone():
+            raise HTTPException(409, "Document has an active job; wait for it to finish")
+        keys = {r["num_key"] for r in db.execute("SELECT DISTINCT num_key FROM invoices WHERE document_id=?", (doc_id,)) if r["num_key"]}
+        db.execute("DELETE FROM page_fts WHERE document_id=?", (doc_id,))   # virtual table: not covered by ON DELETE CASCADE
+        db.execute("DELETE FROM documents WHERE id=?", (doc_id,))
+        revalidate_related(db, keys)
+    target = _stored_path(doc["stored_name"])
+    if target is not None:
+        target.unlink(missing_ok=True)
+    return {"deleted": doc_id}
+
+
+# ------------------------------------------------------------------ original file (for human review)
+_INLINE_TYPES = {"pdf": "application/pdf", "png": "image/png", "jpg": "image/jpeg", "tiff": "image/tiff"}
+_DOWNLOAD_TYPES = {"xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "xls": "application/vnd.ms-excel", "csv": "text/csv"}
+
+
+@app.get("/api/documents/{doc_id}/file")
+def original_file(doc_id: int):
+    """The uploaded file, so a reviewer can check a value against the source. Only known types are served, with the type
+    taken from content detection (never from the client), `nosniff`, and inline display only for PDF/images."""
+    with connect() as db:
+        d = db.execute("SELECT filename, stored_name, file_type FROM documents WHERE id=?", (doc_id,)).fetchone()
+    if not d:
+        raise HTTPException(404, "Document not found")
+    path = _stored_path(d["stored_name"])
+    kind = d["file_type"]
+    if path is None or kind not in {**_INLINE_TYPES, **_DOWNLOAD_TYPES} or not path.exists():
+        raise HTTPException(404, "Original file is not available")
+    media = _INLINE_TYPES.get(kind) or _DOWNLOAD_TYPES[kind]
+    disposition = "inline" if kind in _INLINE_TYPES else "attachment"
+    return FileResponse(path, media_type=media, filename=d["filename"], content_disposition_type=disposition,
+                        headers={"X-Content-Type-Options": "nosniff", "Content-Security-Policy": "default-src 'none'; style-src 'unsafe-inline'; img-src data:",
+                                 "Cache-Control": "private, no-store"})

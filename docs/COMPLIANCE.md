@@ -25,19 +25,19 @@ Status legend: ✅ implemented and verified · 🟡 partial · ⬜ not started. 
 | T5 | Persist metadata, text, results, line items, issues, history | ✅ | SQLite schema (`app/db.py`) |
 | T5 | Keyword search + filters | ✅ | FTS5 + filters |
 | T5 | Semantic search | ✅ | optional (off by default), hybrid ranking, measured in `docs/SEMANTIC.md`; quality modest and only validated on a tiny synthetic set; no transformer measured |
-| T6 | Upload, progress, lists, inspect, issues, search | ✅ | verified in Chromium |
+| T6 | Upload, progress, lists, inspect, issues, search | ✅ | verified in Chromium; invoice pagination, open-original, delete added |
 | T6 | Inline corrections | ✅ | verified in Chromium (edit, add/delete line, mark reviewed, reprocess) |
 | T7 | Automated tests | ✅ | 112 pass, mutation-checked; OCR/extraction/validation/API/failure covered |
 | T7 | Labeled dataset + measured metrics | ✅ | synthetic only (upper bound); `docs/evaluation/EVALUATION.md`: per-type P/R/exact match, line items, success/failure, timing, calibration, negatives. No real invoices; not run on Windows |
 
 | # | Deliverable | Status |
 |---|---|---|
-| 1 | Git repository | 🟡 local repo only; you must push |
-| 2 | README + setup | 🟡 Day-1 version, Windows commands unverified |
-| 3 | Architecture diagram + schema | ⬜ (schema exists in code) |
-| 4 | Working API + frontend | 🟡 slice works |
+| 1 | Git repository | 🟡 complete history in `docintel.bundle` (clone it); you must push it to your own remote |
+| 2 | README + setup | 🟡 complete (config table, API, tests, limits); **Windows commands not yet verified on a Windows machine** |
+| 3 | Architecture diagram + schema | ✅ `docs/ARCHITECTURE.md` (+ rendered diagrams), `docs/DATABASE.md` (generated from the real schema), `docs/openapi.json` |
+| 4 | Working API + frontend | ✅ verified end-to-end in headless Chromium (upload, progress, inspect, correct, review, search, failure handling) |
 | 5 | Four processing pipelines | ✅ |
-| 6 | Tests + results | 🟡 `docs/test-results/day1-pytest.txt` |
+| 6 | Tests + results | ✅ 124 tests, `docs/test-results/day2-pytest.txt` (Linux sandbox; Windows run pending) |
 | 7 | Evaluation report | ✅ generated from measured runs (synthetic data; sandbox environment) |
-| 8 | Recorded walkthrough | ⬜ (you record; I'll write the script) |
-| 9 | AI prompts + disclosure | ⬜ |
+| 8 | Recorded walkthrough | 🟡 script + demo data + real screenshots ready (`docs/DEMO_SCRIPT.md`); **you must record it** |
+| 9 | AI prompts + disclosure | 🟡 `AI_PROMPTS.md` written (verbatim prompts, mistakes list); **the candidate-contribution section must be completed by you** |
