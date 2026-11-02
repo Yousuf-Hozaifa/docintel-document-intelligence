@@ -8,6 +8,7 @@
   "/api/health": {
    "get": {
     "summary": "Health",
+    "description": "Open (no key). `ocr` says whether Tesseract can be run: without it only digital PDFs, spreadsheets and CSV work.",
     "operationId": "health_api_health_get",
     "parameters": [
      {

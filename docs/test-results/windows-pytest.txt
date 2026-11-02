@@ -1,0 +1,22 @@
+# Backend tests on the candidate's Windows machine (REPORTED by the candidate; not run by the assistant)
+
+Source: the candidate's session log, docs/ai-logs/windows-verification-session.md.
+Environment (from that log): Windows 11, PowerShell, Python virtualenv in backend\.venv, Tesseract 5.4.0.20240606, Node v26.13.0 / npm 11.20.0.
+Code version tested: the "docintel-day2" package that had 124 tests (the suite has since grown; see below).
+
+Run 1 - Tesseract not configured in that PowerShell window (TESSERACT_CMD / PATH not set)
+  Result as summarised in the log:  115 passed, 8 failed, 1 skipped in 17.39 s
+  All 8 failures: TesseractNotFoundError ("tesseract is not installed or it's not in your PATH") in the OCR-dependent tests
+  (scanned PDF, PNG/JPG, TIFF, parallel OCR, multi-format upload). The raw output of this run is not in the log.
+
+Run 2 - after $env:TESSERACT_CMD = "C:\Program Files\Tesseract-OCR\tesseract.exe" and adding that folder to PATH (raw output pasted by the candidate)
+  python -m pytest tests/test_readers.py -q   ->  25 passed, 1 warning in 6.75s
+  python -m pytest tests -q                   ->  123 passed, 1 skipped, 2 warnings in 19.22s
+
+The 1 skipped test was test_real_glove_ranks_related_phrases_higher: its skip condition pointed at a Linux-only path, so it could never run on Windows.
+Fixed afterwards (the test now looks in DOCINTEL_MODELS_DIR, eval/models and backend/data/models).
+
+Changes made AFTER this Windows run (so the Windows result above does not cover them):
+  - Tesseract auto-detection on Windows, a distinct `ocr_unavailable` error, OCR status on /api/health, a clear pytest start-up message, a UI banner (+7 tests)
+  - GloVe test lookup fix; benchmark report grouped per machine
+  Sandbox result for the current code: 131 passed (Linux, fresh virtualenv not repeated after these changes). Windows re-run of the current code: pending.

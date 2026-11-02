@@ -148,11 +148,20 @@ def test_semantic_endpoints_respect_api_key(client, monkeypatch):
     assert client.get("/api/semantic/status").status_code == 401
 
 
-@pytest.mark.skipif(not (__import__("pathlib").Path("/tmp/sem_data/models/glove50/vectors.npy").exists()), reason="GloVe not prepared")
-def test_real_glove_ranks_related_phrases_higher(monkeypatch):
-    monkeypatch.setenv("DOCINTEL_DATA_DIR", "/tmp/sem_data")
+def _find_glove():
+    """A prepared GloVe directory, wherever the user put it (env override, eval/models, or the default data dir)."""
+    import os
+    from pathlib import Path
+    here = Path(__file__).resolve()
+    cands = [Path(os.environ["DOCINTEL_MODELS_DIR"]) / "glove50"] if os.environ.get("DOCINTEL_MODELS_DIR") else []
+    cands += [here.parents[2] / "eval" / "models" / "glove50", here.parents[1] / "data" / "models" / "glove50"]
+    return next((c for c in cands if (c / "vectors.npy").exists() and (c / "vocab.txt").exists()), None)
+
+
+@pytest.mark.skipif(_find_glove() is None, reason="GloVe not prepared (python -m app.semantic download-glove)")
+def test_real_glove_ranks_related_phrases_higher():
     from app.semantic import GloveEmbedder
-    e = GloveEmbedder(__import__("pathlib").Path("/tmp/sem_data/models/glove50"), 100000)
+    e = GloveEmbedder(_find_glove(), 100000)
     q, good, bad = e.embed(["protective hand wear", "safety gloves", "server rack"])
     assert float(q @ good) > float(q @ bad) + 0.2
 

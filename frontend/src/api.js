@@ -20,6 +20,7 @@ async function request(path, options = {}) {
 const json = (method, body) => ({ method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body ?? {}) });
 
 export const api = {
+  health: () => request("/api/health"),
   listDocuments: () => request("/api/documents?limit=200"),
   getDocument: (id, limit = 25) => request(`/api/documents/${id}?invoice_limit=${limit}`),
   deleteDocument: (id) => request(`/api/documents/${id}`, { method: "DELETE" }),

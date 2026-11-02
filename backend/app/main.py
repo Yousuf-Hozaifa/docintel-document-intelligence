@@ -65,7 +65,10 @@ def _doc_row(r) -> dict:
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok"}
+    """Open (no key). `ocr` says whether Tesseract can be run: without it only digital PDFs, spreadsheets and CSV work."""
+    from .readers import ocr_status
+    st = ocr_status()
+    return {"status": "ok", "ocr": {"available": st["available"], "version": st["version"], "hint": st["hint"]}}
 
 
 @app.get("/api/rules")

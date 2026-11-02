@@ -44,6 +44,13 @@ perfect on exact phrases, which is why hybrid is the default (semantic alone los
 (for example "stand for notebook computer" matches "Laptop stand" literally). A 3-document browser run (real model) put the right document first for 1 of 3 queries, consistent with
 this rate. **Caveats:** n=9 queries; chunk size was chosen on the same set (optimistic); synthetic text; one language; averaged static vectors have no sentence context.
 
+## Windows check (reported by the candidate)
+On the candidate's Windows machine GloVe was downloaded with `python -m app.semantic download-glove` (prepared in 7.1 s), enabled with `DOCINTEL_SEMANTIC=glove`, and `POST /api/semantic/reindex`
+embedded 9 of 9 documents (18 chunks, no errors; model `glove-50d-v100000`). Hybrid and semantic-only searches returned ranked results. The earlier HTTP 503 on `/api/search/semantic` was the documented
+default (`backend: off`), not a fault. **This verifies the mechanics on Windows, not the search quality:** the query used to check "related wording" (`cloud services provider`) literally contains words from the
+target supplier name (*Kestrel Cloud Services*), so it does not demonstrate meaning-based retrieval; the quality evidence remains the labeled evaluation above. Scores are rank/similarity values, not relevance
+probabilities, so a fixed relevance threshold would not be meaningful.
+
 ## Decision
 Keep semantic search **optional and off by default**; hybrid ranking when enabled; keyword search remains the reliable baseline.
 Cost is small (tens of MB, sub-second load, ~25 ms/query up to 250k chunks, no measurable pipeline slowdown), but quality is modest and unproven on real documents,

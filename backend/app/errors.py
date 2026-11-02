@@ -17,3 +17,9 @@ class EncryptedFile(DocumentError):
 
 class NoContent(DocumentError):
     code = "no_extractable_content"
+
+
+class OcrUnavailable(DocumentError):
+    """The OCR engine (Tesseract) cannot be run. An environment problem, not a problem with the file:
+    install Tesseract / set TESSERACT_CMD, then reprocess."""
+    code = "ocr_unavailable"

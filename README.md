@@ -18,8 +18,8 @@ Built for the Care Guide *Senior AI Engineer* assessment. **Status and honest li
 
 FastAPI + SQLite (WAL, FTS5) + PyMuPDF + Tesseract + React/Vite, one process. Details, trade-offs and failure modes: [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md). Schema/ERD: [docs/DATABASE.md](docs/DATABASE.md). API contract: [docs/openapi.json](docs/openapi.json) (live at `/docs`). Security: [docs/SECURITY.md](docs/SECURITY.md).
 
-## Quick start (Windows PowerShell; commands were run on Linux, **not yet verified on Windows**)
-Prerequisites: Python 3.11+ (tested 3.12), Node 20+ (tested 22), [Tesseract OCR 5](https://github.com/UB-Mannheim/tesseract/wiki) (English). If `tesseract` is not on PATH: `$env:TESSERACT_CMD = "C:\Program Files\Tesseract-OCR\tesseract.exe"`.
+## Quick start (Windows PowerShell; the candidate ran this flow on Windows 11, see docs/test-results/windows-pytest.txt)
+Prerequisites: Python 3.11+ (Linux: 3.12), Node 20+ (tested: 22 on Linux, 26 on Windows), [Tesseract OCR 5](https://github.com/UB-Mannheim/tesseract/wiki) (English; tested 5.3.4 on Linux, 5.4.0 on Windows). On Windows the app finds Tesseract in `C:\Program Files\Tesseract-OCR` automatically; otherwise set `$env:TESSERACT_CMD = "C:\path\to\tesseract.exe"`. `GET /api/health` (and a banner in the UI) report whether OCR is available.
 ```powershell
 cd backend
 python -m venv .venv; .\.venv\Scripts\Activate.ps1
@@ -75,13 +75,13 @@ PATCH /api/invoices/12
 
 ## Tests
 ```powershell
-cd backend; python -m pytest tests -q          # 124 tests in ~20 s on the development sandbox
+cd backend; python -m pytest tests -q          # 131 tests in ~20 s
 ```
-Covers file readers and OCR for every type, corrupt/encrypted/unsupported files, extraction, every validation rule, duplicate and cross-document checks, corrections, the worker (retry, atomic claim, recovery), API endpoints, security controls, semantic search (fake embedder), and OCR-confidence flagging. Key tests were mutation-checked (they fail when the production code is deliberately broken). Recorded run: `docs/test-results/day2-pytest.txt` (**Linux sandbox; not yet run on Windows**).
+Covers file readers and OCR for every type, corrupt/encrypted/unsupported files, extraction, every validation rule, duplicate and cross-document checks, corrections, the worker (retry, atomic claim, recovery), API endpoints, security controls, semantic search (fake embedder), and OCR-confidence flagging. Key tests were mutation-checked (they fail when the production code is deliberately broken). Recorded runs: `docs/test-results/day2-pytest.txt` (Linux sandbox) and `docs/test-results/windows-pytest.txt` (candidate's Windows run of the earlier 124-test version: 123 passed, 1 skipped; the current version has not been re-run on Windows).
 
 ## Evaluation and benchmarks (all measured; sandbox = 1 CPU core, 4 GB RAM)
 - **Extraction accuracy** on labeled **synthetic** invoices (three layouts, all seven file types, degraded scans, missing/ambiguous fields, tampered totals, cross-document pairs, 18 broken files): header-field exact match 99.4–99.5% on two held-out splits (199 invoices each), line items ≈ 98–99%, 100% of valid files processed, 18/18 broken files handled. **These are upper bounds: the data share an author with the extractor and no real invoices were used.** Methodology, per-file-type tables, calibration and limits: [docs/evaluation/EVALUATION.md](docs/evaluation/EVALUATION.md).
-- **Large documents:** 1,000-page digital PDF in ~3.7 s (176 MB); 1,000-page scanned PDF in ~430 s (~140 pages/min), Python peak ~217 MB, no failures; API stayed responsive during OCR. Tables and method: [docs/benchmarks/RESULTS.md](docs/benchmarks/RESULTS.md). **Not yet measured on the target Windows / 8 GB machine**: run [docs/benchmarks/WINDOWS_RUNBOOK.md](docs/benchmarks/WINDOWS_RUNBOOK.md).
+- **Large documents (1,000 pages):** development sandbox (1 core): digital ~3.7 s / 176 MB, scanned ~430 s (~140 pages/min), Python peak ~217 MB, no failures ([docs/benchmarks/RESULTS.md](docs/benchmarks/RESULTS.md)). **Candidate's Windows 11 machine (reported, raw data pending):** digital 9.15 s / 87 MB, scanned **321.9 s (186 pages/min), peak 144 MB, no failures**; throughput flat from 10 to 1,000 pages ([docs/benchmarks/WINDOWS_REPORTED.md](docs/benchmarks/WINDOWS_REPORTED.md)). CPU/core count of that machine was not reported.
 - Reproduce: `python eval/make_dataset.py --split test; python eval/run_eval.py --split test; python eval/report_eval.py` and `python eval/bench.py run --kind scanned --pages 100`.
 
 ## Optional semantic search
@@ -90,10 +90,16 @@ Off by default (`DOCINTEL_SEMANTIC=glove` after `python -m app.semantic download
 ## Demo
 Script for the recorded walkthrough: [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md). Screenshots (from a real run): `docs/screenshots/`.
 
+## Troubleshooting (Windows)
+- `node`/`npm` "not recognized" right after installing Node.js: close and reopen PowerShell (PATH is read at start); check with `& "C:\Program Files\nodejs\node.exe" --version`.
+- Scanned PDFs/images fail with `ocr_unavailable`, or the tests stop with "Tesseract OCR was not found": install Tesseract, then set `$env:TESSERACT_CMD` (see above), restart the server and use *Retry all failed*.
+- `/api/search/semantic` returns 503: semantic search is off by default. Enable it with `DOCINTEL_SEMANTIC=glove` after `python -m app.semantic download-glove`, then `POST /api/semantic/reindex`.
+- Windows benchmark commands: `docs/benchmarks/WINDOWS_RUNBOOK.md`.
+
 ## Known limitations
 - Evaluation data are synthetic; real-world accuracy is unknown and likely lower on unseen layouts, wrapped tables, discounts/shipping lines, tax-inclusive totals and noisy scans. No LLM extraction.
 - Confidence scores are heuristic, not calibrated probabilities; 33–88% of extraction errors were flagged for review in the evaluation (depending on split/rule), the rest passed silently.
-- Not tested on Windows; performance numbers are from a 1-core Linux sandbox. Multi-core scaling is unmeasured.
+- Windows evidence is reported by the candidate (tests and demo flows run; benchmark figures transcribed, raw data pending); the latest code changes were not re-run on Windows. Multi-core scaling is unmeasured.
 - Single-tenant: one optional shared API key, no users/roles, no TLS or encryption at rest, parsers are not sandboxed (see docs/SECURITY.md).
 - SQLite single-process design; PostgreSQL/pgvector and a real queue would be the next step beyond roughly 250k vector chunks or multiple server processes.
 - Cross-document verification compares header values only (not line items); English-language OCR only.

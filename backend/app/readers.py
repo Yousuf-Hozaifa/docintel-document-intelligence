@@ -3,6 +3,7 @@
 import csv
 import io
 import os
+import shutil
 import zipfile
 from collections import deque
 from concurrent.futures import Future, ThreadPoolExecutor
@@ -16,15 +17,52 @@ from PIL import Image, ImageOps, ImageSequence
 from pytesseract import Output
 
 from .config import get_settings
-from .errors import CorruptFile, EncryptedFile, UnsupportedFile
+from .errors import CorruptFile, EncryptedFile, OcrUnavailable, UnsupportedFile
 
 COL_SEP = "  "  # two spaces mark a column gap inside a reconstructed line
 ALLOWED_EXT = {".pdf", ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".xlsx", ".xls", ".csv"}
 Image.MAX_IMAGE_PIXELS = 100_000_000  # decompression-bomb guard
 
 pymupdf.TOOLS.mupdf_display_errors(False)
-if os.environ.get("TESSERACT_CMD"):  # Windows: point at tesseract.exe if it is not on PATH
-    pytesseract.pytesseract.tesseract_cmd = os.environ["TESSERACT_CMD"]
+def _windows_tesseract_candidates() -> list[str]:
+    roots = [os.environ.get("ProgramFiles", r"C:\Program Files"), os.environ.get("ProgramFiles(x86)", r"C:\Program Files (x86)"),
+             os.path.join(os.environ.get("LOCALAPPDATA", ""), "Programs")]
+    return [os.path.join(r, "Tesseract-OCR", "tesseract.exe") for r in roots if r]
+
+
+_ocr_state: dict | None = None
+
+
+def configure_tesseract() -> None:
+    """Choose the tesseract executable: TESSERACT_CMD, else PATH, else (Windows) the usual install folders."""
+    global _ocr_state
+    _ocr_state = None
+    cmd = os.environ.get("TESSERACT_CMD")
+    if not cmd and not shutil.which("tesseract") and os.name == "nt":
+        cmd = next((c for c in _windows_tesseract_candidates() if os.path.exists(c)), None)
+    pytesseract.pytesseract.tesseract_cmd = cmd or "tesseract"
+
+
+def ocr_status() -> dict:
+    """{'available': bool, 'version': str|None, 'hint': str|None} (cached; call configure_tesseract() to re-check)."""
+    global _ocr_state
+    if _ocr_state is None:
+        try:
+            _ocr_state = {"available": True, "version": str(pytesseract.get_tesseract_version()), "hint": None}
+        except Exception as e:  # TesseractNotFoundError, OSError, version parse errors
+            _ocr_state = {"available": False, "version": None,
+                          "hint": "OCR engine (Tesseract) not found or not runnable. Install Tesseract 5 and put it on PATH, or set the "
+                                  "TESSERACT_CMD environment variable to the full path of tesseract.exe, then restart the server and reprocess."}
+    return _ocr_state
+
+
+def require_ocr() -> None:
+    st = ocr_status()
+    if not st["available"]:
+        raise OcrUnavailable(st["hint"])
+
+
+configure_tesseract()
 
 
 @dataclass
@@ -79,6 +117,7 @@ def detect_type(path: Path, filename: str) -> str:
 # ---------------------------------------------------------------- OCR
 def ocr_image(img: Image.Image) -> tuple[str, float | None, list]:
     """OCR one PIL image. Returns (text with line/column structure, mean word confidence, per-line [(word, conf)])."""
+    require_ocr()
     s = get_settings()
     if s.tess_omp_threads:
         os.environ["OMP_THREAD_LIMIT"] = str(s.tess_omp_threads)  # pytesseract passes os.environ to tesseract
@@ -160,6 +199,8 @@ def _read_pdf(path: Path) -> tuple[int, Iterator[Page]]:
         try:
             text, conf, lw = ocr_image(img)
             return Page(num, text, "ocr", ocr_confidence=conf, line_words=lw)
+        except OcrUnavailable:
+            raise
         except Exception as e:
             return Page(num, "", "failed", error=_safe_err(e))
         finally:
@@ -178,6 +219,8 @@ def _read_pdf(path: Path) -> tuple[int, Iterator[Page]]:
             if s.pdf_store_shrink:
                 pymupdf.TOOLS.store_shrink(100)
             return (i + 1, img)
+        except OcrUnavailable:
+            raise
         except Exception as e:
             return Page(i + 1, "", "failed", error=_safe_err(e))
 
@@ -213,6 +256,7 @@ def _read_pdf(path: Path) -> tuple[int, Iterator[Page]]:
 
 # ---------------------------------------------------------------- images
 def _read_image(path: Path) -> tuple[int, Iterator[Page]]:
+    require_ocr()
     try:
         with Image.open(path) as im:
             im.verify()
@@ -227,6 +271,8 @@ def _read_image(path: Path) -> tuple[int, Iterator[Page]]:
                 try:
                     text, conf, lw = ocr_image(frame.convert("RGB"))
                     yield Page(i + 1, text, "ocr", ocr_confidence=conf, line_words=lw)
+                except OcrUnavailable:
+                    raise
                 except Exception as e:
                     yield Page(i + 1, "", "failed", error=_safe_err(e))
         finally:

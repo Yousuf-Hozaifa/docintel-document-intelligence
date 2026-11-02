@@ -322,6 +322,8 @@ export default function App() {
   const [selected, setSelected] = useState(null);
   const [error, setError] = useState(null);
 
+  const [ocr, setOcr] = useState(null);
+  useEffect(() => { api.health().then((h) => setOcr(h.ocr)).catch(() => {}); }, []);
   const [needKey, setNeedKey] = useState(false);
   const [keyInput, setKeyInput] = useState("");
 
@@ -345,6 +347,7 @@ export default function App() {
     <div className="app">
       <header className="top"><h1>Document Intelligence</h1><Search onOpen={setSelected} /></header>
       {error && <p className="banner bad">{error}</p>}
+      {ocr && !ocr.available && <p className="banner warn" role="alert"><strong>OCR is unavailable:</strong> scanned PDFs and images cannot be processed (digital PDFs, spreadsheets and CSV still work). {ocr.hint}</p>}
       {needKey && (
         <form className="banner warn keyform" onSubmit={(e) => { e.preventDefault(); apiKey.set(keyInput.trim()); refresh(); }}>
           <label>The API requires a key: <input type="password" value={keyInput} onChange={(e) => setKeyInput(e.target.value)} aria-label="API key" /></label>
