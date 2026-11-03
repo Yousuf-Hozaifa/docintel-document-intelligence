@@ -3,6 +3,30 @@
 Upload invoices (PDF, JPG, PNG, TIFF, XLSX, XLS, CSV) → read text or OCR → extract structured fields → validate deterministically → review, correct and search. CPU-only, no paid API, no LLM at run time.
 Built for the Care Guide *Senior AI Engineer* assessment. **Status and honest limits: see [Known limitations](#known-limitations) and `docs/COMPLIANCE.md`.**
 
+## Live demo (Render)
+
+- **Frontend:** [https://docintel-frontend-4noz.onrender.com](https://docintel-frontend-4noz.onrender.com)
+- **Backend API:** [https://docintel-api-hsjk.onrender.com](https://docintel-api-hsjk.onrender.com)
+- **Backend health / OCR status:** [https://docintel-api-hsjk.onrender.com/api/health](https://docintel-api-hsjk.onrender.com/api/health)
+- **Interactive API documentation:** [https://docintel-api-hsjk.onrender.com/docs](https://docintel-api-hsjk.onrender.com/docs)
+
+The deployed backend health check was verified with `status: ok` and Tesseract OCR available (version 5.5.0). The deployed frontend loaded and a scanned PDF (`02_scanned_invoice.pdf`) was observed reaching `completed` status. These are deployment smoke tests, not a claim of production-grade availability or accuracy.
+
+### Deploy configuration
+
+The application is deployed as a Render Static Site (frontend) and a Render Docker Web Service (backend):
+
+1. Set the frontend service root directory to `frontend`, build command to `npm ci && npm run build`, and publish directory to `dist`.
+2. Set the frontend build environment variable `VITE_API_BASE_URL=https://docintel-api-hsjk.onrender.com`.
+3. Set the backend service root directory to `backend` and use its Dockerfile. The image installs Tesseract OCR and the English language data.
+4. On the backend service, set `DOCINTEL_CORS_ORIGINS=https://docintel-frontend-4noz.onrender.com`.
+5. If API-key protection is enabled, set `DOCINTEL_API_KEY` as a private backend environment variable. Enter the same key in the frontend when the app requests it. **Never commit or publish the key**; do not put it in `VITE_*` variables or this README. The `/api/health` endpoint is public and does not require the key.
+
+### Demo hosting limitations
+
+The current Render free-tier deployment is intended for assessment/demo use. The backend may spin down after inactivity and the first request after idle time can take longer while it wakes. Its local filesystem is ephemeral: SQLite data and uploaded documents can be lost on restart, redeploy, or instance replacement. Do not treat this deployment as durable storage or upload confidential/production documents. Persistent storage and a managed database are required for a durable production deployment.
+
+
 ![Inspector with validation errors](docs/screenshots/02-validation-error.png)
 
 ## Features
@@ -75,9 +99,9 @@ PATCH /api/invoices/12
 
 ## Tests
 ```powershell
-cd backend; python -m pytest tests -q          # 131 tests in ~20 s
+cd backend; python -m pytest tests -q
 ```
-Covers file readers and OCR for every type, corrupt/encrypted/unsupported files, extraction, every validation rule, duplicate and cross-document checks, corrections, the worker (retry, atomic claim, recovery), API endpoints, security controls, semantic search (fake embedder), and OCR-confidence flagging. Key tests were mutation-checked (they fail when the production code is deliberately broken). Recorded runs: `docs/test-results/day2-pytest.txt` (Linux sandbox) and `docs/test-results/windows-pytest.txt` (candidate's Windows run of the earlier 124-test version: 123 passed, 1 skipped; the current version has not been re-run on Windows).
+Latest reported Windows verification on the deployed source line: **130 passed, 1 skipped** (19.13 s; 2 dependency deprecation warnings). See `docs/test-results/windows-pytest.txt` for the recorded run. The Linux sandbox run is recorded separately in `docs/test-results/day2-pytest.txt`. Tests cover file readers and OCR for every type, corrupt/encrypted/unsupported files, extraction, validation, duplicate and cross-document checks, corrections, worker retry/atomic claim/recovery, API endpoints, security controls, semantic search (fake embedder), and OCR-confidence flagging. Key tests were mutation-checked (they fail when production code is deliberately broken).
 
 ## Evaluation and benchmarks (all measured; sandbox = 1 CPU core, 4 GB RAM)
 - **Extraction accuracy** on labeled **synthetic** invoices (three layouts, all seven file types, degraded scans, missing/ambiguous fields, tampered totals, cross-document pairs, 18 broken files): header-field exact match 99.4–99.5% on two held-out splits (199 invoices each), line items ≈ 98–99%, 100% of valid files processed, 18/18 broken files handled. **These are upper bounds: the data share an author with the extractor and no real invoices were used.** Methodology, per-file-type tables, calibration and limits: [docs/evaluation/EVALUATION.md](docs/evaluation/EVALUATION.md).
@@ -99,7 +123,7 @@ Script for the recorded walkthrough: [docs/DEMO_SCRIPT.md](docs/DEMO_SCRIPT.md).
 ## Known limitations
 - Evaluation data are synthetic; real-world accuracy is unknown and likely lower on unseen layouts, wrapped tables, discounts/shipping lines, tax-inclusive totals and noisy scans. No LLM extraction.
 - Confidence scores are heuristic, not calibrated probabilities; 33–88% of extraction errors were flagged for review in the evaluation (depending on split/rule), the rest passed silently.
-- Windows evidence is reported by the candidate (tests and demo flows run; benchmark figures transcribed, raw data pending); the latest code changes were not re-run on Windows. Multi-core scaling is unmeasured.
+- The latest Windows test run is 130 passed / 1 skipped; benchmark figures in `docs/benchmarks/WINDOWS_REPORTED.md` are machine-specific and should not be interpreted as hosted Render performance. Multi-core scaling is unmeasured.
 - Single-tenant: one optional shared API key, no users/roles, no TLS or encryption at rest, parsers are not sandboxed (see docs/SECURITY.md).
 - SQLite single-process design; PostgreSQL/pgvector and a real queue would be the next step beyond roughly 250k vector chunks or multiple server processes.
 - Cross-document verification compares header values only (not line items); English-language OCR only.
