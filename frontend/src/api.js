@@ -1,57 +1,118 @@
+
 const KEY = "docintel_api_key";
-export const apiKey = { get: () => sessionStorage.getItem(KEY) || "", set: (v) => sessionStorage.setItem(KEY, v) };
+
+// Empty in local development; set VITE_API_BASE_URL for deployment.
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/+$/, "");
+
+export const apiKey = {
+  get: () => sessionStorage.getItem(KEY) || "",
+  set: (v) => sessionStorage.setItem(KEY, v),
+};
 
 export class ApiError extends Error {
-  constructor(status, message) { super(message); this.status = status; }
+  constructor(status, message) {
+    super(message);
+    this.status = status;
+  }
 }
 
 async function request(path, options = {}) {
   const headers = { ...(options.headers || {}) };
   if (apiKey.get()) headers["X-API-Key"] = apiKey.get();
-  const res = await fetch(path, { ...options, headers });
+
+  const res = await fetch(`${API_BASE_URL}${path}`, {
+    ...options,
+    headers,
+  });
+
   if (!res.ok) {
     let detail = res.statusText;
-    try { const body = await res.json(); detail = typeof body.detail === "string" ? body.detail : JSON.stringify(body.detail); } catch { /* non-JSON error body */ }
+    try {
+      const body = await res.json();
+      detail = typeof body.detail === "string"
+        ? body.detail
+        : JSON.stringify(body.detail);
+    } catch {
+      // Non-JSON error body.
+    }
     throw new ApiError(res.status, detail);
   }
+
   return res.json();
 }
 
-const json = (method, body) => ({ method, headers: { "Content-Type": "application/json" }, body: JSON.stringify(body ?? {}) });
+const json = (method, body) => ({
+  method,
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify(body ?? {}),
+});
 
 export const api = {
   health: () => request("/api/health"),
   listDocuments: () => request("/api/documents?limit=200"),
-  getDocument: (id, limit = 25) => request(`/api/documents/${id}?invoice_limit=${limit}`),
-  deleteDocument: (id) => request(`/api/documents/${id}`, { method: "DELETE" }),
-  search: (params) => request(`/api/search?${new URLSearchParams(params)}`),
+  getDocument: (id, limit = 25) =>
+    request(`/api/documents/${id}?invoice_limit=${limit}`),
+  deleteDocument: (id) =>
+    request(`/api/documents/${id}`, { method: "DELETE" }),
+  search: (params) =>
+    request(`/api/search?${new URLSearchParams(params)}`),
   upload: (files) => {
     const body = new FormData();
     for (const f of files) body.append("files", f);
     return request("/api/documents", { method: "POST", body });
   },
-  semanticSearch: (params) => request(`/api/search/semantic?${new URLSearchParams(params)}`),
-  patchInvoice: (id, patch) => request(`/api/invoices/${id}`, json("PATCH", patch)),
-  corrections: (id) => request(`/api/invoices/${id}/corrections`),
-  resolveIssue: (id, resolved) => request(`/api/issues/${id}/resolve`, json("POST", { resolved })),
-  reprocess: (id) => request(`/api/documents/${id}/reprocess`, json("POST")),
-  retryFailed: () => request("/api/jobs/retry-failed", json("POST")),
+  semanticSearch: (params) =>
+    request(`/api/search/semantic?${new URLSearchParams(params)}`),
+  patchInvoice: (id, patch) =>
+    request(`/api/invoices/${id}`, json("PATCH", patch)),
+  corrections: (id) =>
+    request(`/api/invoices/${id}/corrections`),
+  resolveIssue: (id, resolved) =>
+    request(`/api/issues/${id}/resolve`, json("POST", { resolved })),
+  reprocess: (id) =>
+    request(`/api/documents/${id}/reprocess`, json("POST")),
+  retryFailed: () =>
+    request("/api/jobs/retry-failed", json("POST")),
 };
 
-// Server snippets contain <mark> tags around hits; everything else is document text and must be escaped.
+// Escape document text while preserving server-generated mark tags.
 export function safeSnippet(s = "") {
   return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
-    .replace(/&lt;mark&gt;/g, "<mark>").replace(/&lt;\/mark&gt;/g, "</mark>");
+    .replace(/&lt;mark&gt;/g, "<mark>")
+    .replace(/&lt;\/mark&gt;/g, "</mark>");
 }
 
-// Fetch the original upload (needs the API key header, so a plain link cannot be used) and open/download it.
+// Fetch and open/download the original uploaded file.
 export async function openOriginal(id, filename) {
-  const headers = apiKey.get() ? { "X-API-Key": apiKey.get() } : {};
-  const res = await fetch(`/api/documents/${id}/file`, { headers });
-  if (!res.ok) throw new ApiError(res.status, res.status === 404 ? "The original file is not available" : res.statusText);
+  const headers = apiKey.get()
+    ? { "X-API-Key": apiKey.get() }
+    : {};
+
+  const res = await fetch(
+    `${API_BASE_URL}/api/documents/${id}/file`,
+    { headers }
+  );
+
+  if (!res.ok) {
+    throw new ApiError(
+      res.status,
+      res.status === 404
+        ? "The original file is not available"
+        : res.statusText
+    );
+  }
+
   const blob = await res.blob();
   const url = URL.createObjectURL(blob);
-  if (["application/pdf", "image/png", "image/jpeg"].includes(blob.type)) window.open(url, "_blank");
-  else { const a = document.createElement("a"); a.href = url; a.download = filename; a.click(); }
+
+  if (["application/pdf", "image/png", "image/jpeg"].includes(blob.type)) {
+    window.open(url, "_blank");
+  } else {
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+  }
+
   setTimeout(() => URL.revokeObjectURL(url), 60000);
 }
